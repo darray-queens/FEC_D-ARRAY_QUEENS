@@ -1,7 +1,7 @@
 # FEC_D-ARRAY_QUEENS
 
 1. Download Node.js v.16 and npm
-2. run in terminal ```npm init```
+2. run in terminal ```npm init -y```
    - This will create your ```package.json``` file.
 3. Install required dependencies and devDependencies listed in tech stack
    - ```npm install --save react express axios redux```
