@@ -1,5 +1,8 @@
 # FEC_D-ARRAY_QUEENS
 
+
+**INITIAL SETUP**
+
 1. Download Node.js v.16 and npm
 2. run in terminal ```npm init -y```
    - This will create your ```package.json``` file.
