@@ -7,15 +7,15 @@ function GetAllQuestions({ productId }) {
   useEffect(() => {
     const fetchQuestions = async () => {
       try {
-        const repsonse = await axios.get('https://app-hrsei-api.herokuapp.com/api/fec2/:hr-rfp/', {
+        const response = await axios.get('https://app-hrsei-api.herokuapp.com/api/fec2/:hr-rfp/', {
           params: {
-            product_id: productId
+            product_id: productId,
           }
         })
       } catch (error) {
         console.error('failed to fetch questions:', error);
       }
-    }
+    };
     fetchQuestions();
   }, [productId]);
 
@@ -25,3 +25,5 @@ function GetAllQuestions({ productId }) {
     </div>
   );
 }
+
+export default GetAllQuestions
