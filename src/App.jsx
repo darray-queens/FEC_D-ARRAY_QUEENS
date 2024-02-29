@@ -1,10 +1,11 @@
 import React from 'react';
-import { useState } from 'react';
 
-const App = () => {
+const { useState } = React;
 
-  const [currentProduct, setCurrentProduct] = useState(null)
+function App() {
+  const [currentProduct, setCurrentProduct] = useState(null);
 
   return <div>Howdy, world!!</div>;
-};
+}
+
 export default App;
