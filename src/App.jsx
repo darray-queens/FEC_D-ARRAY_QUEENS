@@ -1,6 +1,10 @@
 import React from 'react';
+import { useState } from 'react';
 
 const App = () => {
-  return <div>Howdy, world!</div>;
+
+  const [currentProduct, setCurrentProduct] = useState(null)
+
+  return <div>Howdy, world!!</div>;
 };
 export default App;
