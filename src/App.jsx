@@ -25,11 +25,11 @@ function App() {
   return (
     <div>
       <h2>Howdy, world!!</h2>
-      <Overview />
-      <RelatedProductsList />
-      <OutfitsList />
-      <GetAllQuestions />
-      <ReviewList />
+      <Overview currentProduct={currentProduct} />
+      <RelatedProductsList currentProduct={currentProduct} setCurrentProduct={setCurrentProduct} />
+      <OutfitsList currentProduct={currentProduct} />
+      <GetAllQuestions currentProduct={currentProduct} />
+      <ReviewList currentProduct={currentProduct} />
     </div>
   );
 }
