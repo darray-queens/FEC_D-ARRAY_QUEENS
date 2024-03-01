@@ -1,9 +1,12 @@
+require('dotenv').config();
+
+const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 
 module.exports = {
   mode: 'development',
-  entry: './src/index.js',
+  entry: './src/index.jsx',
   output: {
     filename: 'bundle.js',
   },
@@ -23,7 +26,7 @@ module.exports = {
       {
         test: /\.scss$/,
         use: ['style-loader', 'css-loader', 'sass-loader'],
-      }
+      },
     ],
   },
   resolve: {
@@ -32,6 +35,11 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: './public/index.html',
+    }),
+    new webpack.DefinePlugin({
+      'process.env': {
+        TOKEN: JSON.stringify(process.env.TOKEN),
+      },
     }),
   ],
   devServer: {
