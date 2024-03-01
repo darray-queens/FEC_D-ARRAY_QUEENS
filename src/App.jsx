@@ -2,8 +2,8 @@ import axios from 'axios';
 
 import React from 'react';
 import Overview from './components/overview/Overview';
-import RelatedProductsList from './components/relatedProducts/RelatedProductsList';
-import OutfitsList from './components/outfits/OutfitsList';
+import RelatedProductsList from './components/relatedProductsModule/relatedProducts/RelatedProductsList';
+import OutfitsList from './components/relatedProductsModule/outfits/OutfitsList';
 import GetAllQuestions from './components/questionsAndAnswers/GetAllQuestions';
 import ReviewList from './components/review/ReviewList';
 
