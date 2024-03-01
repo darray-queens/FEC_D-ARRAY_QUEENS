@@ -2,9 +2,11 @@ import React from 'react';
 import { useState } from 'react';
 import GetAllQuestions from './QuestionsAndAnswers/GetAllQuestions.jsx'
 
-const App = () => {
 
-  const [currentProduct, setCurrentProduct] = useState(null)
+const { useState } = React;
+
+function App() {
+  const [currentProduct, setCurrentProduct] = useState(null);
 
   return (
   <div>
@@ -15,3 +17,4 @@ const App = () => {
   )
 };
 export default App;
+
