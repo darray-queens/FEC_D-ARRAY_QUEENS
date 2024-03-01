@@ -10,7 +10,7 @@ import ReviewList from './components/review/ReviewList';
 const { useState, useEffect } = React;
 
 function App() {
-  const [currentProduct, setCurrentProduct] = useState(null);
+  const [currentProduct, setCurrentProduct] = useState({});
 
   useEffect(() => {
     axios.get('products/40344')
@@ -28,8 +28,8 @@ function App() {
       <Overview currentProduct={currentProduct} />
       <RelatedProductsList currentProduct={currentProduct} setCurrentProduct={setCurrentProduct} />
       <OutfitsList currentProduct={currentProduct} />
-      <GetAllQuestions currentProduct={currentProduct} />
-      <ReviewList currentProduct={currentProduct} />
+      {/* <GetAllQuestions currentProduct={currentProduct} /> */}
+      {/* <ReviewList currentProduct={currentProduct} /> */}
     </div>
   );
 }
