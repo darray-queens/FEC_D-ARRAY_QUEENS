@@ -2,30 +2,34 @@ import React from 'react';
 
 import axios from 'axios';
 
+import App from '../../App';
+
 const { useState, useEffect } = React;
 
-function ReviewList() {
+function ReviewList({ currentProduct }) {
   const [reviews, setReviews] = useState([]);
 
-  const url = 'https://app-hrsei-api.herokuapp.com/api/fec2/hr-rfp/reviews';
+  const productId = currentProduct.id;
 
-  const token = process.env.TOKEN;
+  const url = `https://app-hrsei-api.herokuapp.com/api/fec2/hr-rfp/reviews?produce_id=${productId}`;
 
   useEffect(() => {
-    axios.get(url, {
-      params: { product_id: 40344 },
-      headers: { Authorization: `Bearer ${token}` },
-    })
+    axios.get(url)
       .then((response) => {
         setReviews(response.data);
       })
       .catch((err) => {
         console.error('failed to set list: ', err);
       });
-  }, [token]);
+  }, []);
   // update to return entry component later
   return (
-    <div>Test</div>
+    <div>
+      reviews
+      {reviews.map((review) => (
+        return <Review />
+      ))}
+    </div>
   );
 }
 
