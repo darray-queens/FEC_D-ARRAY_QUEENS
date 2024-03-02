@@ -2,7 +2,7 @@ import React from 'react';
 
 import axios from 'axios';
 
-import App from '../../App';
+import Review from './Review';
 
 const { useState, useEffect } = React;
 
@@ -11,23 +11,22 @@ function ReviewList({ currentProduct }) {
 
   const productId = currentProduct.id;
 
-  const url = `https://app-hrsei-api.herokuapp.com/api/fec2/hr-rfp/reviews?produce_id=${productId}`;
-
   useEffect(() => {
-    axios.get(url)
+    axios.get(`reviews?product_id=${productId}`)
       .then((response) => {
-        setReviews(response.data);
+        setReviews(response.data.results);
       })
       .catch((err) => {
         console.error('failed to set list: ', err);
       });
-  }, []);
+  }, [productId]);
   // update to return entry component later
+  console.log(productId, 'wooooo');
   return (
     <div>
       reviews
       {reviews.map((review) => (
-        return <Review />
+        <Review entry={review} />
       ))}
     </div>
   );
