@@ -26,7 +26,10 @@ function Overview(props) {
         <StarRating />
         <ProductInfo currentProduct={currentProduct} />
       </aside>
-      <ProductDescription />
+      <ProductDescription
+        description={currentProduct.description}
+        features={currentProduct.features}
+      />
     </div>
   );
 }

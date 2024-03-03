@@ -2,7 +2,7 @@ import React from 'react';
 
 function StarRating() {
   return (
-    <p>☆☆☆☆☆</p>
+    <p>☆☆☆☆☆ Read all reviews</p>
   );
 }
 
