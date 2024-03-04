@@ -10,7 +10,10 @@ app.use(express.static(path.join(__dirname, '../dist')));
 
 app.use('/*', (req, res, next) => {
   axios({
-    method: req.method, url: `https://app-hrsei-api.herokuapp.com/api/fec2/hr-rfp${req.baseUrl}${req.url}`, headers: { Authorization: `${process.env.TOKEN}` }, data: req.body,
+    method: req.method,
+    url: `https://app-hrsei-api.herokuapp.com/api/fec2/hr-rfp${req.baseUrl}${req.url}`,
+    headers: { Authorization: `${process.env.TOKEN}` },
+    data: req.body,
   })
     .then((response) => {
       res.status(200).json(response.data);
