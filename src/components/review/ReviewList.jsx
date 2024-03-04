@@ -12,13 +12,15 @@ function ReviewList({ currentProduct }) {
   const productId = currentProduct.id;
 
   useEffect(() => {
-    axios.get(`reviews?product_id=${productId}`)
-      .then((response) => {
-        setReviews(response.data.results);
-      })
-      .catch((err) => {
-        console.error('failed to set list: ', err);
-      });
+    if (productId) {
+      axios.get(`reviews?product_id=${productId}`)
+        .then((response) => {
+          setReviews(response.data.results);
+        })
+        .catch((err) => {
+          console.error('failed to set list: ', err);
+        });
+    }
   }, [productId]);
   // update to return entry component later
   console.log(productId, 'wooooo');
