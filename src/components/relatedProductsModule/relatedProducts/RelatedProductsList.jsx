@@ -5,7 +5,7 @@ import Card from '../shared/Card';
 function RelatedProductsList({ currentProduct }) {
   const [productsList, setProductsList] = useState([]);
 
-  console.log(currentProduct)
+  console.log(currentProduct);
 
   useEffect(() => {
     axios.get('/products')
