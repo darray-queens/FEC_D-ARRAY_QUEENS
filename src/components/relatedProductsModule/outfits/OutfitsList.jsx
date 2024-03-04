@@ -7,12 +7,12 @@ function OutfitsList() { // import prop of outfitlist
 
   // useeffect to pass in outfits list
 
-  useEffect(() => {
-    axios.get('/products') // change this to 'your outfits' endpoint
-      .then((response) => {
-        setProductsList(response.data);
-      });
-  }, []);
+  // useEffect(() => {
+  //   axios.get('/products') // change this to 'your outfits' endpoint
+  //     .then((response) => {
+  //       setProductsList(response.data);
+  //     });
+  // }, []);
 
   return (
     <div>

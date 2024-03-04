@@ -4,15 +4,27 @@ import Card from '../shared/Card';
 
 function RelatedProductsList({ currentProduct }) {
   const [productsList, setProductsList] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   console.log(currentProduct);
 
   useEffect(() => {
-    axios.get('/products')
-      .then((response) => {
-        setProductsList(response.data);
-      });
+    async function fetchProducts() {
+      const response = await axios.get('/products')
+        .catch((err) => console.log(err))
+      setIsLoading(false);
+      setProductsList(response.data);
+    }
+    fetchProducts();
   }, []);
+
+  if (isLoading) {
+    return (
+      <div>
+        Loading...
+      </div>
+    );
+  }
 
   return (
     <div>
