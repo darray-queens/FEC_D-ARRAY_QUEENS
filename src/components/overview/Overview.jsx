@@ -9,7 +9,7 @@ import Selection from './Selection';
 import ProductDescription from './ProductDescription';
 import Loading from './Loading';
 
-import { Grid, Row, Col } from './containers';
+import { Grid, Row, Col } from '../shared/containers';
 
 const { useState, useEffect } = React;
 

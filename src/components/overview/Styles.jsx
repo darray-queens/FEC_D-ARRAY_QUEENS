@@ -1,5 +1,5 @@
 import React from 'react';
-import { Row, Col } from './containers';
+import { Row, Col } from '../shared/containers';
 
 function Styles(props) {
   const { currentStyles } = props;
