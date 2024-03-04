@@ -1,5 +1,4 @@
 import React from 'react';
-import styled from 'styled-components';
 import axios from 'axios';
 
 import Images from './Images';
@@ -8,6 +7,7 @@ import ProductInfo from './ProductInfo';
 import Styles from './Styles';
 import Selection from './Selection';
 import ProductDescription from './ProductDescription';
+import Loading from './Loading';
 
 import { Grid, Row, Col } from './containers';
 
@@ -16,11 +16,26 @@ const { useState, useEffect } = React;
 function Overview(props) {
   const { currentProduct } = props;
 
-  // useEffect(() => {
-  //   if (Object.keys(productDetails).length > 0) {
-  //     setProductDetails(productDetails);
-  //   }
-  // }, [currentProduct]);
+  const [styles, setStyles] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  console.log(isLoading);
+
+  async function getStyles() {
+    const response = await axios.get(`/products/${currentProduct.id}/styles`)
+      .catch((error) => console.error(error));
+    setStyles(response.data.results);
+    setIsLoading(false);
+  }
+
+  useEffect(() => {
+    if (Object.keys(currentProduct).length > 0) {
+      getStyles();
+    }
+  }, [currentProduct]);
+
+  console.log(styles);
+  console.log(isLoading);
 
   return (
     <Grid>
@@ -31,7 +46,11 @@ function Overview(props) {
         <Col size={1}>
           <StarRating />
           <ProductInfo currentProduct={currentProduct} />
-          <Styles />
+          {isLoading ? (
+            <Loading />
+          ) : (
+            <Styles currentStyles={styles} />
+          )}
           <Selection />
         </Col>
       </Row>
