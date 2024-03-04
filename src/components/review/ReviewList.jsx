@@ -28,10 +28,10 @@ function ReviewList({ currentProduct }) {
   }, [currentProduct, pageNumber]);
 
   if (reviews.length === 0) {
-    return <div>Loading Reviews</div>;
+    return <div>No reviews loaded</div>;
   }
 
-  const showAllReviews = () => {
+  const moreReviews = () => {
     setRenderedReviews((prevRenderedReviews) => prevRenderedReviews + 2);
   };
 
@@ -44,7 +44,7 @@ function ReviewList({ currentProduct }) {
       {renderedReviews < reviews.length && (
       <button
         type="button"
-        onClick={showAllReviews}
+        onClick={moreReviews}
       >
         More Reviews
       </button>
