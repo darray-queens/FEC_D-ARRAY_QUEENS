@@ -9,6 +9,7 @@ const { useState, useEffect } = React;
 function ReviewList({ currentProduct }) {
   const [reviews, setReviews] = useState([]);
   const [pageNumber, setPageNumber] = useState(1);
+  const [renderedReviews, setRenderedReviews] = useState(2);
 
   useEffect(() => {
     if (currentProduct && currentProduct.id) {
@@ -30,12 +31,24 @@ function ReviewList({ currentProduct }) {
     return <div>Loading Reviews</div>;
   }
 
+  const showAllReviews = () => {
+    setRenderedReviews((prevRenderedReviews) => prevRenderedReviews + 2);
+  };
+
   return (
     <div>
       reviews
-      {reviews.map((review) => (
+      {reviews.slice(0, renderedReviews).map((review) => (
         <Review key={review.review_id} entry={review} />
       ))}
+      {renderedReviews < reviews.length && (
+      <button
+        type="button"
+        onClick={showAllReviews}
+      >
+        More Reviews
+      </button>
+      )}
     </div>
   );
 }
