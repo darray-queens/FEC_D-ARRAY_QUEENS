@@ -14,7 +14,7 @@ import { Grid, Row, Col } from './containers';
 const { useState, useEffect } = React;
 
 function Overview(props) {
-  const { currentProduct } = props;
+  const { currentProduct, scrollMethod } = props;
 
   const [styles, setStyles] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -39,7 +39,7 @@ function Overview(props) {
           <Images />
         </Col>
         <Col size={1}>
-          <StarRating />
+          <StarRating scrollMethod={scrollMethod} />
           <ProductInfo currentProduct={currentProduct} />
           {isLoading ? (
             <Loading />

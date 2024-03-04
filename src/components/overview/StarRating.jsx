@@ -2,7 +2,9 @@ import React from 'react';
 
 function StarRating() {
   return (
-    <p>☆☆☆☆☆ Read all reviews</p>
+    <div>
+      <button type="button" onClick={() => window.scrollTo()}>☆☆☆☆☆ - Read all reviews</button>
+    </div>
   );
 }
 
