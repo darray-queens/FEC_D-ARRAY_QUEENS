@@ -10,5 +10,6 @@
     },
     "ignorePatterns": ["webpack.config.js", "**/dist/*", "**/spec/*"],
     "rules": {
+        "react/prop-types": 0
     }
 }
