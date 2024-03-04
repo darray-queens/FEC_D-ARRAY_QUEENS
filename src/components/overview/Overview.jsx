@@ -19,8 +19,6 @@ function Overview(props) {
   const [styles, setStyles] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  console.log(isLoading);
-
   async function getStyles() {
     const response = await axios.get(`/products/${currentProduct.id}/styles`)
       .catch((error) => console.error(error));
@@ -33,9 +31,6 @@ function Overview(props) {
       getStyles();
     }
   }, [currentProduct]);
-
-  console.log(styles);
-  console.log(isLoading);
 
   return (
     <Grid>
