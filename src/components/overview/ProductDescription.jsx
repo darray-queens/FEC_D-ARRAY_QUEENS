@@ -14,11 +14,10 @@ function ProductDescription(props) {
       <ul>
         {highlights.map((details) => {
           featureKey += 1;
+          const text = `${details.feature} - ${details.value}`;
           return (
             <li key={featureKey}>
-              {details.feature}
-              -
-              {details.value}
+              {text}
             </li>
           );
         })}
