@@ -22,13 +22,12 @@ function ReviewList({ currentProduct }) {
         });
     }
   }, [productId]);
-  // update to return entry component later
-  console.log(productId, 'wooooo');
+
   return (
     <div>
       reviews
       {reviews.map((review) => (
-        <Review entry={review} />
+        <Review key={review.review_id} entry={review} />
       ))}
     </div>
   );
