@@ -28,8 +28,8 @@ function App() {
       <Overview currentProduct={currentProduct} />
       <RelatedProductsList currentProduct={currentProduct} setCurrentProduct={setCurrentProduct} />
       <OutfitsList currentProduct={currentProduct} />
-      {/* <GetAllQuestions currentProduct={currentProduct} /> */}
-      {/* <ReviewList currentProduct={currentProduct} /> */}
+      <GetAllQuestions currentProduct={currentProduct} />
+      <ReviewList currentProduct={currentProduct} />
     </div>
   );
 }
