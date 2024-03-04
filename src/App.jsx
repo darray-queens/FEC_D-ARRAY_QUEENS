@@ -4,7 +4,7 @@ import React from 'react';
 import Overview from './components/overview/Overview';
 import RelatedProductsList from './components/relatedProductsModule/relatedProducts/RelatedProductsList';
 import OutfitsList from './components/relatedProductsModule/outfits/OutfitsList';
-import GetAllQuestions from './components/questionsAndAnswers/GetAllQuestions';
+import GetAllQuestionsAndAnswers from './components/questionsAndAnswers/GetAllQuestionsAndAnswers';
 import ReviewList from './components/review/ReviewList';
 
 const { useState, useEffect } = React;
@@ -13,7 +13,7 @@ function App() {
   const [currentProduct, setCurrentProduct] = useState({});
 
   useEffect(() => {
-    axios.get('products/40344')
+    axios.get('products/40350')
       .then((response) => {
         setCurrentProduct(response.data);
       })
@@ -28,7 +28,7 @@ function App() {
       <Overview currentProduct={currentProduct} />
       <RelatedProductsList currentProduct={currentProduct} setCurrentProduct={setCurrentProduct} />
       <OutfitsList currentProduct={currentProduct} />
-      <GetAllQuestions currentProduct={currentProduct} />
+      <GetAllQuestionsAndAnswers currentProduct={currentProduct} />
       <ReviewList currentProduct={currentProduct} />
     </div>
   );
