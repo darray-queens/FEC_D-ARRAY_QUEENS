@@ -36,7 +36,7 @@ function ReviewList({ currentProduct }) {
   };
 
   return (
-    <div>
+    <div id="reviews">
       reviews
       {reviews.slice(0, renderedReviews).map((review) => (
         <Review key={review.review_id} entry={review} />
