@@ -8,20 +8,27 @@ const { useState, useEffect } = React;
 
 function ReviewList({ currentProduct }) {
   const [reviews, setReviews] = useState([]);
-
-  const productId = currentProduct.id;
+  const [pageNumber, setPageNumber] = useState(1);
 
   useEffect(() => {
-    if (productId) {
-      axios.get(`reviews?product_id=${productId}`)
+    if (currentProduct && currentProduct.id) {
+      const productId = currentProduct.id;
+      axios.get(`reviews?product_id=${productId}&page=${pageNumber}`)
         .then((response) => {
-          setReviews(response.data.results);
+          if (response.data.results.length !== 0) {
+            setReviews((prevReviews) => prevReviews.concat(response.data.results));
+            setPageNumber((prevPageNumber) => prevPageNumber + 1);
+          }
         })
         .catch((err) => {
           console.error('failed to set list: ', err);
         });
     }
-  }, [productId]);
+  }, [currentProduct, pageNumber]);
+
+  if (reviews.length === 0) {
+    return <div>Loading Reviews</div>;
+  }
 
   return (
     <div>
