@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import Card from '../shared/Card';
 import { Grid, ProductModuleRow } from '../../shared/containers';
 
-function RelatedProductsList({ setCurrentProduct }) {
+function RelatedProductsList({ setProductId }) {
   const [productsList, setProductsList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -33,7 +33,7 @@ function RelatedProductsList({ setCurrentProduct }) {
           <Card
             key={element.id}
             product={element}
-            setCurrentProduct={setCurrentProduct}
+            setProductId={setProductId}
           />
         ))}
       </ProductModuleRow>
