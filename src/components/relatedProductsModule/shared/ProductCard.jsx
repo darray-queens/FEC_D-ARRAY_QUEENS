@@ -1,11 +1,21 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
-import { ProductCard, Container, StarButton, StyledImage } from '../../shared/containers';
+import {
+  Card,
+  Container,
+  ActionButton,
+  StyledImage,
+} from '../../shared/containers';
 
-function Card({ product, setProductId }) {
+function ProductCard(
+  {
+    product,
+    imageClick,
+    actionButtonClick,
+    textValue,
+  },
+) {
   const [thumbnailUrl, setThumbnailUrl] = useState('');
-
-  // console.log(product)
 
   useEffect(() => {
     async function fetchImageUrl() {
@@ -20,19 +30,11 @@ function Card({ product, setProductId }) {
     fetchImageUrl();
   }, []);
 
-  const cardClick = () => {
-    setProductId(product.id);
-  };
-
-  const actionButtonClick = () => {
-    console.log(product.id);
-  };
-
   return (
-    <ProductCard>
+    <Card>
       <Container>
-        <StyledImage onClick={cardClick} className="thumbnail" src={thumbnailUrl} alt="" width="300px" />
-        <StarButton onClick={actionButtonClick}>★</StarButton>
+        <StyledImage onClick={() => imageClick(product.id)} className="thumbnail" src={thumbnailUrl} alt="" width="300px" />
+        <ActionButton onClick={() => actionButtonClick(product.id)}>{textValue}</ActionButton>
       </Container>
       <div>
         {product.category}
@@ -46,8 +48,8 @@ function Card({ product, setProductId }) {
       <div>
         ☆☆☆☆☆
       </div>
-    </ProductCard>
+    </Card>
   );
 }
 
-export default Card;
+export default ProductCard;
