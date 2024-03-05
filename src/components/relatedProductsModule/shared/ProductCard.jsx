@@ -1,8 +1,8 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
-import { ProductCard, Container, StarButton, StyledImage } from '../../shared/containers';
+import { Card, Container, StarButton, StyledImage } from '../../shared/containers';
 
-function Card({ product, setProductId }) {
+function ProductCard({ product, setProductId, className }) {
   const [thumbnailUrl, setThumbnailUrl] = useState('');
 
   // console.log(product)
@@ -29,7 +29,7 @@ function Card({ product, setProductId }) {
   };
 
   return (
-    <ProductCard>
+    <Card className={className}>
       <Container>
         <StyledImage onClick={cardClick} className="thumbnail" src={thumbnailUrl} alt="" width="300px" />
         <StarButton onClick={actionButtonClick}>★</StarButton>
@@ -46,8 +46,8 @@ function Card({ product, setProductId }) {
       <div>
         ☆☆☆☆☆
       </div>
-    </ProductCard>
+    </Card>
   );
 }
 
-export default Card;
+export default ProductCard;

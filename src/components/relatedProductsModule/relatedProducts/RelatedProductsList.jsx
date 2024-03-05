@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
-import Card from '../shared/Card';
+import ProductCard from '../shared/ProductCard';
 import { Grid, ProductModuleRow } from '../../shared/containers';
 
 function RelatedProductsList({ setProductId }) {
@@ -30,9 +30,10 @@ function RelatedProductsList({ setProductId }) {
       <h2>Products List</h2>
       <ProductModuleRow>
         {productsList.map((element) => (
-          <Card
+          <ProductCard
             key={element.id}
             product={element}
+            className="relatedProductCard"
             setProductId={setProductId}
           />
         ))}
