@@ -14,16 +14,17 @@ import { Grid, Row, Col } from '../shared/containers';
 
 const { useState, useEffect } = React;
 
-function Overview(props) {
-  const { currentProduct, scrollMethod } = props;
-
+function Overview({ currentProduct, scrollMethod }) {
   const [styles, setStyles] = useState([]);
+  const [currentStyle, setCurrentStyle] = useState({});
   const [isLoading, setIsLoading] = useState(true);
 
   async function getStyles() {
     const response = await axios.get(`/products/${currentProduct.id}/styles`)
       .catch((error) => console.error(error));
+
     setStyles(response.data.results);
+    setCurrentStyle(response.data.results[0]);
     setIsLoading(false);
   }
 
@@ -37,7 +38,7 @@ function Overview(props) {
     <Grid>
       <Row>
         <Col size={3}>
-          <Images />
+          {isLoading ? <Loading /> : <Images styleImages={currentStyle.photos} />}
         </Col>
         <Col size={1}>
           <StarRating scrollMethod={scrollMethod} />
@@ -50,7 +51,7 @@ function Overview(props) {
                 currentProduct={currentProduct}
                 styleImage={styles[0].photos[0].thumbnail_url}
               />
-              <Styles currentStyles={styles} />
+              <Styles currentStyles={styles} changeStyle={setCurrentStyle} />
             </>
           )}
           <Selection />
