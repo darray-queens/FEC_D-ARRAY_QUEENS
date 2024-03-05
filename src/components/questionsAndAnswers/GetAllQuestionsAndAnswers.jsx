@@ -8,6 +8,7 @@ function GetAllQuestionsAndAnswers({ currentProduct }) {
   const [visibleQuestions, setVisibleQuestions] = useState(2);
   const [isAnswerModalOpen, setIsAnswerModalOpen] = useState(false);
   const [selectedQuestion, setSelectedQuestion] = useState({});
+  const [searchTerm, setSearchTerm] = useState('');
 
   const fetchQuestions = async () => {
     if (currentProduct && currentProduct.id) {
@@ -35,12 +36,25 @@ function GetAllQuestionsAndAnswers({ currentProduct }) {
   };
 
   return (
-    <div style={{ maxHeight: '500px', overflowY: 'auto' }}>
+    <div>
       <h2>Questions & Answers</h2>
-      {questions.length > 0 ? (
-        <ul>
-          {questions.slice(0, visibleQuestions).map((question) => (
-            <li key={question.question_id}>
+      <input
+        type="text"
+        placeholder="Have a question? Search for answers…"
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+        style={{ width: '100%', padding: '10px', marginBottom: '20px' }}
+      />
+      <div style={{ maxHeight: '500px', overflowY: 'auto' }}>
+        {questions
+          .filter((question) =>
+            (searchTerm.length >= 3
+              ? question.question_body.toLowerCase().includes(searchTerm.toLowerCase())
+              : true)
+          )
+          .slice(0, visibleQuestions)
+          .map((question) => (
+            <div key={question.question_id}>
               <p>
                 <strong>
                   Q:
@@ -48,17 +62,19 @@ function GetAllQuestionsAndAnswers({ currentProduct }) {
                 {question.question_body}
               </p>
               <button type="button" onClick={() => openAnswerModal(question)}>Add Answer</button>
-            </li>
+              {/* Additional code to render answers, if applicable */}
+            </div>
           ))}
-          {visibleQuestions < questions.length
-          && <button type="button" onClick={handleShowMoreQuestions}>More Questions</button>}
-        </ul>
-      ) : <p>No questions have been submitted for this product.</p>}
+        {visibleQuestions < questions.length && (
+          <button type="button" onClick={handleShowMoreQuestions}>More Questions</button>
+        )}
+      </div>
       <AnswerModal
         isOpen={isAnswerModalOpen}
         onRequestClose={() => setIsAnswerModalOpen(false)}
         productName={currentProduct?.name}
-        questionBody={selectedQuestion.question_body}
+        questionBody={selectedQuestion?.question_body}
+        // Additional props for handling form submission, etc.
       />
     </div>
   );
