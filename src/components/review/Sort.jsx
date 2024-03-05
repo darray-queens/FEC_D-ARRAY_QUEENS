@@ -1,6 +1,6 @@
 import React from 'react';
 
-function Sort({ reviews, setReviews }) {
+function Sort({ reviews, setReviews, relevantReviews }) {
   const sortByHelpfulness = () => {
     const sorted = [...reviews].sort((a, b) => b.helpfulness - a.helpfulness);
     setReviews(sorted);
@@ -17,6 +17,8 @@ function Sort({ reviews, setReviews }) {
       sortByHelpfulness();
     } else if (selectedSort === 'newest') {
       sortByNewest();
+    } else if (selectedSort === 'relevance') {
+      setReviews(relevantReviews);
     }
     // add logic to sort by relevance later
   };
