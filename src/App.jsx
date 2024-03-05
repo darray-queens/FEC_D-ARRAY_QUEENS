@@ -13,7 +13,7 @@ function App() {
   const [currentProduct, setCurrentProduct] = useState({});
 
   useEffect(() => {
-    axios.get('products/40350')
+    axios.get('products/40360')
       .then((response) => {
         setCurrentProduct(response.data);
       })
