@@ -23,7 +23,6 @@ function Overview({ currentProduct, scrollMethod }) {
     const response = await axios.get(`/products/${currentProduct.id}/styles`)
       .catch((error) => console.error(error));
 
-    console.log(response.data.results);
     setStyles(response.data.results);
     setCurrentStyle(response.data.results[0]);
     setIsLoading(false);

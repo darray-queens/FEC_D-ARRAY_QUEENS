@@ -37,7 +37,7 @@ export const Col = styled.div`
 // Grid contains Rows which contains Cols
 // Source: https://medium.com/swlh/create-a-responsive-grid-with-react-flexbox-styled-components-f7a55f607480
 
-export const ProductCard = styled.div`
+export const Card = styled.div`
   flex: ${(props) => props.size};
   margin: 0 1rem 1rem 0;
   border: 1px solid grey
@@ -51,7 +51,7 @@ position: relative;
 width: 300px;
 `;
 
-export const StarButton = styled.button`
+export const ActionButton = styled.button`
   type: 'button';
   color: white;
   text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
@@ -63,11 +63,12 @@ export const StarButton = styled.button`
   border: none;
   cursor: pointer;
   outline: none;
-  padding: 10px;
+  padding: 0 10px;
   margin: 10px;
   font-size: 2em;
 `;
 
 export const StyledImage = styled.img`
   width:100%;
+  border: 0 1px solid grey;
 `;
