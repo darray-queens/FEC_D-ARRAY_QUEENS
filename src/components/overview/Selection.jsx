@@ -13,9 +13,9 @@ const buildQuantityList = (qty) => {
 
 function Selection({ style }) {
   const [currentSku, setCurrentSku] = useState();
+  const [currentQty, setCurrentQty] = useState();
 
   const skus = Object.entries(style.skus);
-
   const skuSizeOptions = skus.map((sku) => {
     const code = sku[0];
     const { size, quantity } = sku[1];
@@ -39,23 +39,18 @@ function Selection({ style }) {
     sizeOptions = <option value="disabled selected hidden">OUT OF STOCK</option>;
   }
 
-  const { quantity } = currentSku ? style.skus[currentSku] : 0;
+  const quantity = currentSku ? style.skus[currentSku].quantity : 0;
   const quantityOptions = currentSku ? buildQuantityList(quantity) : <option>{}</option>;
 
   return (
     <div>
       <select
         name="size"
-        onChange={(e) => {
-          const { sku } = document.getElementById(e.target.value).dataset;
-          console.log(sku);
-          setCurrentSku(sku);
-        }}
+        onChange={(e) => setCurrentSku(document.getElementById(e.target.value).dataset.sku)}
       >
         {sizeOptions}
       </select>
-      <p id="quantity-label">Select a quantity</p>
-      <select name="quantity" aria-labelledby="quantity-label">
+      <select name="quantity" onChange={(e) => setCurrentQty(e.target.value)}>
         {quantityOptions}
       </select>
       <button name="add" type="button">Add to Bag</button>
