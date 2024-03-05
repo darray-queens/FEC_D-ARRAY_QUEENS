@@ -14,6 +14,15 @@ function OutfitsList() { // import prop of outfitlist
   //     });
   // }, []);
 
+  if (productsList.length === 0) {
+    return (
+      <div>
+        <h2>Your Outfit</h2>
+        Add Your Outfit Pieces!
+      </div>
+    );
+  }
+
   return (
     <div>
       <h2>Your Outfit</h2>

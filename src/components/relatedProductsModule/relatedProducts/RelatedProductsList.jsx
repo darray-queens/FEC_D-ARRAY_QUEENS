@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import Card from '../shared/Card';
+import { Grid, Row } from '../../shared/containers';
 
 function RelatedProductsList({ currentProduct }) {
   const [productsList, setProductsList] = useState([]);
@@ -11,7 +12,7 @@ function RelatedProductsList({ currentProduct }) {
   useEffect(() => {
     async function fetchProducts() {
       const response = await axios.get('/products')
-        .catch((err) => console.log(err))
+        .catch((err) => console.error(err));
       setIsLoading(false);
       setProductsList(response.data);
     }
@@ -27,10 +28,12 @@ function RelatedProductsList({ currentProduct }) {
   }
 
   return (
-    <div>
+    <Grid>
       <h2>Products List</h2>
-      {productsList.map((element) => <Card product={element} />)}
-    </div>
+      <Row>
+        {productsList.map((element) => <Card key={element.id} product={element} />)}
+      </Row>
+    </Grid>
   );
 }
 
