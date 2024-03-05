@@ -66,7 +66,7 @@ function ReviewList({ currentProduct }) {
 
 const StylesDiv = styled.div`
   overflow: auto;
-  max-height: 300px
+  max-height: 650px;
 `;
 
 export default ReviewList;
