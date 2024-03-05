@@ -1,11 +1,21 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
-import { Card, Container, StarButton, StyledImage } from '../../shared/containers';
+import {
+  Card,
+  Container,
+  ActionButton,
+  StyledImage,
+} from '../../shared/containers';
 
-function ProductCard({ product, imageClick, actionButtonClick }) {
+function ProductCard(
+  {
+    product,
+    imageClick,
+    actionButtonClick,
+    textValue,
+  },
+) {
   const [thumbnailUrl, setThumbnailUrl] = useState('');
-
-  // console.log(product)
 
   useEffect(() => {
     async function fetchImageUrl() {
@@ -24,7 +34,7 @@ function ProductCard({ product, imageClick, actionButtonClick }) {
     <Card>
       <Container>
         <StyledImage onClick={() => imageClick(product.id)} className="thumbnail" src={thumbnailUrl} alt="" width="300px" />
-        <StarButton onClick={() => actionButtonClick(product.id)}>★</StarButton>
+        <ActionButton onClick={() => actionButtonClick(product.id)}>{textValue}</ActionButton>
       </Container>
       <div>
         {product.category}

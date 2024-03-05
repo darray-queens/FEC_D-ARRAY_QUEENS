@@ -51,7 +51,7 @@ position: relative;
 width: 300px;
 `;
 
-export const StarButton = styled.button`
+export const ActionButton = styled.button`
   type: 'button';
   color: white;
   text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;

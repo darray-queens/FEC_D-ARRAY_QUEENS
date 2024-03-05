@@ -46,6 +46,7 @@ function RelatedProductsList({ setProductId }) {
             setProductId={setProductId}
             actionButtonClick={actionButtonClick}
             imageClick={imageClick}
+            textValue="★"
           />
         ))}
       </ProductModuleRow>
