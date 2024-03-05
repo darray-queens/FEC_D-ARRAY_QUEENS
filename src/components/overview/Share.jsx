@@ -9,12 +9,11 @@ import React from 'react';
  */
 
 function Share(props) {
-  const { currentProduct } = props;
-  console.log(currentProduct);
+  const { currentProduct, styleImage } = props;
 
   const fbShareLink = `https://www.facebook.com/sharer/sharer.php?u=${window.location.href}`;
   const twitterShareLink = `http://twitter.com/share?text=check out this ${currentProduct.name}&url=${window.location.href}`.replace(/ /g, '%20');
-  console.log(twitterShareLink);
+  const pinterestShareLink = `https://www.pinterest.com/pin/create/button/?url=${window.location.href}&media=${styleImage}`;
 
   return (
     <div>
@@ -28,9 +27,11 @@ function Share(props) {
           <img alt="Share to Pinterest" src="https://cdn1.iconfinder.com/data/icons/free-social-media-4/32/pinterest_social_Media_Logo_share-512.png" width="15px" />
         </button>
       </a>
-      <button type="button" name="Twitter">
-        <img alt="Share to Twitter" src="https://cdn4.iconfinder.com/data/icons/viiva-social-media/32/twitter-512.png" width="15px" />
-      </button>
+      <a href={pinterestShareLink} target="blank">
+        <button type="button" name="Twitter">
+          <img alt="Share to Twitter" src="https://cdn4.iconfinder.com/data/icons/viiva-social-media/32/twitter-512.png" width="15px" />
+        </button>
+      </a>
     </div>
   );
 }

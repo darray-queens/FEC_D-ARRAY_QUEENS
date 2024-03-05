@@ -42,11 +42,16 @@ function Overview(props) {
         <Col size={1}>
           <StarRating scrollMethod={scrollMethod} />
           <ProductInfo currentProduct={currentProduct} />
-          <Share currentProduct={currentProduct} />
           {isLoading ? (
             <Loading />
           ) : (
-            <Styles currentStyles={styles} />
+            <>
+              <Share
+                currentProduct={currentProduct}
+                styleImage={styles[0].photos[0].thumbnail_url}
+              />
+              <Styles currentStyles={styles} />
+            </>
           )}
           <Selection />
         </Col>
