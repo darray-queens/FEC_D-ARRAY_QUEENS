@@ -1,6 +1,6 @@
 import React from 'react';
 
-function Selection() {
+function Selection({ style }) {
   return (
     <div>
       <p id="select-label">Select a size</p>
