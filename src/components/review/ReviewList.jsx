@@ -4,19 +4,23 @@ import axios from 'axios';
 
 import Review from './Review';
 
+import Sort from './Sort';
+
 const { useState, useEffect } = React;
 
 function ReviewList({ currentProduct }) {
   const [reviews, setReviews] = useState([]);
   const [pageNumber, setPageNumber] = useState(1);
+  const [relevantReviews, setRelevantReviews] = useState([]);
   const [renderedReviews, setRenderedReviews] = useState(2);
 
   useEffect(() => {
     if (currentProduct && currentProduct.id) {
       const productId = currentProduct.id;
-      axios.get(`reviews?product_id=${productId}&page=${pageNumber}`)
+      axios.get(`reviews?product_id=${productId}&page=${pageNumber}&sort=relevant`)
         .then((response) => {
           if (response.data.results.length !== 0) {
+            setRelevantReviews((prevReviews) => prevReviews.concat(response.data.results));
             setReviews((prevReviews) => prevReviews.concat(response.data.results));
             setPageNumber((prevPageNumber) => prevPageNumber + 1);
           }
@@ -37,7 +41,8 @@ function ReviewList({ currentProduct }) {
 
   return (
     <div>
-      reviews
+      <h2>Ratings & Reviews</h2>
+      <Sort reviews={reviews} setReviews={setReviews} relevantReviews={relevantReviews} />
       {reviews.slice(0, renderedReviews).map((review) => (
         <Review key={review.review_id} entry={review} />
       ))}

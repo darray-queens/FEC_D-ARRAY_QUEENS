@@ -8,9 +8,21 @@ function Review({ entry }) {
   return (
     <div>
       <p>
-        Rating:
         {entry.rating}
+        {' '}
+        ☆
       </p>
+      <p>
+        {entry.reviewer_name}
+        ,
+        {' '}
+        {new Date(entry.date).toLocaleDateString()}
+      </p>
+      <b>{entry.summary}</b>
+      <p>{entry.body}</p>
+      {entry.photos.map((photo) => (
+        <img src={photo.url} alt={photo.id} key={photo.id} />
+      ))}
     </div>
   );
 }
