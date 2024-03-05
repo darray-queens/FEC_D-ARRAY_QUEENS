@@ -23,6 +23,7 @@ function Overview({ currentProduct, scrollMethod }) {
     const response = await axios.get(`/products/${currentProduct.id}/styles`)
       .catch((error) => console.error(error));
 
+    console.log(response.data.results);
     setStyles(response.data.results);
     setCurrentStyle(response.data.results[0]);
     setIsLoading(false);
@@ -42,7 +43,7 @@ function Overview({ currentProduct, scrollMethod }) {
         </Col>
         <Col size={1}>
           <StarRating scrollMethod={scrollMethod} />
-          <ProductInfo currentProduct={currentProduct} />
+          <ProductInfo product={currentProduct} style={currentStyle} />
           {isLoading ? (
             <Loading />
           ) : (
