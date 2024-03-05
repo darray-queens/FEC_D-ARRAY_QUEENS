@@ -6,17 +6,22 @@ function AnswerModal({
   onRequestClose,
   productName,
   questionBody,
+  answerInput,
+  setAnswerInput,
+  nicknameInput,
+  setNicknameInput,
+  emailInput,
+  setEmailInput,
 }) {
-  const [answerInput, setAnswerInput] = useState('');
-  const [nicknameInput, setNicknameInput] = useState('');
-  const [emailInput, setEmailInput] = useState('');
-  const [photos, setPhotos] = useState([]); // If you plan to handle photo uploads
+  // const [answerInput, setAnswerInput] = useState('');
+  // const [nicknameInput, setNicknameInput] = useState('');
+  // const [emailInput, setEmailInput] = useState('');
+  // const [photos, setPhotos] = useState([]); // If you plan to handle photo uploads
 
   if (!isOpen) return null;
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    // Here you would handle the submission logic, including validation and potentially sending data to a server
 
     console.log({
       answer: answerInput,
@@ -32,10 +37,13 @@ function AnswerModal({
     <div className="modal-overlay" onClick={onRequestClose}>
       <div className="modal-content" onClick={(e) => e.stopPropagation()}>
         <h2>Submit your Answer</h2>
-        <h3>{productName}: {questionBody}</h3>
-        <form onSubmit={handleSubmit}>
-          {/* Textarea for answer input */}
-          <input
+        <h3>
+          {productName}
+          :
+          {questionBody}
+        </h3>
+        <form onSubmit={handleSubmit} className="form-container">
+          <textarea
             id="answer-input"
             aria-label="Your Answer *"
             placeholder="Add your answer here"
