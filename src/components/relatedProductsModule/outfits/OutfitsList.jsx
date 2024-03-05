@@ -1,33 +1,25 @@
-import axios from 'axios';
 import React, { useState, useEffect } from 'react';
-import Card from '../shared/Card';
+import ProductCard from '../shared/Card';
+import { Grid, ProductModuleRow } from '../../shared/containers';
 
-function OutfitsList() { // import prop of outfitlist
-  const [productsList, setProductsList] = useState([]);
+function OutfitsList({ currentProduct }) { // import prop of outfitlist
+  const [isLoading, setIsLoading] = useState(true);
 
-  // useeffect to pass in outfits list
-
-  // useEffect(() => {
-  //   axios.get('/products') // change this to 'your outfits' endpoint
-  //     .then((response) => {
-  //       setProductsList(response.data);
-  //     });
-  // }, []);
-
-  if (productsList.length === 0) {
+  if (Object.keys(currentProduct).length === 0) {
     return (
       <div>
-        <h2>Your Outfit</h2>
-        Add Your Outfit Pieces!
+        Loading...
       </div>
     );
   }
 
   return (
-    <div>
+    <Grid>
       <h2>Your Outfit</h2>
-      {productsList.map((element) => <Card product={element} />)}
-    </div>
+      <ProductModuleRow>
+        <ProductCard key={currentProduct.id} product={currentProduct} />
+      </ProductModuleRow>
+    </Grid>
   );
 }
 export default OutfitsList;
