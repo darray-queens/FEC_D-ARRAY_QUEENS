@@ -4,6 +4,7 @@ import axios from 'axios';
 import Images from './Images';
 import StarRating from './StarRating';
 import ProductInfo from './ProductInfo';
+import Share from './Share';
 import Styles from './Styles';
 import Selection from './Selection';
 import ProductDescription from './ProductDescription';
@@ -44,7 +45,13 @@ function Overview(props) {
           {isLoading ? (
             <Loading />
           ) : (
-            <Styles currentStyles={styles} />
+            <>
+              <Share
+                currentProduct={currentProduct}
+                styleImage={styles[0].photos[0].thumbnail_url}
+              />
+              <Styles currentStyles={styles} />
+            </>
           )}
           <Selection />
         </Col>
