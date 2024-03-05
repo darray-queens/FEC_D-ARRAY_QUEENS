@@ -6,6 +6,8 @@ import Review from './Review';
 
 import Sort from './Sort';
 
+import { Grid, Row, Col } from '../shared/containers';
+
 const { useState, useEffect } = React;
 
 function ReviewList({ currentProduct }) {
