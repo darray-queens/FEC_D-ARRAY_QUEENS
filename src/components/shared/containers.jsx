@@ -49,7 +49,6 @@ export const ProductCard = styled.div`
 export const Container = styled.div`
 position: relative;
 width: 300px;
-height: auto;
 `;
 
 export const StarButton = styled.button`

@@ -11,22 +11,23 @@ const { useState, useEffect } = React;
 
 function App() {
   const [currentProduct, setCurrentProduct] = useState({});
+  const [productId, setProductId] = useState('40350');
 
   useEffect(() => {
-    axios.get('products/40350')
+    axios.get(`products/${productId}`)
       .then((response) => {
         setCurrentProduct(response.data);
       })
       .catch((err) => {
         console.error(err);
       });
-  }, []);
+  }, [productId]);
 
   return (
     <div>
       <h2>Howdy, world!!</h2>
       <Overview currentProduct={currentProduct} />
-      <RelatedProductsList currentProduct={currentProduct} setCurrentProduct={setCurrentProduct} />
+      <RelatedProductsList setProductId={setProductId} />
       <OutfitsList currentProduct={currentProduct} />
       <GetAllQuestionsAndAnswers currentProduct={currentProduct} />
       <ReviewList currentProduct={currentProduct} />

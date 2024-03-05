@@ -2,7 +2,7 @@ import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { ProductCard, Container, StarButton, StyledImage } from '../../shared/containers';
 
-function Card({ product, setCurrentProduct }) {
+function Card({ product, setProductId }) {
   const [thumbnailUrl, setThumbnailUrl] = useState('');
 
   // console.log(product)
@@ -14,14 +14,14 @@ function Card({ product, setCurrentProduct }) {
       if (response.data.results[0].photos[0].thumbnail_url !== null) {
         setThumbnailUrl(response.data.results[0].photos[0].thumbnail_url);
       } else {
-        setThumbnailUrl('https://upload.wikimedia.org/wikipedia/commons/d/d1/Image_not_available.png')
+        setThumbnailUrl('https://upload.wikimedia.org/wikipedia/commons/d/d1/Image_not_available.png');
       }
     }
     fetchImageUrl();
   }, []);
 
   const cardClick = () => {
-    setCurrentProduct(product.id);
+    setProductId(product.id);
   };
 
   const actionButtonClick = () => {
