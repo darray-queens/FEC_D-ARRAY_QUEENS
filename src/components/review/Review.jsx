@@ -10,7 +10,7 @@ const { useState, useEffect } = React;
 
 function Review({ entry }) {
   return (
-    <div>
+    <StylesDiv>
       <Row>
         <Col size={2.5}>
           <p>
@@ -19,14 +19,14 @@ function Review({ entry }) {
             ☆
           </p>
         </Col>
-        <Col size={2.5}>
+        <RightCol size={2.5}>
           <p>
             {entry.reviewer_name}
             ,
             {' '}
             {new Date(entry.date).toLocaleDateString()}
           </p>
-        </Col>
+        </RightCol>
       </Row>
       <Row>
         <b>{entry.summary}</b>
@@ -41,7 +41,7 @@ function Review({ entry }) {
           </StylesCol>
         ))}
       </Row>
-    </div>
+    </StylesDiv>
   );
 }
 
@@ -49,6 +49,14 @@ const StylesCol = styled(Col)`
   flex-basis: 25%;
   margin-right: 0;
   padding-right: 0;
+`;
+
+const StylesDiv = styled.div`
+  border-bottom: solid rgb(176,176,176);
+`;
+
+const RightCol = styled(Col)`
+  text-align: right
 `;
 
 export default Review;
