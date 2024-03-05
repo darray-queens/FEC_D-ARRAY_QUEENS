@@ -13,16 +13,24 @@ function OutfitsList({ currentProduct }) { // import prop of outfitlist
     );
   }
 
-  const addOutfit = () => {
+  const actionButtonClick = (id) => {
+    console.log('outfit actionbtn click', id);
 
-  }
+
+
+  };
 
   return (
     <Grid>
       <h2>Your Outfit</h2>
       <ProductModuleRow>
-        <ProductCard key={currentProduct.id} product={currentProduct} />
-        {}
+        <ProductCard
+          key={currentProduct.id}
+          product={currentProduct}
+          actionButtonClick={actionButtonClick}
+          imageClick={() => null}
+        />
+        { }
       </ProductModuleRow>
     </Grid>
   );

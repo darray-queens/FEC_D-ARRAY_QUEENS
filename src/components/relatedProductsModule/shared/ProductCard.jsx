@@ -2,7 +2,7 @@ import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { Card, Container, StarButton, StyledImage } from '../../shared/containers';
 
-function ProductCard({ product, setProductId, className }) {
+function ProductCard({ product, imageClick, actionButtonClick }) {
   const [thumbnailUrl, setThumbnailUrl] = useState('');
 
   // console.log(product)
@@ -20,19 +20,11 @@ function ProductCard({ product, setProductId, className }) {
     fetchImageUrl();
   }, []);
 
-  const cardClick = () => {
-    setProductId(product.id);
-  };
-
-  const actionButtonClick = () => {
-    console.log(product.id);
-  };
-
   return (
-    <Card className={className}>
+    <Card>
       <Container>
-        <StyledImage onClick={cardClick} className="thumbnail" src={thumbnailUrl} alt="" width="300px" />
-        <StarButton onClick={actionButtonClick}>★</StarButton>
+        <StyledImage onClick={() => imageClick(product.id)} className="thumbnail" src={thumbnailUrl} alt="" width="300px" />
+        <StarButton onClick={() => actionButtonClick(product.id)}>★</StarButton>
       </Container>
       <div>
         {product.category}

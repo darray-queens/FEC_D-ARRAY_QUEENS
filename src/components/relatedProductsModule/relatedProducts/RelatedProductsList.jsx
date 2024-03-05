@@ -25,6 +25,16 @@ function RelatedProductsList({ setProductId }) {
     );
   }
 
+  const imageClick = (id) => {
+    setProductId(id);
+  };
+
+  const actionButtonClick = (id) => {
+    console.log('related prods actionbtn click', id);
+    // adds item to comparison array
+    // once array is len 2, open up module
+  };
+
   return (
     <Grid>
       <h2>Products List</h2>
@@ -33,8 +43,9 @@ function RelatedProductsList({ setProductId }) {
           <ProductCard
             key={element.id}
             product={element}
-            className="relatedProductCard"
             setProductId={setProductId}
+            actionButtonClick={actionButtonClick}
+            imageClick={imageClick}
           />
         ))}
       </ProductModuleRow>
