@@ -39,21 +39,6 @@ function ReviewList({ currentProduct }) {
     setRenderedReviews((prevRenderedReviews) => prevRenderedReviews + 2);
   };
 
-  const getHelpful = () => {
-    setReviews([]);
-    axios.get(`reviews?product_id=${productId}&page=${pageNumber}&sort=helpful`)
-      .then((response) => {
-        if (response.data.results.length !== 0) {
-          setRelevantReviews((prevReviews) => prevReviews.concat(response.data.results));
-          setReviews((prevReviews) => prevReviews.concat(response.data.results));
-          setPageNumber((prevPageNumber) => prevPageNumber + 1);
-        }
-      })
-      .catch((err) => {
-        console.error('failed to set list: ', err);
-      });
-  };
-
   return (
     <div>
       <h2>Ratings & Reviews</h2>
