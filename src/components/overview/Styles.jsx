@@ -1,4 +1,5 @@
 import React from 'react';
+import styled from 'styled-components';
 import { Row, Col } from '../shared/containers';
 
 function Styles(props) {
@@ -10,12 +11,16 @@ function Styles(props) {
     <Row>
       <h5>{currentStyleText}</h5>
       {currentStyles.map((style) => (
-        <Col key={style.style_id}>
+        <StylesCol key={style.style_id}>
           <img alt={style.name} src={style.photos[0].thumbnail_url} width="30px" height="30px" />
-        </Col>
+        </StylesCol>
       ))}
     </Row>
   );
 }
+
+const StylesCol = styled(Col)`
+  flex-basis: 25%;
+`;
 
 export default Styles;
