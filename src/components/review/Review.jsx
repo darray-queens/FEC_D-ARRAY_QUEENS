@@ -1,12 +1,8 @@
 import React from 'react';
 
-import axios from 'axios';
-
 import styled from 'styled-components';
 
 import { Row, Col } from '../shared/containers';
-
-const { useState, useEffect } = React;
 
 function Review({ entry }) {
   return (
