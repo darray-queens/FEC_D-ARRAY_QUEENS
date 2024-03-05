@@ -18,7 +18,6 @@ const ModalContent = styled.div`
   max-width: 80%;
   max-height: 80%;
   overflow: auto;
-  border-radius: 8px;
   padding: 20px;
   position: relative;
 `;
@@ -37,7 +36,7 @@ function Modal({ photo, closeModal }) {
   return (
     <ModalContainer>
       <ModalContent>
-        <CloseButton onClick={closeModal}>&times;</CloseButton>
+        <CloseButton onClick={closeModal}>x</CloseButton>
         <img src={photo.url} alt={photo.id} style={{ maxWidth: '100%', maxHeight: '100%' }} />
       </ModalContent>
     </ModalContainer>
