@@ -47,9 +47,11 @@ function ReviewList({ currentProduct }) {
     <div id="reviews">
       <h2>Ratings & Reviews</h2>
       <Sort reviews={reviews} setReviews={setReviews} relevantReviews={relevantReviews} />
-      {reviews.slice(0, renderedReviews).map((review) => (
-        <Review key={review.review_id} entry={review} />
-      ))}
+      <StylesDiv>
+        {reviews.slice(0, renderedReviews).map((review) => (
+          <Review key={review.review_id} entry={review} />
+        ))}
+      </StylesDiv>
       {renderedReviews < reviews.length && (
       <button
         type="button"
@@ -61,5 +63,10 @@ function ReviewList({ currentProduct }) {
     </div>
   );
 }
+
+const StylesDiv = styled.div`
+  overflow: auto;
+  max-height: 650px;
+`;
 
 export default ReviewList;
