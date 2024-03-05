@@ -4,6 +4,8 @@ import axios from 'axios';
 
 import Review from './Review';
 
+import Sort from './Sort';
+
 const { useState, useEffect } = React;
 
 function ReviewList({ currentProduct }) {
@@ -37,7 +39,8 @@ function ReviewList({ currentProduct }) {
 
   return (
     <div id="reviews">
-      reviews
+      <h2>Ratings & Reviews</h2>
+      <Sort reviews={reviews} setReviews={setReviews} />
       {reviews.slice(0, renderedReviews).map((review) => (
         <Review key={review.review_id} entry={review} />
       ))}
