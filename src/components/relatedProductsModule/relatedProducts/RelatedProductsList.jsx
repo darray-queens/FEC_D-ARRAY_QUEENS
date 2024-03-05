@@ -1,11 +1,13 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import ProductCard from '../shared/ProductCard';
+import ComparisonModule from './ComparisonModule';
 import { Grid, ProductModuleRow } from '../../shared/containers';
 
 function RelatedProductsList({ setProductId }) {
   const [productsList, setProductsList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [comparisonHidden, setComparisonHidden] = useState(true);
 
   useEffect(() => {
     async function fetchProducts() {
@@ -33,6 +35,8 @@ function RelatedProductsList({ setProductId }) {
     console.log('related prods actionbtn click', id);
     // adds item to comparison array
     // once array is len 2, open up module
+
+
   };
 
   return (
@@ -50,6 +54,7 @@ function RelatedProductsList({ setProductId }) {
           />
         ))}
       </ProductModuleRow>
+      <ComparisonModule />
     </Grid>
   );
 }
