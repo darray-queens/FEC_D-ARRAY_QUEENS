@@ -40,7 +40,7 @@ function ReviewList({ currentProduct }) {
   };
 
   return (
-    <div>
+    <div id="reviews">
       <h2>Ratings & Reviews</h2>
       <Sort reviews={reviews} setReviews={setReviews} relevantReviews={relevantReviews} />
       {reviews.slice(0, renderedReviews).map((review) => (
