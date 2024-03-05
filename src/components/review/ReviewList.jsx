@@ -21,7 +21,7 @@ function ReviewList({ currentProduct }) {
   useEffect(() => {
     if (currentProduct && currentProduct.id) {
       const productId = currentProduct.id;
-      axios.get(`reviews?product_id=${productId}&page=${pageNumber}&sort=relevant`)
+      axios.get(`/reviews?product_id=${productId}&page=${pageNumber}&sort=relevant`)
         .then((response) => {
           if (response.data.results.length !== 0) {
             setRelevantReviews((prevReviews) => prevReviews.concat(response.data.results));
@@ -53,12 +53,12 @@ function ReviewList({ currentProduct }) {
         ))}
       </StylesDiv>
       {renderedReviews < reviews.length && (
-      <button
+      <StylesButton
         type="button"
         onClick={moreReviews}
       >
         More Reviews
-      </button>
+      </StylesButton>
       )}
     </div>
   );
@@ -66,7 +66,14 @@ function ReviewList({ currentProduct }) {
 
 const StylesDiv = styled.div`
   overflow: auto;
-  max-height: 650px;
+  max-height: 600px;
+`;
+
+const StylesButton = styled.button`
+  padding: 10px;
+  margin-top: 10px;
+  margin-bttom: 10px;
+  margin-right: 10px;
 `;
 
 export default ReviewList;
