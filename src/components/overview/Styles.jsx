@@ -2,8 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 import { Grid, Row, Col } from '../shared/containers';
 
-function Styles({ currentStyles, changeStyle }) {
-  const currentStyleText = `Style > ${currentStyles[0].name}`;
+function Styles({ currentStyles, currentStyle, changeStyle }) {
+  const currentStyleText = `Style > ${currentStyle.name}`;
 
   return (
     <Grid>

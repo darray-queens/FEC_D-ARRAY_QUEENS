@@ -52,7 +52,11 @@ function Overview({ currentProduct, scrollMethod }) {
                 currentProduct={currentProduct}
                 styleImage={styles[0].photos[0].thumbnail_url}
               />
-              <Styles currentStyles={styles} changeStyle={setCurrentStyle} />
+              <Styles
+                currentStyles={styles}
+                currentStyle={currentStyle}
+                changeStyle={setCurrentStyle}
+              />
             </>
           )}
           <Selection />
