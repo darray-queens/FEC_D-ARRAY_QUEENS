@@ -26,7 +26,6 @@ height: ${(props) => {
       return `${props.height}%`;
     }
     return 'auto';
-    // return 'auto'; // can also use fit-content // can also just leave empty
   }};
 `;
 
@@ -38,7 +37,6 @@ height: ${(props) => {
       return `${props.height}%`;
     }
     return 'fit-content';
-    // return 'auto'; // can also use fit-content // can also just leave empty
   }};
   width: 100%;
 `;
@@ -71,9 +69,6 @@ function ComparisonModule({ comparedItems }) {
   useEffect(() => {
     if (comparedItems.length === 2) {
       getFeatures(comparedItems);
-      // this is an async/await function.
-      // HOW WOULD I HANLDE THIS IF I RETURNED [product1Response.data.features,
-      // product2Response.data.features] in getFeatures, and then tried to setState on that result?
     }
   }, [comparedItems]);
 
