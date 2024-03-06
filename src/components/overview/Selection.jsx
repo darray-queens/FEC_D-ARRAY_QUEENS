@@ -11,14 +11,13 @@ const buildQuantityList = (qty) => {
   return list;
 };
 
-function Selection({ style }) {
-  const [currentSku, setCurrentSku] = useState();
+function Selection({ style, sku, changeSku }) {
+  const skuTuples = Object.entries(style.skus);
   const [currentQty, setCurrentQty] = useState();
 
-  const skus = Object.entries(style.skus);
-  const skuSizeOptions = skus.map((sku) => {
-    const code = sku[0];
-    const { size, quantity } = sku[1];
+  const skuSizeOptions = skuTuples.map((skuTuple) => {
+    const code = skuTuple[0];
+    const { size, quantity } = skuTuple[1];
     if (quantity > 0) {
       return (
         <option key={code} data-sku={code} id={size}>{size}</option>
@@ -30,24 +29,23 @@ function Selection({ style }) {
 
   let sizeOptions = (
     <>
-      <option value="disabled selected hidden">SELECT SIZE</option>
+      <option style={{ display: 'none' }}>SELECT SIZE</option>
       {skuSizeOptions}
     </>
   );
 
   if (skuSizeOptions.length === 0) {
-    sizeOptions = <option value="disabled selected hidden">OUT OF STOCK</option>;
+    sizeOptions = <option style={{ display: 'none' }}>OUT OF STOCK</option>;
   }
 
-  console.log(style.skus[currentSku]);
-  const quantity = currentSku ? style.skus[currentSku].quantity : 0;
-  const quantityOptions = currentSku ? buildQuantityList(quantity) : <option>{}</option>;
+  const quantity = sku ? style.skus[sku].quantity : 0;
+  const quantityOptions = sku ? buildQuantityList(quantity) : <option>{}</option>;
 
   return (
     <div>
       <select
         name="size"
-        onChange={(e) => setCurrentSku(document.getElementById(e.target.value).dataset.sku)}
+        onChange={(e) => changeSku(document.getElementById(e.target.value).dataset.sku)}
       >
         {sizeOptions}
       </select>
