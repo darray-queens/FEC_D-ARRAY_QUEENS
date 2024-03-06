@@ -39,6 +39,7 @@ function Selection({ style }) {
     sizeOptions = <option value="disabled selected hidden">OUT OF STOCK</option>;
   }
 
+  console.log('quant, sizes for currentSku', style.skus[currentSku]);
   const quantity = currentSku ? style.skus[currentSku].quantity : 0;
   const quantityOptions = currentSku ? buildQuantityList(quantity) : <option>{}</option>;
 
@@ -46,7 +47,10 @@ function Selection({ style }) {
     <div>
       <select
         name="size"
-        onChange={(e) => setCurrentSku(document.getElementById(e.target.value).dataset.sku)}
+        onChange={(e) => {
+          console.log('new sku', document.getElementById(e.target.value).dataset.sku);
+          setCurrentSku(document.getElementById(e.target.value).dataset.sku);
+        }}
       >
         {sizeOptions}
       </select>
