@@ -6,13 +6,19 @@ const { useState } = React;
 function Selection({ style, sku, changeSku }) {
   const skuTuples = Object.entries(style.skus);
   const [currentQty, setCurrentQty] = useState();
+  const [hideLabel, setHideLabel] = useState(true);
 
-  const addToCart = async () => {
-    let count = currentQty;
-    while (count > 0) {
-      axios.post('/cart', { sku_id: sku })
-        .catch((error) => console.error(error));
-      count -= 1;
+  const addToCartHandler = () => {
+    if (!sku) {
+      setHideLabel(false);
+      document.getElementById('size-select').focus();
+    } else {
+      let count = currentQty;
+      while (count > 0) {
+        axios.post('/cart', { sku_id: sku })
+          .catch((error) => console.error(error));
+        count -= 1;
+      }
     }
   };
 
@@ -56,9 +62,14 @@ function Selection({ style, sku, changeSku }) {
 
   return (
     <div>
+      <h5 style={hideLabel ? { display: 'none' } : { display: 'inherit' }}>Please select a size</h5>
       <select
         name="size"
-        onChange={(e) => changeSku(document.getElementById(e.target.value).dataset.sku)}
+        id="size-select"
+        onChange={(e) => {
+          changeSku(document.getElementById(e.target.value).dataset.sku);
+          setHideLabel(true);
+        }}
       >
         {sizeOptions}
       </select>
@@ -69,7 +80,7 @@ function Selection({ style, sku, changeSku }) {
         name="add"
         type="button"
         style={hideCart ? { display: 'none' } : { display: 'inherit' }}
-        onClick={() => addToCart()}
+        onClick={() => addToCartHandler()}
       >
         Add to Bag
       </button>
