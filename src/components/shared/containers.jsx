@@ -72,3 +72,15 @@ export const StyledImage = styled.img`
   width:100%;
   border: 0 1px solid grey;
 `;
+
+export const FloatingModule = styled.div`
+  position: fixed;
+  top: 40%;
+  left: 35%;
+  z-index: 100;
+  background-color: white;
+  border: 1px solid grey;
+  opacity: 1;
+  height: 20em;
+  width: 35em;
+`;

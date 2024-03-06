@@ -1,5 +1,7 @@
 import React from 'react';
 
+import styled from 'styled-components';
+
 function Sort({ reviews, setReviews, relevantReviews }) {
   const sortByHelpfulness = () => {
     const sorted = [...reviews].sort((a, b) => b.helpfulness - a.helpfulness);
@@ -20,22 +22,34 @@ function Sort({ reviews, setReviews, relevantReviews }) {
     } else if (selectedSort === 'relevance') {
       setReviews(relevantReviews);
     }
-    // add logic to sort by relevance later
   };
-  // TODO: implement a way to sort by relevance
+
   return (
     <label htmlFor="selectedSort">
-      {reviews.length}
-      {' '}
-      reviews, sorted by
-      {' '}
-      <select id="selectedSort" name="slectedSort" onChange={handleSortChange}>
-        <option value="relevance">relevance</option>
-        <option value="helpfulness">helpfulness</option>
-        <option value="newest">newest</option>
-      </select>
+      <b>
+        {reviews.length}
+        {' '}
+        reviews, sorted by
+        {' '}
+        <SortSelector id="selectedSort" name="slectedSort" onChange={handleSortChange}>
+          <option value="relevance">relevance</option>
+          <option value="helpfulness">helpfulness</option>
+          <option value="newest">newest</option>
+        </SortSelector>
+      </b>
     </label>
   );
 }
+
+const SortSelector = styled.select`
+  border: none;
+  background: none;
+  outline: none;
+  border-bottom: 1px solid black;
+  padding: 1px;
+  font-size: inherit;
+  font-family: inherit;
+  font-weight: bold;
+`;
 
 export default Sort;

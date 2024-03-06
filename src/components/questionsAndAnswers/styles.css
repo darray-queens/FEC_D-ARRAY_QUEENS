@@ -6,10 +6,15 @@
   border: none;
   cursor: pointer;
   opacity: 0.8;
-  position: fixed;
+  position: relative;
   bottom: 23px;
   right: 28px;
   width: 280px;
+  margin-top: 20px;
+}
+
+.open-button:hover {
+  opacity: 1;
 }
 
 /* The popup form - hidden by default */

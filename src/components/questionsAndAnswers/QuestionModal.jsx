@@ -2,10 +2,9 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import './styles.css';
 
-function AnswerModal({
-  isOpen, onRequestClose, productName, questionBody, selectedQuestion,
-}) {
-  const [answerInput, setAnswerInput] = useState('');
+function QuestionModal({
+  isOpen, onRequestClose, productName, currentProduct, refreshQuestions }) {
+  const [questionInput, setQuestionInput] = useState('');
   const [nicknameInput, setNicknameInput] = useState('');
   const [emailInput, setEmailInput] = useState('');
 
@@ -15,44 +14,35 @@ function AnswerModal({
     document.body.style.overflow = 'unset';
   }
 
-  const submitAnswer = async (event) => {
+  const submitQuestion = async (event) => {
     event.preventDefault();
-    console.log('Selected question:', selectedQuestion);
-    const answerDetails = {
-      body: answerInput,
+    const questionDetails = {
+      body: questionInput,
       name: nicknameInput,
       email: emailInput,
-      photos: [], // Add if you handle photo uploads
+      product_id: currentProduct.id,
     };
-    console.log('answerDetails:', answerDetails);
 
-    await axios.post(`/qa/questions/${selectedQuestion.question_id}/answers`, answerDetails)
-      .then((response) => {
-        console.log('Answer posted successfully', response.data);
-      }).catch((error) => {
-        console.error('Error submitting answer:', error);
-      });
+    await axios.post('/qa/questions', questionDetails);
+    onRequestClose(); // Close the modal upon successful submission
+    refreshQuestions();
   };
 
   return isOpen ? (
     <div className="modal-overlay" onClick={onRequestClose}>
       <div className="form-popup" onClick={(e) => e.stopPropagation()}>
-        <h2>Submit your Answer</h2>
+        <h2>Ask Your Question</h2>
         <h3>
+          About the
           {productName}
-          :
-          {questionBody}
         </h3>
-        <form
-          onSubmit={submitAnswer}
-          className="form-container"
-        >
+        <form onSubmit={submitQuestion} className="form-container">
           <textarea
-            id="answer-input"
-            aria-label="Your Answer"
-            placeholder="Your Answer *"
-            value={answerInput}
-            onChange={(e) => setAnswerInput(e.target.value)}
+            id="question-input"
+            aria-label="Your Question"
+            placeholder="Your Question *"
+            value={questionInput}
+            onChange={(e) => setQuestionInput(e.target.value)}
             required
             maxLength="1000"
           />
@@ -76,7 +66,7 @@ function AnswerModal({
             required
             maxLength="60"
           />
-          <button type="submit" className="btn">Submit answer</button>
+          <button type="submit" className="btn">Submit question</button>
           <button type="button" className="btn cancel" onClick={onRequestClose}>Close</button>
         </form>
       </div>
@@ -84,4 +74,4 @@ function AnswerModal({
   ) : null;
 }
 
-export default AnswerModal;
+export default QuestionModal;

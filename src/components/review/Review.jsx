@@ -4,7 +4,21 @@ import styled from 'styled-components';
 
 import { Row, Col } from '../shared/containers';
 
+import Modal from './Modal';
+
+const { useState } = React;
+
 function Review({ entry }) {
+  const [modalPhoto, setModalPhoto] = useState(null);
+
+  const clickPhoto = (photo) => {
+    setModalPhoto(photo);
+  };
+
+  const exitModal = () => {
+    setModalPhoto(null);
+  };
+
   return (
     <StylesDiv>
       <Row>
@@ -30,21 +44,28 @@ function Review({ entry }) {
       <Row>
         <p>{entry.body}</p>
       </Row>
-      <Row>
+      <StylesRow>
         {entry.photos.map((photo) => (
-          <StylesCol key={photo.id}>
+          <StylesCol key={photo.id} onClick={() => { clickPhoto(photo); }}>
             <img src={photo.url} alt={photo.id} width="75px" height="75px" />
           </StylesCol>
         ))}
-      </Row>
+      </StylesRow>
+      { modalPhoto && <Modal photo={modalPhoto} closeModal={exitModal} /> }
     </StylesDiv>
   );
 }
 
 const StylesCol = styled(Col)`
-  flex-basis: 25%;
-  margin-right: 0;
-  padding-right: 0;
+  margin-right: 5px;
+  margin-bottom: 5px;
+  padding: 5px;
+  border: 1px solid rgb(48,48,48);
+  background: rgb(232,232,232);
+  &: hover {
+    background: rgb(224,224,224);
+    border-color: rgb(16,16,16);
+  }
 `;
 
 const StylesDiv = styled.div`
@@ -53,6 +74,10 @@ const StylesDiv = styled.div`
 
 const RightCol = styled(Col)`
   text-align: right
+`;
+
+const StylesRow = styled(Row)`
+  justify-content: flex-start;
 `;
 
 export default Review;
