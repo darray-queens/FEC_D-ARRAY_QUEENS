@@ -8,6 +8,7 @@ const StyledGrid = styled(Grid)`
   display: inline-grid;
   position: relative;
   grid-template-rows: auto auto 1fr;
+  border: 1px solid grey;
 `;
 
 const StyledRow = styled(Row)`
@@ -18,9 +19,8 @@ height: ${(props) => {
     if (props.height) {
       return `${props.height}%`;
     }
-    return 'fit-content';
+    // return 'auto'; // can also use fit-content // can also just leave empty
   }};
-  border: 1px solid blue;
 `;
 
 const StyledCol = styled(Col)`
@@ -30,7 +30,7 @@ height: ${(props) => {
     if (props.height) {
       return `${props.height}%`;
     }
-    return 'fit-content';
+    // return 'auto'; // can also use fit-content // can also just leave empty
   }};
 `;
 
