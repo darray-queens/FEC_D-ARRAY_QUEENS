@@ -74,6 +74,7 @@ function Selection({ style, sku, changeSku }) {
         {sizeOptions}
       </select>
       <select disabled={!sku} name="quantity" onChange={(e) => setCurrentQty(e.target.value)}>
+        <option style={{ display: 'none' }}>{}</option>
         {quantityOptions}
       </select>
       <button
