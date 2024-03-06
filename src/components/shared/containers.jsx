@@ -79,6 +79,8 @@ export const FloatingModule = styled.div`
   left: 35%;
   z-index: 100;
   background-color: white;
+  border: 1px solid grey;
+  opacity: 1;
   height: 20em;
   width: 35em;
 `;

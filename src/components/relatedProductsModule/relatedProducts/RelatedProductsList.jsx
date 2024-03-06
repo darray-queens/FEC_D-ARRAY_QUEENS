@@ -8,6 +8,7 @@ function RelatedProductsList({ setProductId }) {
   const [productsList, setProductsList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [comparisonHidden, setComparisonHidden] = useState(true);
+  const [comparedItems, setComparedItems] = useState([]);
 
   useEffect(() => {
     async function fetchProducts() {
@@ -18,6 +19,26 @@ function RelatedProductsList({ setProductId }) {
     }
     fetchProducts();
   }, []);
+
+  useEffect(() => {
+    if (comparedItems.length === 2) {
+      setComparisonHidden(false);
+    }
+  }, [comparedItems]);
+
+  useEffect(() => {
+    if (!comparisonHidden) {
+      const hideComparison = () => {
+        setComparisonHidden(true);
+        setComparedItems([]);
+        document.removeEventListener('click', hideComparison);
+      };
+
+      if (comparedItems.length === 2) {
+        document.addEventListener('click', hideComparison);
+      }
+    }
+  }, [comparisonHidden]);
 
   if (isLoading) {
     return (
@@ -32,11 +53,15 @@ function RelatedProductsList({ setProductId }) {
   };
 
   const actionButtonClick = (id) => {
-    console.log('related prods actionbtn click', id);
     // adds item to comparison array
     // once array is len 2, open up module
-
-
+    if (comparedItems.length < 2) {
+      for (let i = 0; i < productsList.length; i += 1) {
+        if (productsList[i].id === id) {
+          setComparedItems((prevList) => [...prevList, productsList[i]]);
+        }
+      }
+    }
   };
 
   return (
@@ -54,7 +79,7 @@ function RelatedProductsList({ setProductId }) {
           />
         ))}
       </ProductModuleRow>
-      <ComparisonModule />
+      {comparisonHidden ? <div /> : <ComparisonModule comparedItems={comparedItems} />}
     </Grid>
   );
 }
