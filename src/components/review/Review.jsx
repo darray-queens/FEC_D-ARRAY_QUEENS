@@ -58,6 +58,7 @@ function Review({ entry }) {
 
 const StylesCol = styled(Col)`
   margin-right: 5px;
+  margin-bottom: 5px;
   padding: 5px;
   border: 1px solid rgb(48,48,48);
   background: rgb(232,232,232);
