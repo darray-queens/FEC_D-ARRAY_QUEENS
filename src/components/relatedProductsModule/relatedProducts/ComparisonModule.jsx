@@ -1,4 +1,5 @@
-import React from 'react';
+import axios from 'axios';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { FloatingModule, Grid, Row, Col } from '../../shared/containers';
 
@@ -35,6 +36,30 @@ height: ${(props) => {
 `;
 
 function ComparisonModule({ comparedItems }) {
+  const [features, setFeatures] = useState([]);
+
+  const getFeatures = async (items) => {
+    const product1Response = await (axios.get(`/products/${items[0].id}`));
+    const product2Response = await (axios.get(`/products/${items[1].id}`));
+    console.log(product1Response.data.features, product2Response.data.features);
+    setFeatures([product1Response.data.features, product2Response.data.features]);
+  };
+
+  useEffect(() => {
+    if (comparedItems.length === 2) {
+      getFeatures(comparedItems);
+      // this is an async/await function.
+      // HOW WOULD I HANLDE THIS IF I RETURNED [product1Response.data.features,
+      // product2Response.data.features] in getFeatures, and then tried to setState on that result?
+    }
+  }, [comparedItems]);
+
+  // build a single list of all features (don't write duplicates twice)
+  // render list
+
+  // for every item in aggr feat list, if item 1 matches, then add check mark else, add empty space
+  // for every item in aggr feat list, if item 2 matches, then add check mark else, add empty space
+
   return (
     <FloatingModule>
       <StyledGrid>
@@ -51,13 +76,22 @@ function ComparisonModule({ comparedItems }) {
         </StyledRow>
         <StyledRow height={100}>
           <StyledCol size={1} height={100}>
-            hi
+            {features.length === 0 ? '' : features[0].map((element) => (
+              <div key={element.feature}>✓</div>
+            ))}
           </StyledCol>
-          <StyledCol size={11} height={100}>
-            hi
+          <StyledCol size={11} height={100} $textalign="center">
+            {features.length === 0 ? '' : features[0].map((element) => (
+              <div key={element.feature}>{element.value}</div>
+            ))}
+            {features.length === 0 ? '' : features[1].map((element) => (
+              <div key={element.feature}>{element.value}</div>
+            ))}
           </StyledCol>
           <StyledCol size={1} height={100}>
-            hi
+            {features.length === 0 ? '' : features[1].map((element) => (
+              <div key={element.feature}>✓</div>
+            ))}
           </StyledCol>
         </StyledRow>
       </StyledGrid>

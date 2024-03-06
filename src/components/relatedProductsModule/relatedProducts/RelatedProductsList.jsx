@@ -10,13 +10,6 @@ function RelatedProductsList({ setProductId }) {
   const [comparisonHidden, setComparisonHidden] = useState(true);
   const [comparedItems, setComparedItems] = useState([]);
 
-  const getFeatures = async (items) => {
-    const product1Response = await (axios.get(`/products/${items[0].id}`));
-    const product2Response = await (axios.get(`/products/${items[1].id}`));
-    console.log(product1Response.data.features);
-    console.log(product2Response.data.features);
-  };
-
   useEffect(() => {
     async function fetchProducts() {
       const response = await axios.get('/products')
@@ -30,7 +23,6 @@ function RelatedProductsList({ setProductId }) {
   useEffect(() => {
     if (comparedItems.length === 2) {
       setComparisonHidden(false);
-      getFeatures(comparedItems);
     }
   }, [comparedItems]);
 
