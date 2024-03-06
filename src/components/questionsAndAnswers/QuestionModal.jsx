@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import './styles.css';
 
-function QuestionModal({ isOpen, onRequestClose, productName }) {
+function QuestionModal({
+  isOpen, onRequestClose, productName, currentProduct, refreshQuestions }) {
   const [questionInput, setQuestionInput] = useState('');
   const [nicknameInput, setNicknameInput] = useState('');
   const [emailInput, setEmailInput] = useState('');
@@ -12,15 +14,23 @@ function QuestionModal({ isOpen, onRequestClose, productName }) {
     document.body.style.overflow = 'unset';
   }
 
-  const handleSubmit = (event) => {
+  const submitQuestion = async (event) => {
     event.preventDefault();
-    console.log({
-      question: questionInput,
-      nickname: nicknameInput,
+    const questionDetails = {
+      body: questionInput,
+      name: nicknameInput,
       email: emailInput,
-    });
-    // Here you would typically send the question to the server
-    onRequestClose(); // Close the modal upon submission
+      product_id: currentProduct.id,
+    };
+
+    await axios.post('/qa/questions', questionDetails)
+      .then((response) => {
+      // After successfully submitting a question, re-fetch questions
+        console.log('Question posted successfully', response.data);
+        onRequestClose(); // Close the modal upon successful submission
+        refreshQuestions();
+      })
+      .catch((err) => console.error('Error submitting question:', err));
   };
 
   return isOpen ? (
@@ -31,10 +41,36 @@ function QuestionModal({ isOpen, onRequestClose, productName }) {
           About the
           {productName}
         </h3>
-        <form onSubmit={handleSubmit} className="form-container">
-          <textarea id="question-input" aria-label="Your Question" placeholder="Your Question *" value={questionInput} onChange={(e) => setQuestionInput(e.target.value)} required maxLength="1000" />
-          <input type="text" id="nickname-input" aria-label="Your Nickname" placeholder="What is your nickname *" value={nicknameInput} onChange={(e) => setNicknameInput(e.target.value)} required maxLength="60" />
-          <input type="email" id="email-input" aria-label="Your Email" placeholder="Your email *" value={emailInput} onChange={(e) => setEmailInput(e.target.value)} required maxLength="60" />
+        <form onSubmit={submitQuestion} className="form-container">
+          <textarea
+            id="question-input"
+            aria-label="Your Question"
+            placeholder="Your Question *"
+            value={questionInput}
+            onChange={(e) => setQuestionInput(e.target.value)}
+            required
+            maxLength="1000"
+          />
+          <input
+            type="text"
+            id="nickname-input"
+            aria-label="Your Nickname"
+            placeholder="What is your nickname *"
+            value={nicknameInput}
+            onChange={(e) => setNicknameInput(e.target.value)}
+            required
+            maxLength="60"
+          />
+          <input
+            type="email"
+            id="email-input"
+            aria-label="Your Email"
+            placeholder="Your email *"
+            value={emailInput}
+            onChange={(e) => setEmailInput(e.target.value)}
+            required
+            maxLength="60"
+          />
           <button type="submit" className="btn">Submit question</button>
           <button type="button" className="btn cancel" onClick={onRequestClose}>Close</button>
         </form>
