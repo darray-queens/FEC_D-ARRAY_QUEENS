@@ -6,6 +6,8 @@ import { Row, Col } from '../shared/containers';
 
 import Modal from './Modal';
 
+import Star from './Star';
+
 const { useState } = React;
 
 function Review({ entry }) {
@@ -26,7 +28,7 @@ function Review({ entry }) {
           <p>
             {entry.rating}
             {' '}
-            ☆
+            <Star rating={.25} />
           </p>
         </Col>
         <RightCol size={2.5}>
