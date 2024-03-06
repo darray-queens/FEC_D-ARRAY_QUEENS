@@ -15,9 +15,6 @@ function Selection({ style, sku, changeSku }) {
   const skuTuples = Object.entries(style.skus);
   const [currentQty, setCurrentQty] = useState();
 
-  console.log(skuTuples);
-  console.log(style.skus);
-
   const skuSizeOptions = skuTuples.map((skuTuple) => {
     const code = skuTuple[0];
     const { size, quantity } = skuTuple[1];
@@ -40,8 +37,7 @@ function Selection({ style, sku, changeSku }) {
   if (skuSizeOptions.length === 0) {
     sizeOptions = <option style={{ display: 'none' }}>OUT OF STOCK</option>;
   }
-  console.log(sku);
-  //console.log('quant, sizes for currentSku', style.skus[sku].quantity);
+
   const quantity = sku ? style.skus[sku].quantity : 0;
   const quantityOptions = sku ? buildQuantityList(quantity) : <option>{}</option>;
 
