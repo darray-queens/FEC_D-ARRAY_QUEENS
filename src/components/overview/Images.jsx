@@ -5,22 +5,22 @@ import { Grid, Row } from '../shared/containers';
 
 const { useState } = React;
 
-function Images({ styleImages, mainImage, changeMainImage }) {
-  const [mainImageIndex, setMainImageIndex] = useState(0);
+function Images({ styleImages, mainImageIndex, changeMainImageIndex }) {
+  // const [mainImageIndex, setMainImageIndex] = useState(0);
 
-  const handleNext = () => {
+  const handleNextMain = () => {
     if (mainImageIndex >= styleImages.length - 1) {
-      setMainImageIndex(0);
+      changeMainImageIndex(0);
     } else {
-      setMainImageIndex(mainImageIndex + 1);
+      changeMainImageIndex(mainImageIndex + 1);
     }
   };
 
-  const handlePrev = () => {
+  const handlePrevMain = () => {
     if (mainImageIndex <= 0) {
-      setMainImageIndex(styleImages.length - 1);
+      changeMainImageIndex(styleImages.length - 1);
     } else {
-      setMainImageIndex(mainImageIndex - 1);
+      changeMainImageIndex(mainImageIndex - 1);
     }
   };
 
@@ -32,7 +32,7 @@ function Images({ styleImages, mainImage, changeMainImage }) {
             <button
               name="galleryThumbnail"
               type="button"
-              onClick={(e) => changeMainImage(styleImages[e.target.dataset.index].url)}
+              onClick={(e) => changeMainImageIndex(e.target.dataset.index)}
             >
               <img
                 data-index={index}
@@ -47,11 +47,17 @@ function Images({ styleImages, mainImage, changeMainImage }) {
       </MenuGrid>
       <MainImageContainer>
         {styleImages.map((image, index) => (
-          <MainImg key={image.url} data-index={index} alt="Clothing" src={image.url} $isActive={index === mainImageIndex} />
+          <MainImg
+            key={image.url}
+            data-index={index}
+            alt="Clothing"
+            src={image.url}
+            $isActive={index === mainImageIndex}
+          />
         ))}
       </MainImageContainer>
-      <Prev onClick={handlePrev}>&#10094;</Prev>
-      <Next onClick={handleNext}>&#10095;</Next>
+      <Prev onClick={handlePrevMain}>&#10094;</Prev>
+      <Next onClick={handleNextMain}>&#10095;</Next>
     </GalleryContainer>
   );
 }

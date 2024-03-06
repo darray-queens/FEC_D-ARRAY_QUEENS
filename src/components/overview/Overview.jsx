@@ -19,7 +19,7 @@ function Overview({ currentProduct }) {
   const [styles, setStyles] = useState([]);
   const [currentSku, setCurrentSku] = useState();
   const [currentStyle, setCurrentStyle] = useState({});
-  const [mainImage, setMainImage] = useState();
+  const [mainImageIndex, setMainImageIndex] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
 
   async function getStyles() {
@@ -28,7 +28,7 @@ function Overview({ currentProduct }) {
 
     setStyles(response.data.results);
     setCurrentStyle(response.data.results[0]);
-    setMainImage(response.data.results[0].photos[0].url);
+    setMainImageIndex(0);
     setCurrentSku();
     setIsLoading(false);
   }
@@ -48,8 +48,8 @@ function Overview({ currentProduct }) {
           ) : (
             <Images
               styleImages={currentStyle.photos}
-              mainImage={mainImage}
-              changeMainImage={setMainImage}
+              mainImageIndex={mainImageIndex}
+              changeMainImageIndex={setMainImageIndex}
             />
           )}
         </ImgCol>
@@ -68,7 +68,7 @@ function Overview({ currentProduct }) {
                 currentStyles={styles}
                 currentStyle={currentStyle}
                 changeStyle={setCurrentStyle}
-                changeMainImage={setMainImage}
+                changeMainImageIndex={setMainImageIndex}
               />
               <Selection
                 style={currentStyle}

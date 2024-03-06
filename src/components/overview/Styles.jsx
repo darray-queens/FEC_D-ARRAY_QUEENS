@@ -6,14 +6,14 @@ function Styles({
   currentStyles,
   currentStyle,
   changeStyle,
-  changeMainImage,
+  changeMainImageIndex,
 }) {
   const currentStyleText = `Style > ${currentStyle.name}`;
 
   const handleStyleChange = (selectedStyle) => {
     if (selectedStyle.name !== currentStyle.name) {
       changeStyle(selectedStyle);
-      changeMainImage(selectedStyle.photos[0].url);
+      changeMainImageIndex(0);
     }
   };
 
