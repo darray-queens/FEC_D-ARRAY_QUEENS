@@ -23,14 +23,9 @@ function QuestionModal({
       product_id: currentProduct.id,
     };
 
-    await axios.post('/qa/questions', questionDetails)
-      .then((response) => {
-      // After successfully submitting a question, re-fetch questions
-        console.log('Question posted successfully', response.data);
-        onRequestClose(); // Close the modal upon successful submission
-        refreshQuestions();
-      })
-      .catch((err) => console.error('Error submitting question:', err));
+    await axios.post('/qa/questions', questionDetails);
+    onRequestClose(); // Close the modal upon successful submission
+    refreshQuestions();
   };
 
   return isOpen ? (

@@ -18,15 +18,11 @@ function GetAllQuestionsAndAnswers({ currentProduct }) {
   useEffect(() => {
     const fetchQuestions = async () => {
       if (currentProduct && currentProduct.id) {
-        try {
-          const response = await axios.get(`/qa/questions?product_id=${currentProduct.id}`, {
-            params: { page: 1, count: 5 },
-          });
-          setQuestions(response.data.results
-            .sort((a, b) => b.question_helpfulness - a.question_helpfulness));
-        } catch (error) {
-          console.error('Error getting QUESTIONS', error);
-        }
+        const response = await axios.get(`/qa/questions?product_id=${currentProduct.id}`, {
+          params: { page: 1, count: 5 },
+        });
+        setQuestions(response.data.results
+          .sort((a, b) => b.question_helpfulness - a.question_helpfulness));
       }
     };
 
@@ -52,76 +48,55 @@ function GetAllQuestionsAndAnswers({ currentProduct }) {
   const refreshQuestions = () => {
     const fetchQuestions = async () => {
       if (currentProduct && currentProduct.id) {
-        try {
-          const response = await axios.get(`/qa/questions?product_id=${currentProduct.id}`, {
-            params: { page: 1, count: 5 },
-          });
-          setQuestions(response.data.results
-            .sort((a, b) => b.question_helpfulness - a.question_helpfulness));
-        } catch (error) {
-          console.error('Error getting QUESTIONS', error);
-        }
+        const response = await axios.get(`/qa/questions?product_id=${currentProduct.id}`, {
+          params: { page: 1, count: 5 },
+        });
+        setQuestions(response.data.results
+          .sort((a, b) => b.question_helpfulness - a.question_helpfulness));
       }
     };
-
     fetchQuestions();
   };
 
   const markAnswerAsHelpful = async (answerId) => {
     if (votedHelpfulness.has(answerId)) {
-      console.log("You've already marked this as helpful");
       return;
     }
-
-    try {
-      await axios.put(`/qa/answers/${answerId}/helpful`, {});
-      const newVotedHelpfulness = new Set(votedHelpfulness);
-      newVotedHelpfulness.add(answerId);
-      setVotedHelpfulness(newVotedHelpfulness);
-      localStorage.setItem('votedHelpfulness', JSON.stringify(Array.from(newVotedHelpfulness)));
-    } catch (error) {
-      console.error('Error marking answer as helpful', error);
-    }
+    await axios.put(`/qa/answers/${answerId}/helpful`, {});
+    const newVotedHelpfulness = new Set(votedHelpfulness);
+    newVotedHelpfulness.add(answerId);
+    setVotedHelpfulness(newVotedHelpfulness);
+    localStorage.setItem('votedHelpfulness', JSON.stringify(Array.from(newVotedHelpfulness)));
   };
 
   const reportAnswer = async (answerId) => {
     if (reportedAnswers.has(answerId)) {
-      console.log('This answer has already been reported');
       return;
     }
 
     const newReportedAnswers = new Set([...reportedAnswers, answerId]);
     setReportedAnswers(newReportedAnswers);
 
-    try {
-      await axios.put(`/qa/answers/${answerId}/report`, {});
-      newReportedAnswers.add(answerId);
-      localStorage.setItem('reportedAnswers', JSON.stringify([...newReportedAnswers]));
-      setReportedAnswers(new Set(newReportedAnswers));
-      refreshQuestions();
-    } catch (error) {
-      console.error('Error reporting answer', error);
-    }
+    await axios.put(`/qa/answers/${answerId}/report`, {});
+    newReportedAnswers.add(answerId);
+    localStorage.setItem('reportedAnswers', JSON.stringify([...newReportedAnswers]));
+    setReportedAnswers(new Set(newReportedAnswers));
+    refreshQuestions();
   };
 
   const reportQuestion = async (questionId) => {
     if (reportedQuestions.has(questionId)) {
-      console.log('This question has already been reported.');
       return;
     }
 
-    try {
-      await axios.put(`/qa/questions/${questionId}/report`, {}, {
-        headers: { Authorization: `Bearer ${process.env.TOKEN}` },
-      });
-      const newReportedQuestions = new Set(reportedQuestions);
-      newReportedQuestions.add(questionId);
-      setReportedQuestions(newReportedQuestions);
-      localStorage.setItem('reportedQuestions', JSON.stringify(Array.from(newReportedQuestions)));
-      refreshQuestions();
-    } catch (error) {
-      console.error('Error reporting question:', error);
-    }
+    await axios.put(`/qa/questions/${questionId}/report`, {}, {
+      headers: { Authorization: `Bearer ${process.env.TOKEN}` },
+    });
+    const newReportedQuestions = new Set(reportedQuestions);
+    newReportedQuestions.add(questionId);
+    setReportedQuestions(newReportedQuestions);
+    localStorage.setItem('reportedQuestions', JSON.stringify(Array.from(newReportedQuestions)));
+    refreshQuestions();
   };
 
   const toggleExpand = (question) => {
@@ -201,7 +176,6 @@ function GetAllQuestionsAndAnswers({ currentProduct }) {
           <button type="button" onClick={handleShowMoreQuestions}>More Questions</button>
         )}
       </div>
-      {/* <button type="button" onClick={openQuestionModal} className="open-button">Add a Question</button> */}
       <AnswerModal
         isOpen={isAnswerModalOpen}
         onRequestClose={() => setIsAnswerModalOpen(false)}
