@@ -3,7 +3,8 @@ import axios from 'axios';
 import './styles.css';
 
 function QuestionModal({
-  isOpen, onRequestClose, productName, currentProduct, refreshQuestions }) {
+  isOpen, onRequestClose, productName, currentProduct, refreshQuestions,
+}) {
   const [questionInput, setQuestionInput] = useState('');
   const [nicknameInput, setNicknameInput] = useState('');
   const [emailInput, setEmailInput] = useState('');
