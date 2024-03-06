@@ -9,7 +9,6 @@ app.use(express.static(path.join(__dirname, '../dist')));
 // other configuration...
 
 app.use('/*', (req, res, next) => {
-  console.log('req.body', req.body);
   axios({
     method: req.method,
     url: `https://app-hrsei-api.herokuapp.com/api/fec2/hr-rfp${req.baseUrl}${req.url}`,
@@ -30,6 +29,5 @@ app.use('/*', (req, res, next) => {
 });
 
 app.listen(process.env.PORT, () => {
-  console.log('Listening on port 3000');
+  console.log(`Listening on port ${process.env.PORT}`);
 });
-"{\"body\":\"123123\",\"name\":\"123123\",\"email\":\"test1@test.com\",\"photos\":\"[]\"}"
