@@ -39,6 +39,7 @@ function Selection({ style }) {
     sizeOptions = <option value="disabled selected hidden">OUT OF STOCK</option>;
   }
 
+  console.log(style.skus[currentSku]);
   const quantity = currentSku ? style.skus[currentSku].quantity : 0;
   const quantityOptions = currentSku ? buildQuantityList(quantity) : <option>{}</option>;
 
