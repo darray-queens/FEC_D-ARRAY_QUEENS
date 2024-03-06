@@ -54,8 +54,18 @@ function Images({ styleImages, mainImageIndex, changeMainImageIndex }) {
           src={styleImages[mainImageIndex].url}
         />
       </MainImageContainer>
-      <Prev onClick={handlePrevMain}>&#10094;</Prev>
-      <Next onClick={handleNextMain}>&#10095;</Next>
+      <Prev
+        style={{ display: mainImageIndex === 0 ? 'none' : 'inherit' }}
+        onClick={handlePrevMain}
+      >
+        &#10094;
+      </Prev>
+      <Next
+        style={{ display: mainImageIndex === styleImages.length - 1 ? 'none' : 'inherit' }}
+        onClick={handleNextMain}
+      >
+        &#10095;
+      </Next>
     </GalleryContainer>
   );
 }
