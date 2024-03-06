@@ -19,6 +19,13 @@ function ReviewList({ currentProduct }) {
   const [renderedReviews, setRenderedReviews] = useState(2);
 
   useEffect(() => {
+    setReviews([]);
+    setRelevantReviews([]);
+    setPageNumber(1);
+    setRenderedReviews(2);
+  }, [currentProduct]);
+
+  useEffect(() => {
     if (currentProduct && currentProduct.id) {
       const productId = currentProduct.id;
       axios.get(`/reviews?product_id=${productId}&page=${pageNumber}&sort=relevant`)
