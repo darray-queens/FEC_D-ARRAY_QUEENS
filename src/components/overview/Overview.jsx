@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import styled from 'styled-components';
 
 import Images from './Images';
 import StarRating from './StarRating';
@@ -37,11 +38,11 @@ function Overview({ currentProduct }) {
   }, [currentProduct]);
 
   return (
-    <Grid>
+    <OverviewGrid>
       <Row>
-        <Col size={3}>
+        <ImgCol size={3}>
           {isLoading ? <Loading /> : <Images styleImages={currentStyle.photos} />}
-        </Col>
+        </ImgCol>
         <Col size={1}>
           <StarRating />
           <ProductInfo product={currentProduct} style={currentStyle} />
@@ -70,8 +71,18 @@ function Overview({ currentProduct }) {
           features={currentProduct.features}
         />
       </Row>
-    </Grid>
+    </OverviewGrid>
   );
 }
+
+const OverviewGrid = styled(Grid)`
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 1100px;
+`;
+
+const ImgCol = styled(Col)`
+  margin-right: 20px;
+`;
 
 export default Overview;
