@@ -4,23 +4,27 @@ const express = require('express');
 const axios = require('axios');
 
 const app = express();
-
+app.use(express.json());
 app.use(express.static(path.join(__dirname, '../dist')));
 // other configuration...
 
 app.use('/*', (req, res, next) => {
+  console.log('req.body', req.body);
   axios({
     method: req.method,
     url: `https://app-hrsei-api.herokuapp.com/api/fec2/hr-rfp${req.baseUrl}${req.url}`,
-    headers: { Authorization: `${process.env.TOKEN}` },
+    headers: {
+      Authorization: process.env.TOKEN,
+      'Content-Type': 'application/json',
+    },
     data: req.body,
   })
     .then((response) => {
-      res.status(200).json(response.data);
+      res.status(200).send(response.data);
       next();
     })
     .catch((err) => {
-      res.status(500).json(err);
+      res.status(500).send(err);
       next();
     });
 });
@@ -28,3 +32,4 @@ app.use('/*', (req, res, next) => {
 app.listen(process.env.PORT, () => {
   console.log('Listening on port 3000');
 });
+"{\"body\":\"123123\",\"name\":\"123123\",\"email\":\"test1@test.com\",\"photos\":\"[]\"}"
