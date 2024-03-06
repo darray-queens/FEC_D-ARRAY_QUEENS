@@ -16,6 +16,7 @@ const { useState, useEffect } = React;
 
 function Overview({ currentProduct }) {
   const [styles, setStyles] = useState([]);
+  const [currentSku, setCurrentSku] = useState();
   const [currentStyle, setCurrentStyle] = useState({});
   const [isLoading, setIsLoading] = useState(true);
 
@@ -25,6 +26,7 @@ function Overview({ currentProduct }) {
 
     setStyles(response.data.results);
     setCurrentStyle(response.data.results[0]);
+    setCurrentSku();
     setIsLoading(false);
   }
 
@@ -55,8 +57,9 @@ function Overview({ currentProduct }) {
                 currentStyles={styles}
                 currentStyle={currentStyle}
                 changeStyle={setCurrentStyle}
+                resetSku={setCurrentSku}
               />
-              <Selection style={currentStyle} />
+              <Selection style={currentStyle} sku={currentSku} changeSku={setCurrentSku} />
             </>
           )}
         </Col>

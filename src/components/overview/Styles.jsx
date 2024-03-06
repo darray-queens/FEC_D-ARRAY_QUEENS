@@ -2,7 +2,11 @@ import React from 'react';
 import styled from 'styled-components';
 import { Grid, Row, Col } from '../shared/containers';
 
-function Styles({ currentStyles, currentStyle, changeStyle }) {
+function Styles({
+  currentStyles,
+  currentStyle,
+  changeStyle,
+}) {
   const currentStyleText = `Style > ${currentStyle.name}`;
 
   const handleStyleChange = (selectedStyle) => {
