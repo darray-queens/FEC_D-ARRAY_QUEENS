@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 
 const { useState } = React;
 
@@ -14,6 +15,14 @@ const buildQuantityList = (qty) => {
 function Selection({ style, sku, changeSku }) {
   const skuTuples = Object.entries(style.skus);
   const [currentQty, setCurrentQty] = useState();
+
+  const addToCart = async () => {
+    await axios.post('/cart', { sku_id: sku })
+      .then((response) => console.log(response))
+      .catch((error) => console.error(error));
+
+    changeSku();
+  };
 
   const skuSizeOptions = skuTuples.map((skuTuple) => {
     const code = skuTuple[0];
@@ -52,7 +61,7 @@ function Selection({ style, sku, changeSku }) {
       <select name="quantity" onChange={(e) => setCurrentQty(e.target.value)}>
         {quantityOptions}
       </select>
-      <button name="add" type="button">Add to Bag</button>
+      <button name="add" type="button" onClick={() => addToCart()}>Add to Bag</button>
     </div>
   );
 }
