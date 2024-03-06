@@ -6,7 +6,7 @@ import { Row, Col } from '../shared/containers';
 
 import Modal from './Modal';
 
-import Star from './Star';
+import StarRating from './StarRating';
 
 const { useState } = React;
 
@@ -25,11 +25,7 @@ function Review({ entry }) {
     <StylesDiv>
       <Row>
         <Col size={2.5}>
-          <p>
-            {entry.rating}
-            {' '}
-            <Star rating={.25} />
-          </p>
+          <StarRating rating={entry.rating} />
         </Col>
         <RightCol size={2.5}>
           <p>

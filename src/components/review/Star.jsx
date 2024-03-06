@@ -14,7 +14,7 @@ const StarFill = styled.div`
  position: absolute;
  left: 0;
  top: 0;
- width: ${(props) => (Math.round(props.fillWidth * 4) / 4)}%;
+ width: ${(props) => (Math.round(props.width * 4) / 4)}%;
  overflow: hidden;
  color: rgb(255, 136, 0);
 `;
@@ -23,7 +23,7 @@ function Star({ rating }) {
   return (
     <StarWrapper>
       <FaStar />
-      <StarFill fillWidth={rating * 100}><FaStar /></StarFill>
+      <StarFill width={rating * 100}><FaStar /></StarFill>
     </StarWrapper>
   );
 }
