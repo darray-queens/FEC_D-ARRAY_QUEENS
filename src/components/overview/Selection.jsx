@@ -1,6 +1,6 @@
 import React from 'react';
 
-const { useState, useEffect } = React;
+const { useState } = React;
 
 const buildQuantityList = (qty) => {
   const list = [];
@@ -45,10 +45,7 @@ function Selection({ style, sku, changeSku }) {
     <div>
       <select
         name="size"
-        onChange={(e) => {
-          console.log('new sku', document.getElementById(e.target.value).dataset.sku);
-          changeSku(document.getElementById(e.target.value).dataset.sku);
-        }}
+        onChange={(e) => changeSku(document.getElementById(e.target.value).dataset.sku)}
       >
         {sizeOptions}
       </select>
