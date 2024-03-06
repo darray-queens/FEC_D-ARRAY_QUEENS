@@ -56,9 +56,9 @@ function Overview({ currentProduct, scrollMethod }) {
                 currentStyle={currentStyle}
                 changeStyle={setCurrentStyle}
               />
+              <Selection style={currentStyle} />
             </>
           )}
-          <Selection />
         </Col>
       </Row>
       <Row>
