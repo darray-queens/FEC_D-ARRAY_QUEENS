@@ -3,20 +3,19 @@ import styled from 'styled-components';
 
 import { Grid, Row } from '../shared/containers';
 
-function Images({ styleImages }) {
-  console.log(styleImages);
+function Images({ styleImages, mainImage, changeMainImage }) {
   return (
     <ImgContainer>
       <GalleryGrid>
         {styleImages.map((image, index) => (
           <Row key={image.thumbnail_url}>
-            <button name="galleryThumbnail" type="button">
+            <button name="galleryThumbnail" type="button" onClick={(e) => changeMainImage(styleImages[e.target.dataset.index].url)}>
               <img data-index={index} alt="The next addition to your wardrobe" src={image.thumbnail_url} height="50px" width="50px" />
             </button>
           </Row>
         ))}
       </GalleryGrid>
-      <MainImg alt="Clothing" src={styleImages[0].url} />
+      <MainImg alt="Clothing" src={mainImage} />
     </ImgContainer>
   );
 }

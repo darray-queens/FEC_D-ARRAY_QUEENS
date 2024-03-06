@@ -19,6 +19,7 @@ function Overview({ currentProduct }) {
   const [styles, setStyles] = useState([]);
   const [currentSku, setCurrentSku] = useState();
   const [currentStyle, setCurrentStyle] = useState({});
+  const [mainImage, setMainImage] = useState();
   const [isLoading, setIsLoading] = useState(true);
 
   async function getStyles() {
@@ -27,6 +28,7 @@ function Overview({ currentProduct }) {
 
     setStyles(response.data.results);
     setCurrentStyle(response.data.results[0]);
+    setMainImage(response.data.results[0].photos[0].url);
     setCurrentSku();
     setIsLoading(false);
   }
@@ -41,7 +43,15 @@ function Overview({ currentProduct }) {
     <OverviewGrid>
       <Row>
         <ImgCol size={3}>
-          {isLoading ? <Loading /> : <Images styleImages={currentStyle.photos} />}
+          {isLoading ? (
+            <Loading />
+          ) : (
+            <Images
+              styleImages={currentStyle.photos}
+              mainImage={mainImage}
+              changeMainImage={setMainImage}
+            />
+          )}
         </ImgCol>
         <Col size={1}>
           <StarRating />
@@ -58,9 +68,13 @@ function Overview({ currentProduct }) {
                 currentStyles={styles}
                 currentStyle={currentStyle}
                 changeStyle={setCurrentStyle}
-                resetSku={setCurrentSku}
+                changeMainImage={setMainImage}
               />
-              <Selection style={currentStyle} sku={currentSku} changeSku={setCurrentSku} />
+              <Selection
+                style={currentStyle}
+                sku={currentSku}
+                changeSku={setCurrentSku}
+              />
             </>
           )}
         </Col>
