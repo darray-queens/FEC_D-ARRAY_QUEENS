@@ -11,7 +11,7 @@ const { useState, useEffect } = React;
 
 function App() {
   const [currentProduct, setCurrentProduct] = useState({});
-  const [productId, setProductId] = useState('40350');
+  const [productId, setProductId] = useState('40344');
 
   useEffect(() => {
     axios.get(`products/${productId}`)
@@ -27,7 +27,7 @@ function App() {
     <div>
       <h2>Howdy, world!!</h2>
       <Overview currentProduct={currentProduct} />
-      <RelatedProductsList setProductId={setProductId} />
+      <RelatedProductsList currentProduct={currentProduct} setProductId={setProductId} />
       <OutfitsList currentProduct={currentProduct} />
       <GetAllQuestionsAndAnswers currentProduct={currentProduct} />
       <ReviewList currentProduct={currentProduct} />
