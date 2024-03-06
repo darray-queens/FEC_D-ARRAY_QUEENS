@@ -6,13 +6,14 @@ import { Grid, Row } from '../shared/containers';
 const { useState } = React;
 
 function Images({ styleImages, mainImageIndex, changeMainImageIndex }) {
-  // const [mainImageIndex, setMainImageIndex] = useState(0);
+  console.log('images: ', styleImages);
+  console.log('index: ', mainImageIndex);
 
   const handleNextMain = () => {
     if (mainImageIndex >= styleImages.length - 1) {
       changeMainImageIndex(0);
     } else {
-      changeMainImageIndex(mainImageIndex + 1);
+      changeMainImageIndex((previousIndex) => previousIndex + 1);
     }
   };
 
@@ -20,7 +21,7 @@ function Images({ styleImages, mainImageIndex, changeMainImageIndex }) {
     if (mainImageIndex <= 0) {
       changeMainImageIndex(styleImages.length - 1);
     } else {
-      changeMainImageIndex(mainImageIndex - 1);
+      changeMainImageIndex((previousIndex) => previousIndex - 1);
     }
   };
 
@@ -32,7 +33,7 @@ function Images({ styleImages, mainImageIndex, changeMainImageIndex }) {
             <button
               name="galleryThumbnail"
               type="button"
-              onClick={(e) => changeMainImageIndex(e.target.dataset.index)}
+              onClick={(e) => changeMainImageIndex(Number(e.target.dataset.index))}
             >
               <img
                 data-index={index}
@@ -46,15 +47,12 @@ function Images({ styleImages, mainImageIndex, changeMainImageIndex }) {
         ))}
       </MenuGrid>
       <MainImageContainer>
-        {styleImages.map((image, index) => (
-          <MainImg
-            key={image.url}
-            data-index={index}
-            alt="Clothing"
-            src={image.url}
-            $isActive={index === mainImageIndex}
-          />
-        ))}
+        <MainImg
+          key={styleImages[mainImageIndex].url}
+          data-index={mainImageIndex}
+          alt="Clothing"
+          src={styleImages[mainImageIndex].url}
+        />
       </MainImageContainer>
       <Prev onClick={handlePrevMain}>&#10094;</Prev>
       <Next onClick={handleNextMain}>&#10095;</Next>
@@ -80,7 +78,7 @@ const GalleryContainer = styled.div`
 
 const MainImg = styled.img`
   position: absolute;
-  display: ${(props) => (props.$isActive ? 'flex' : 'none')};
+  display: 'flex';
   height: 100%;
   max-width: 100%;
   object-fit: scale-down;
