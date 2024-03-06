@@ -1,40 +1,66 @@
 import React from 'react';
 import styled from 'styled-components';
-import { FloatingModule, Row, Col } from '../../shared/containers';
+import { FloatingModule, Grid, Row, Col } from '../../shared/containers';
+
+const StyledGrid = styled(Grid)`
+  width: 100%;
+  height: 100%;
+  display: inline-grid;
+  position: relative;
+  grid-template-rows: auto auto 1fr;
+`;
 
 const StyledRow = styled(Row)`
 flex-direction: row;
 flex-wrap: nowrap;
 width: 100%;
-height: ${(props) => `${props.height}%`};
+height: ${(props) => {
+    if (props.height) {
+      return `${props.height}%`;
+    }
+    return 'fit-content';
+  }};
+  border: 1px solid blue;
 `;
 
 const StyledCol = styled(Col)`
-width: 50%;
-overflow-wrap: break-word;
 text-align: ${(props) => props.$textalign || 'left'};
+border: 1px solid red;
+height: ${(props) => {
+    if (props.height) {
+      return `${props.height}%`;
+    }
+    return 'fit-content';
+  }};
 `;
 
 function ComparisonModule({ comparedItems }) {
   return (
     <FloatingModule>
-      <StyledRow height={15}>
-        <h4>Comparing</h4>
-      </StyledRow>
-      <StyledRow height={85}>
-        <StyledCol size={1}>
-          <div>
-            <b>{comparedItems[0].name}</b>
-          </div>
-          {JSON.stringify(comparedItems[0])}
-        </StyledCol>
-        <StyledCol size={1} $textalign="right">
-          <div>
-            <b>{comparedItems[1].name}</b>
-          </div>
-          {JSON.stringify(comparedItems[1])}
-        </StyledCol>
-      </StyledRow>
+      <StyledGrid>
+        <StyledRow>
+          <h4>Comparing</h4>
+        </StyledRow>
+        <StyledRow>
+          <StyledCol size={1}>
+            <h4>{comparedItems[0].name}</h4>
+          </StyledCol>
+          <StyledCol size={1} $textalign="right">
+            <h4>{comparedItems[1].name}</h4>
+          </StyledCol>
+        </StyledRow>
+        <StyledRow height={100}>
+          <StyledCol size={1} height={100}>
+            hi
+          </StyledCol>
+          <StyledCol size={11} height={100}>
+            hi
+          </StyledCol>
+          <StyledCol size={1} height={100}>
+            hi
+          </StyledCol>
+        </StyledRow>
+      </StyledGrid>
     </FloatingModule>
   );
 }
