@@ -14,7 +14,7 @@ import { Grid, Row, Col } from '../shared/containers';
 
 const { useState, useEffect } = React;
 
-function Overview({ currentProduct, scrollMethod }) {
+function Overview({ currentProduct }) {
   const [styles, setStyles] = useState([]);
   const [currentStyle, setCurrentStyle] = useState({});
   const [isLoading, setIsLoading] = useState(true);
@@ -41,7 +41,7 @@ function Overview({ currentProduct, scrollMethod }) {
           {isLoading ? <Loading /> : <Images styleImages={currentStyle.photos} />}
         </Col>
         <Col size={1}>
-          <StarRating scrollMethod={scrollMethod} />
+          <StarRating />
           <ProductInfo product={currentProduct} style={currentStyle} />
           {isLoading ? (
             <Loading />
