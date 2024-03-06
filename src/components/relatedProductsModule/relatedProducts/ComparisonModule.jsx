@@ -1,14 +1,19 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { FloatingModule, Grid, Row, Col } from '../../shared/containers';
+import {
+  FloatingModule,
+  Grid,
+  Row,
+  Col,
+} from '../../shared/containers';
 
 const StyledGrid = styled(Grid)`
   width: 100%;
   height: 100%;
   display: inline-grid;
   position: relative;
-  grid-template-rows: auto auto 1fr;
+  grid-template-rows: auto auto auto 1fr;
   border: 1px solid grey;
 `;
 
@@ -28,7 +33,6 @@ height: ${(props) => {
 const StyledCol = styled(Col)`
 text-align: ${(props) => props.$textalign || 'left'};
 padding: 0px 15px;
-border: 1px solid red;
 height: ${(props) => {
     if (props.height) {
       return `${props.height}%`;
@@ -40,13 +44,28 @@ height: ${(props) => {
 `;
 
 function ComparisonModule({ comparedItems }) {
-  const [features, setFeatures] = useState([]);
+  const [comparedFeatures, setComparedFeatures] = useState([]);
+  const [productFeatures, setProductFeatures] = useState([]);
 
   const getFeatures = async (items) => {
     const product1Response = await (axios.get(`/products/${items[0].id}`));
     const product2Response = await (axios.get(`/products/${items[1].id}`));
-    console.log(product1Response.data.features, product2Response.data.features);
-    setFeatures([product1Response.data.features, product2Response.data.features]);
+    const allFeatures = [];
+    product1Response.data.features.forEach((element) => {
+      if (element.value !== null) {
+        allFeatures.push(element);
+      }
+    });
+    product2Response.data.features.forEach((element) => {
+      if (element.value !== null) {
+        if (!allFeatures.includes(element)) {
+          allFeatures.push(element);
+        }
+      }
+    });
+    setComparedFeatures(allFeatures);
+    setProductFeatures([product1Response.data.features.filter((element) => element.value !== null),
+      product2Response.data.features.filter((element) => element.value !== null)]);
   };
 
   useEffect(() => {
@@ -58,46 +77,48 @@ function ComparisonModule({ comparedItems }) {
     }
   }, [comparedItems]);
 
-  // build a single list of all features (don't write duplicates twice)
-  // render list
-
-  // for every item in aggr feat list, if item 1 matches, then add check mark else, add empty space
-  // for every item in aggr feat list, if item 2 matches, then add check mark else, add empty space
-
   return (
     <FloatingModule>
       <StyledGrid>
         <StyledRow>
+          <div>&nbsp;</div>
+        </StyledRow>
+        <StyledRow>
           <StyledCol>
-            <h4>Comparing</h4>
+            <div>
+              <b>Comparing</b>
+            </div>
           </StyledCol>
         </StyledRow>
         <StyledRow>
           <StyledCol size={1}>
-            <h4>{comparedItems[0].name}</h4>
+            <p><b>{comparedItems[0].name}</b></p>
           </StyledCol>
           <StyledCol size={1} $textalign="right">
-            <h4>{comparedItems[1].name}</h4>
+            <p><b>{comparedItems[1].name}</b></p>
           </StyledCol>
         </StyledRow>
         <StyledRow height={100}>
           <StyledCol size={1} height={100} $textalign="right">
-            {features.length === 0 ? '' : features[0].map((element) => (
-              <div key={element.feature}>✓</div>
-            ))}
+            {productFeatures.length === 0 ? '' : comparedFeatures.map((element) => {
+              if (productFeatures[0].map((e) => e.value).includes(element.value)) {
+                return <div key={element.feature}>✓</div>;
+              }
+              return <div key={element.feature} color="white">&nbsp;</div>;
+            })}
           </StyledCol>
           <StyledCol size={11} height={100} $textalign="center">
-            {features.length === 0 ? '' : features[0].map((element) => (
-              <div key={element.feature}>{element.value}</div>
-            ))}
-            {features.length === 0 ? '' : features[1].map((element) => (
+            {comparedFeatures.length === 0 ? '' : comparedFeatures.map((element) => (
               <div key={element.feature}>{element.value}</div>
             ))}
           </StyledCol>
           <StyledCol size={1} height={100}>
-            {features.length === 0 ? '' : features[1].map((element) => (
-              <div key={element.feature}>✓</div>
-            ))}
+            {productFeatures.length === 0 ? '' : comparedFeatures.map((element) => {
+              if (productFeatures[1].map((e) => e.value).includes(element.value)) {
+                return <div key={element.feature}>✓</div>;
+              }
+              return <div key={element.feature} color="white">&nbsp;</div>;
+            })}
           </StyledCol>
         </StyledRow>
       </StyledGrid>
