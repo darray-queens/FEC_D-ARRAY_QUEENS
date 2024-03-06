@@ -20,19 +20,23 @@ height: ${(props) => {
     if (props.height) {
       return `${props.height}%`;
     }
+    return 'auto';
     // return 'auto'; // can also use fit-content // can also just leave empty
   }};
 `;
 
 const StyledCol = styled(Col)`
 text-align: ${(props) => props.$textalign || 'left'};
+padding: 0px 15px;
 border: 1px solid red;
 height: ${(props) => {
     if (props.height) {
       return `${props.height}%`;
     }
+    return 'fit-content';
     // return 'auto'; // can also use fit-content // can also just leave empty
   }};
+  width: 100%;
 `;
 
 function ComparisonModule({ comparedItems }) {
@@ -64,7 +68,9 @@ function ComparisonModule({ comparedItems }) {
     <FloatingModule>
       <StyledGrid>
         <StyledRow>
-          <h4>Comparing</h4>
+          <StyledCol>
+            <h4>Comparing</h4>
+          </StyledCol>
         </StyledRow>
         <StyledRow>
           <StyledCol size={1}>
@@ -75,7 +81,7 @@ function ComparisonModule({ comparedItems }) {
           </StyledCol>
         </StyledRow>
         <StyledRow height={100}>
-          <StyledCol size={1} height={100}>
+          <StyledCol size={1} height={100} $textalign="right">
             {features.length === 0 ? '' : features[0].map((element) => (
               <div key={element.feature}>✓</div>
             ))}
