@@ -47,11 +47,11 @@ function Images({ styleImages, mainImage, changeMainImage }) {
       </MenuGrid>
       <MainImageContainer>
         {styleImages.map((image, index) => (
-          <MainImg data-index={index} alt="Clothing" src={image.url} isActive={index === mainImageIndex} />
+          <MainImg key={image.url} data-index={index} alt="Clothing" src={image.url} $isActive={index === mainImageIndex} />
         ))}
-        <Prev onClick={handlePrev}>&#10094;</Prev>
-        <Next onClick={handleNext}>&#10095;</Next>
       </MainImageContainer>
+      <Prev onClick={handlePrev}>&#10094;</Prev>
+      <Next onClick={handleNext}>&#10095;</Next>
     </GalleryContainer>
   );
 }
@@ -60,6 +60,9 @@ const MainImageContainer = styled.div`
   display: flex;
   flex-wrap: nowrap;
   overflow: hidden;
+  height: 100%;
+  width: 100%;
+  justify-content: center;
 `;
 
 const GalleryContainer = styled.div`
@@ -71,10 +74,10 @@ const GalleryContainer = styled.div`
 
 const MainImg = styled.img`
   position: absolute;
-  display: ${(props) => (props.isActive ? 'flex' : 'none')};
+  display: ${(props) => (props.$isActive ? 'flex' : 'none')};
   height: 100%;
-  min-width: 100%;
-  object-fit: contain;
+  max-width: 100%;
+  object-fit: scale-down;
   transition: 1s cubic-bezier(0.39, 0.575, 0.565, 1);
 `;
 
@@ -93,12 +96,14 @@ const Prev = styled.a`
   color: white;
   font-weight: bold;
   font-size: 18px;
+  left: 70px;
   transition: 0.6s ease;
-  border-radius: 0 3px 3px 0;
+  border-radius: 3px;
   user-select: none;
   &:hover {
     background-color: rgba(0, 0, 0, 0.8);
   }
+  z-index: 2;
 `;
 
 const Next = styled.a`
@@ -113,8 +118,8 @@ const Next = styled.a`
   font-size: 18px;
   transition: 0.6s ease;
   user-select: none;
-  right: 0;
-  border-radius: 3px 0 0 3px;
+  right: 70px;
+  border-radius: 3px;
   &:hover {
     background-color: rgba(0, 0, 0, 0.8);
   }
