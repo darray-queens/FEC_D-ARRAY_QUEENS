@@ -6,9 +6,6 @@ import { Grid, Row } from '../shared/containers';
 const { useState } = React;
 
 function Images({ styleImages, mainImageIndex, changeMainImageIndex }) {
-  console.log('images: ', styleImages);
-  console.log('index: ', mainImageIndex);
-
   const handleNextMain = () => {
     if (mainImageIndex >= styleImages.length - 1) {
       changeMainImageIndex(0);
