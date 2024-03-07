@@ -94,11 +94,13 @@ function Images({ styleImages, mainImageIndex, changeMainImageIndex }) {
       </MenuCol>
       <MainImageContainer id="image-container">
         <MainImg
+          id="main-image"
           key={styleImages[mainImageIndex].url}
           data-index={mainImageIndex}
           alt="Clothing"
           src={styleImages[mainImageIndex].url}
           onClick={handleExpansion}
+          $expanded={isExpanded}
         />
       </MainImageContainer>
       <PrevMain
@@ -136,7 +138,7 @@ const GalleryContainer = styled.div`
 `;
 
 const MainImg = styled.img`
-  cursor: pointer;
+  cursor: ${(props) => (props.$expanded === true ? 'zoom-in' : 'pointer')};
   position: absolute;
   display: 'flex';
   height: 100%;
