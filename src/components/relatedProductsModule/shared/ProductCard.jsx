@@ -6,6 +6,7 @@ import {
   ActionButton,
   StyledImage,
 } from '../../shared/containers';
+import AverageStars from '../../shared/AverageStars';
 
 function ProductCard(
   {
@@ -49,7 +50,7 @@ function ProductCard(
         {product.default_price}
       </div>
       <div>
-        ☆☆☆☆☆
+        <AverageStars currentProduct={product} />
       </div>
     </Card>
   );

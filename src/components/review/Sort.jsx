@@ -25,21 +25,27 @@ function Sort({ reviews, setReviews, relevantReviews }) {
   };
 
   return (
-    <label htmlFor="selectedSort">
-      <b>
-        {reviews.length}
-        {' '}
-        reviews, sorted by
-        {' '}
-        <SortSelector id="selectedSort" name="slectedSort" onChange={handleSortChange}>
-          <option value="relevance">relevance</option>
-          <option value="helpfulness">helpfulness</option>
-          <option value="newest">newest</option>
-        </SortSelector>
-      </b>
-    </label>
+    <StylesDiv>
+      <label htmlFor="selectedSort">
+        <b>
+          {reviews.length}
+          {' '}
+          reviews, sorted by
+          {' '}
+          <SortSelector id="selectedSort" name="slectedSort" onChange={handleSortChange}>
+            <option value="relevance">relevance</option>
+            <option value="helpfulness">helpfulness</option>
+            <option value="newest">newest</option>
+          </SortSelector>
+        </b>
+      </label>
+    </StylesDiv>
   );
 }
+
+const StylesDiv = styled.div`
+margin-bottom: 35px
+`;
 
 const SortSelector = styled.select`
   border: none;

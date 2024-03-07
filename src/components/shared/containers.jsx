@@ -22,7 +22,13 @@ export const Row = styled.div`
 export const ProductModuleRow = styled.div`
   display: flex;
   flex-flow: row;
-  overflow: hidden;
+  width: ${(props) => {
+    if (props.width !== undefined) {
+      return `${props.width}vw`;
+    }
+    return 'auto';
+  }};
+  overflow-x: hidden;
 `;
 
 // if a Col has a collapse attribute equal to "xs" (as a string),
@@ -83,4 +89,7 @@ export const FloatingModule = styled.div`
   opacity: 1;
   height: 20em;
   width: 35em;
+`;
+
+export const Button = styled.button`
 `;

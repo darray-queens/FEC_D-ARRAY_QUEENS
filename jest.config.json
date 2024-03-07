@@ -1,3 +1,8 @@
 {
-  "testRegex": "((\\.|/*.)(spec))\\.js?$"
+  "testRegex": "((\\.|/*.)(spec))\\.js?$",
+  "transformIgnorePatterns": [
+    "/node_modules/",
+    "\\.pnp\\.[^\\/]+$",
+    "\\.css$"
+  ]
 }
