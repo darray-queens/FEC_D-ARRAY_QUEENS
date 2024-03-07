@@ -12,7 +12,9 @@ import { Row, Col } from '../shared/containers';
 
 const { useState, useEffect } = React;
 
-function Breakdown({ currentProduct, setReviews, reviews }) {
+function Breakdown({
+  currentProduct, setReviews, reviews, setFilteredReviews, filteredReviews,
+}) {
   const [average, setAverage] = useState(0);
   const [recommendPercent, setRecommendPercent] = useState(0);
   const [fiveStarRate, setFiveStarRate] = useState(0);
@@ -20,7 +22,6 @@ function Breakdown({ currentProduct, setReviews, reviews }) {
   const [threeStarRate, setThreeStarRate] = useState(0);
   const [twoStarRate, setTwoStarRate] = useState(0);
   const [oneStarRate, setOneStarRate] = useState(0);
-  const [filteredReviews, setFilteredReviews] = useState([]);
 
   // useEffect(() => {
   //   setReviews(reviews);
@@ -98,7 +99,6 @@ function Breakdown({ currentProduct, setReviews, reviews }) {
     setFilteredReviews(filtered);
     console.log(value);
     console.log(filteredReviews);
-    setReviews(filtered);
   };
 
   return (

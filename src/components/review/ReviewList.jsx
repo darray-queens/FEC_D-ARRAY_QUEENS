@@ -21,6 +21,7 @@ function ReviewList({ currentProduct }) {
   const [pageNumber, setPageNumber] = useState(1);
   const [relevantReviews, setRelevantReviews] = useState([]);
   const [renderedReviews, setRenderedReviews] = useState(2);
+  const [filteredReviews, setFilteredReviews] = useState([]);
 
   useEffect(() => {
     setReviews([]);
@@ -59,14 +60,31 @@ function ReviewList({ currentProduct }) {
       <h2>Ratings & Reviews</h2>
       <Row>
         <Col size={1.5}>
-          <Breakdown currentProduct={currentProduct} setReviews={setReviews} reviews={reviews} />
+          <Breakdown
+            currentProduct={currentProduct}
+            reviews={reviews}
+            setFilteredReviews={setFilteredReviews}
+            filteredReviews={filteredReviews}
+          />
         </Col>
         <Col size={3.5}>
-          <Sort reviews={reviews} setReviews={setReviews} relevantReviews={relevantReviews} />
+          <Sort
+            reviews={filteredReviews.length >= 1
+              ? filteredReviews
+              : reviews}
+            setReviews={filteredReviews.length >= 1
+              ? setFilteredReviews
+              : setReviews}
+            relevantReviews={relevantReviews}
+          />
           <StylesDiv>
-            {reviews.slice(0, renderedReviews).map((review) => (
-              <Review key={review.review_id} entry={review} />
-            ))}
+            {filteredReviews.length >= 1
+              ? filteredReviews.slice(0, renderedReviews).map((review) => (
+                <Review key={review.review_id} entry={review} />
+              ))
+              : reviews.slice(0, renderedReviews).map((review) => (
+                <Review key={review.review_id} entry={review} />
+              ))}
           </StylesDiv>
           {renderedReviews < reviews.length && (
           <StylesButton
