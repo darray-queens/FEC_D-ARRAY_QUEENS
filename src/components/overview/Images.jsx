@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { Grid, Row } from '../shared/containers';
+import { Grid, Row, Col } from '../shared/containers';
 
 const { useState } = React;
 
@@ -24,7 +24,7 @@ function Images({ styleImages, mainImageIndex, changeMainImageIndex }) {
 
   return (
     <GalleryContainer>
-      <MenuGrid>
+      <MenuCol>
         {styleImages.map((image, index) => (
           <Row key={image.thumbnail_url}>
             <button
@@ -42,7 +42,7 @@ function Images({ styleImages, mainImageIndex, changeMainImageIndex }) {
             </button>
           </Row>
         ))}
-      </MenuGrid>
+      </MenuCol>
       <MainImageContainer>
         <MainImg
           key={styleImages[mainImageIndex].url}
@@ -92,9 +92,13 @@ const MainImg = styled.img`
   transition: 1s cubic-bezier(0.39, 0.575, 0.565, 1);
 `;
 
-const MenuGrid = styled(Grid)`
+const MenuCol = styled(Row)`
   position: absolute;
   z-index: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  justify-content: left;
 `;
 
 const Prev = styled.a`
