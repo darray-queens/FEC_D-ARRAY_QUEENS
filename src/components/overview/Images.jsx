@@ -44,7 +44,6 @@ function Images({ styleImages, mainImageIndex, changeMainImageIndex }) {
 
   const handleExpansion = () => {
     if (isExpanded) {
-      console.log(document.getElementById('info-col').style.display);
       document.getElementById('info-col').style.display = 'none';
       setIsExpanded(false);
     } else {
