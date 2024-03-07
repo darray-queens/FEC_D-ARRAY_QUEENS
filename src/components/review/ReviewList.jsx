@@ -54,27 +54,27 @@ function ReviewList({ currentProduct }) {
 
   return (
     <div id="reviews">
-      <Row>
-      <Col size={2}>
       <h2>Ratings & Reviews</h2>
-      <AverageStars currentProduct={currentProduct} />
-      </Col>
-      <Col size={3}>
-      <Sort reviews={reviews} setReviews={setReviews} relevantReviews={relevantReviews} />
-      <StylesDiv>
-        {reviews.slice(0, renderedReviews).map((review) => (
-          <Review key={review.review_id} entry={review} />
-        ))}
-      </StylesDiv>
-      {renderedReviews < reviews.length && (
-      <StylesButton
-        type="button"
-        onClick={moreReviews}
-      >
-        More Reviews
-      </StylesButton>
-      )}
-      </Col>
+      <Row>
+        <Col size={2}>
+          <AverageStars currentProduct={currentProduct} />
+        </Col>
+        <Col size={3}>
+          <Sort reviews={reviews} setReviews={setReviews} relevantReviews={relevantReviews} />
+          <StylesDiv>
+            {reviews.slice(0, renderedReviews).map((review) => (
+              <Review key={review.review_id} entry={review} />
+            ))}
+          </StylesDiv>
+          {renderedReviews < reviews.length && (
+          <StylesButton
+            type="button"
+            onClick={moreReviews}
+          >
+            More Reviews
+          </StylesButton>
+          )}
+        </Col>
       </Row>
     </div>
   );
