@@ -24,7 +24,7 @@ const BarFill = styled.div`
  height: 100%;
  width: ${(props) => (Math.round(props.width * 4) / 4)}%;
  overflow: hidden;
- background-color: rgb(255, 136, 0);
+ background-color: #00693E;
 `;
 
 export default Bar;

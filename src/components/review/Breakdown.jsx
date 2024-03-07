@@ -15,6 +15,7 @@ const { useState, useEffect } = React;
 function Breakdown({ currentProduct }) {
   const [average, setAverage] = useState(0);
   const [recommendPercent, setRecommendPercent] = useState(0);
+  const [averageRecs, setAverageRecs] = useState(0);
 
   useEffect(() => {
     let total = 0;
@@ -47,6 +48,7 @@ function Breakdown({ currentProduct }) {
             }
 
             if (totalRec !== 0) {
+              setAverageRecs(Math.round((Rec / totalRec)));
               setRecommendPercent(Math.round((Rec / totalRec) * 100));
             }
           }
@@ -56,6 +58,7 @@ function Breakdown({ currentProduct }) {
         });
     }
   }, [currentProduct]);
+
   return (
     <div>
       <Container>
@@ -71,7 +74,7 @@ function Breakdown({ currentProduct }) {
         {recommendPercent}
         % of reviews recommend this product
       </StylesRow>
-      <Bar percent={0.50} />
+      <Bar percent={recommendPercent / 100} />
     </div>
   );
 }
@@ -79,6 +82,7 @@ function Breakdown({ currentProduct }) {
 const Container = styled.div`
   display: flex;
   align-items: flex-start;
+  min-width: 250px;
 `;
 
 const StylesB = styled.b`
