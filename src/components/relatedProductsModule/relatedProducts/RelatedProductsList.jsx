@@ -1,8 +1,24 @@
 import axios from 'axios';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import styled from 'styled-components';
 import ProductCard from '../shared/ProductCard';
 import ComparisonModule from './ComparisonModule';
-import { Grid, ProductModuleRow } from '../../shared/containers';
+import {
+  Grid,
+  ProductModuleRow,
+  Button,
+  Col,
+} from '../../shared/containers';
+
+const StyledButton = styled(Button)`
+  background: linear-gradient(to right, white 50%, rgba(240, 240, 240, 0) 100%);
+  border: none;
+  color: black;
+  padding: 10px 20px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+`;
 
 function RelatedProductsList({ currentProduct, setProductId }) {
   const [productsList, setProductsList] = useState([]);
@@ -10,8 +26,10 @@ function RelatedProductsList({ currentProduct, setProductId }) {
   const [comparisonHidden, setComparisonHidden] = useState(true);
   const [comparedItems, setComparedItems] = useState([]);
 
+  const productModuleRef = useRef(null);
+
   async function fetchProducts() {
-    const response = await axios.get('/products/?count=50')
+    const response = await axios.get('/products/?count=150')
       .catch((err) => {
         console.error(err);
       });
@@ -75,20 +93,38 @@ function RelatedProductsList({ currentProduct, setProductId }) {
     }
   };
 
+  const scrollButtonClick = (direction) => {
+    if (direction === 'left') {
+      productModuleRef.current.scrollLeft -= 310;
+    } else {
+      productModuleRef.current.scrollLeft += 310;
+    }
+  };
+
   return (
     <Grid>
       <h2>Related Products</h2>
       <ProductModuleRow>
-        {productsList.map((element) => (
-          <ProductCard
-            key={element.id}
-            product={element}
-            setProductId={setProductId}
-            actionButtonClick={actionButtonClick}
-            imageClick={imageClick}
-            textValue="★"
-          />
-        ))}
+        <Col size={1}>
+          <StyledButton type="button" onClick={() => scrollButtonClick('left')}>&lt;</StyledButton>
+        </Col>
+        <Col size={20}>
+          <ProductModuleRow ref={productModuleRef} width={90}>
+            {productsList.map((element) => (
+              <ProductCard
+                key={element.id}
+                product={element}
+                setProductId={setProductId}
+                actionButtonClick={actionButtonClick}
+                imageClick={imageClick}
+                textValue="★"
+              />
+            ))}
+          </ProductModuleRow>
+        </Col>
+        <Col size={1}>
+          <StyledButton type="button" onClick={() => scrollButtonClick('right')}>&gt;</StyledButton>
+        </Col>
       </ProductModuleRow>
       {comparisonHidden ? <div /> : <ComparisonModule comparedItems={comparedItems} />}
     </Grid>
