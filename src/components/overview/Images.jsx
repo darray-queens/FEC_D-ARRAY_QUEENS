@@ -159,9 +159,13 @@ const MainImg = styled.img`
   }};
   position: absolute;
   display: 'flex';
-  height: ${(props) => (props.$zoomed ? '250%' : '100%')};
-  max-width: ${(props) => (props.$zoomed ? '250%' : '100%')};
-  object-fit: ${(props) => (props.$zoomed ? 'cover' : 'scale-down')};
+  ${(props) => (props.$zoomed
+    ? `height: 250%;
+      max-width: 250%;
+      object-fit: cover;`
+    : `height: 100%;
+      max-width: 100%;
+      object-fit: scale-down;`)}
 `;
 
 const MenuCol = styled(Row)`
