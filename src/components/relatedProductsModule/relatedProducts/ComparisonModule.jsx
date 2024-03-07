@@ -63,7 +63,7 @@ function ComparisonModule({ comparedItems }) {
     });
     setComparedFeatures(allFeatures);
     setProductFeatures([product1Response.data.features.filter((element) => element.value !== null),
-      product2Response.data.features.filter((element) => element.value !== null)]);
+    product2Response.data.features.filter((element) => element.value !== null)]);
   };
 
   useEffect(() => {
@@ -95,24 +95,27 @@ function ComparisonModule({ comparedItems }) {
         </StyledRow>
         <StyledRow height={100}>
           <StyledCol size={1} height={100} $textalign="right">
-            {productFeatures.length === 0 ? '' : comparedFeatures.map((element) => {
+            {productFeatures.length === 0 ? '' : comparedFeatures.map((element, index) => {
+              const k = index;
               if (productFeatures[0].map((e) => e.value).includes(element.value)) {
-                return <div key={element.feature}>✓</div>;
+                return <div key={k}>✓</div>;
               }
-              return <div key={element.feature} color="white">&nbsp;</div>;
+              return <div key={k} color="white">&nbsp;</div>;
             })}
           </StyledCol>
           <StyledCol size={11} height={100} $textalign="center">
-            {comparedFeatures.length === 0 ? '' : comparedFeatures.map((element) => (
-              <div key={element.feature}>{element.value}</div>
-            ))}
+            {comparedFeatures.length === 0 ? '' : comparedFeatures.map((element, index) => {
+              const k = index;
+              return <div key={k}>{element.value}</div>;
+            })}
           </StyledCol>
           <StyledCol size={1} height={100}>
-            {productFeatures.length === 0 ? '' : comparedFeatures.map((element) => {
+            {productFeatures.length === 0 ? '' : comparedFeatures.map((element, index) => {
+              const k = index + 1;
               if (productFeatures[1].map((e) => e.value).includes(element.value)) {
-                return <div key={element.feature}>✓</div>;
+                return <div key={k}>✓</div>;
               }
-              return <div key={element.feature} color="white">&nbsp;</div>;
+              return <div key={k} color="white">&nbsp;</div>;
             })}
           </StyledCol>
         </StyledRow>

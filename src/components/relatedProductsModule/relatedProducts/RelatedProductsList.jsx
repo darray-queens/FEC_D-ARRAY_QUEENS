@@ -4,21 +4,32 @@ import ProductCard from '../shared/ProductCard';
 import ComparisonModule from './ComparisonModule';
 import { Grid, ProductModuleRow } from '../../shared/containers';
 
-function RelatedProductsList({ setProductId }) {
+function RelatedProductsList({ currentProduct, setProductId }) {
   const [productsList, setProductsList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [comparisonHidden, setComparisonHidden] = useState(true);
   const [comparedItems, setComparedItems] = useState([]);
 
+  async function fetchProducts() {
+    const response = await axios.get('/products/?count=50')
+      .catch((err) => {
+        console.error(err);
+      });
+    setIsLoading(false);
+    setProductsList(
+      response.data.filter(
+        (element) => element.category.toLowerCase().includes(currentProduct.category.toLowerCase())
+          // eslint-disable-next-line comma-dangle
+          || currentProduct.category.toLowerCase().includes(element.category.toLowerCase())
+      ).filter((element) => element.id !== currentProduct.id),
+    );
+  }
+
   useEffect(() => {
-    async function fetchProducts() {
-      const response = await axios.get('/products')
-        .catch((err) => console.error(err));
-      setIsLoading(false);
-      setProductsList(response.data);
+    if (Object.keys(currentProduct).length !== 0) {
+      fetchProducts();
     }
-    fetchProducts();
-  }, []);
+  }, [currentProduct]);
 
   useEffect(() => {
     if (comparedItems.length === 2) {
