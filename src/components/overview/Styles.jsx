@@ -2,12 +2,18 @@ import React from 'react';
 import styled from 'styled-components';
 import { Grid, Row, Col } from '../shared/containers';
 
-function Styles({ currentStyles, currentStyle, changeStyle }) {
+function Styles({
+  currentStyles,
+  currentStyle,
+  changeStyle,
+  changeMainImage,
+}) {
   const currentStyleText = `Style > ${currentStyle.name}`;
 
   const handleStyleChange = (selectedStyle) => {
     if (selectedStyle.name !== currentStyle.name) {
       changeStyle(selectedStyle);
+      changeMainImage(selectedStyle.photos[0].url);
     }
   };
 

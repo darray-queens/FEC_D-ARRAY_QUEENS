@@ -4,21 +4,32 @@ import ProductCard from '../shared/ProductCard';
 import ComparisonModule from './ComparisonModule';
 import { Grid, ProductModuleRow } from '../../shared/containers';
 
-function RelatedProductsList({ setProductId }) {
+function RelatedProductsList({ currentProduct, setProductId }) {
   const [productsList, setProductsList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [comparisonHidden, setComparisonHidden] = useState(true);
   const [comparedItems, setComparedItems] = useState([]);
 
+  async function fetchProducts() {
+    const response = await axios.get('/products/?count=50')
+      .catch((err) => {
+        console.error(err);
+      });
+    setIsLoading(false);
+    setProductsList(
+      response.data.filter(
+        (element) => element.category.toLowerCase().includes(currentProduct.category.toLowerCase())
+          // eslint-disable-next-line comma-dangle
+          || currentProduct.category.toLowerCase().includes(element.category.toLowerCase())
+      ).filter((element) => element.id !== currentProduct.id),
+    );
+  }
+
   useEffect(() => {
-    async function fetchProducts() {
-      const response = await axios.get('/products')
-        .catch((err) => console.error(err));
-      setIsLoading(false);
-      setProductsList(response.data);
+    if (Object.keys(currentProduct).length !== 0) {
+      fetchProducts();
     }
-    fetchProducts();
-  }, []);
+  }, [currentProduct]);
 
   useEffect(() => {
     if (comparedItems.length === 2) {
@@ -53,12 +64,12 @@ function RelatedProductsList({ setProductId }) {
   };
 
   const actionButtonClick = (id) => {
-    // adds item to comparison array
-    // once array is len 2, open up module
     if (comparedItems.length < 2) {
-      for (let i = 0; i < productsList.length; i += 1) {
-        if (productsList[i].id === id) {
-          setComparedItems((prevList) => [...prevList, productsList[i]]);
+      if (comparedItems.length === 0 || comparedItems[0].id !== id) {
+        for (let i = 0; i < productsList.length; i += 1) {
+          if (productsList[i].id === id) {
+            setComparedItems((prevList) => [...prevList, productsList[i]]);
+          }
         }
       }
     }
@@ -66,7 +77,7 @@ function RelatedProductsList({ setProductId }) {
 
   return (
     <Grid>
-      <h2>Products List</h2>
+      <h2>Related Products</h2>
       <ProductModuleRow>
         {productsList.map((element) => (
           <ProductCard
