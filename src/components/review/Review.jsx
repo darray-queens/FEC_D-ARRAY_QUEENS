@@ -23,7 +23,7 @@ function Review({ entry }) {
 
   return (
     <StylesDiv>
-      <Row>
+      <RatingRow>
         <Col size={2.5}>
           <StarRating rating={entry.rating} />
         </Col>
@@ -35,7 +35,7 @@ function Review({ entry }) {
             {new Date(entry.date).toLocaleDateString()}
           </p>
         </RightCol>
-      </Row>
+      </RatingRow>
       <Row>
         <b>{entry.summary}</b>
       </Row>
@@ -64,6 +64,11 @@ const StylesCol = styled(Col)`
     background: rgb(224,224,224);
     border-color: rgb(16,16,16);
   }
+`;
+
+const RatingRow = styled(Row)`
+  margin-top: 10px;
+  align-items: center;
 `;
 
 const StylesDiv = styled.div`
