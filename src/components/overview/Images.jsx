@@ -10,6 +10,7 @@ function Images({ styleImages, mainImageIndex, changeMainImageIndex }) {
 
   const [minThumbIndex, setMinThumbIndex] = useState(0);
   const [maxThumbIndex, setMaxThumbIndex] = useState(imageCount - 1 > 6 ? 6 : imageCount - 1);
+  const [isExpanded, setIsExpanded] = useState(false);
 
   const handleNextThumb = () => {
     if (maxThumbIndex !== imageCount - 1) {
@@ -38,6 +39,17 @@ function Images({ styleImages, mainImageIndex, changeMainImageIndex }) {
       changeMainImageIndex(imageCount - 1);
     } else {
       changeMainImageIndex((prevIndex) => prevIndex - 1);
+    }
+  };
+
+  const handleExpansion = () => {
+    if (isExpanded) {
+      console.log(document.getElementById('info-col').style.display);
+      document.getElementById('info-col').style.display = 'none';
+      setIsExpanded(false);
+    } else {
+      document.getElementById('info-col').style.display = '';
+      setIsExpanded(true);
     }
   };
 
@@ -81,12 +93,13 @@ function Images({ styleImages, mainImageIndex, changeMainImageIndex }) {
           </NextThumb>
         </NavContainer>
       </MenuCol>
-      <MainImageContainer>
+      <MainImageContainer id="image-container">
         <MainImg
           key={styleImages[mainImageIndex].url}
           data-index={mainImageIndex}
           alt="Clothing"
           src={styleImages[mainImageIndex].url}
+          onClick={handleExpansion}
         />
       </MainImageContainer>
       <PrevMain
@@ -112,6 +125,8 @@ const MainImageContainer = styled.div`
   height: 100%;
   width: 100%;
   justify-content: center;
+  transition: width 0.5s;
+  z-index: 1;
 `;
 
 const GalleryContainer = styled.div`
@@ -122,6 +137,7 @@ const GalleryContainer = styled.div`
 `;
 
 const MainImg = styled.img`
+  cursor: pointer;
   position: absolute;
   display: 'flex';
   height: 100%;

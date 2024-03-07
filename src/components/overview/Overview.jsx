@@ -41,19 +41,21 @@ function Overview({ currentProduct }) {
 
   return (
     <OverviewGrid>
-      <Row>
+      <Row id="image-info-row">
         <ImgCol size={3}>
-          {isLoading ? (
-            <Loading />
-          ) : (
-            <Images
-              styleImages={currentStyle.photos}
-              mainImageIndex={mainImageIndex}
-              changeMainImageIndex={setMainImageIndex}
-            />
-          )}
+          <div>
+            {isLoading ? (
+              <Loading />
+            ) : (
+              <Images
+                styleImages={currentStyle.photos}
+                mainImageIndex={mainImageIndex}
+                changeMainImageIndex={setMainImageIndex}
+              />
+            )}
+          </div>
         </ImgCol>
-        <Col size={1}>
+        <Col id="info-col" size={1}>
           <StarRating />
           <ProductInfo product={currentProduct} style={currentStyle} />
           {isLoading ? (
