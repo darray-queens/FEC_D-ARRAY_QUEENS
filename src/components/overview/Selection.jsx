@@ -1,24 +1,30 @@
 import React from 'react';
+import axios from 'axios';
 
 const { useState } = React;
 
-const buildQuantityList = (qty) => {
-  const list = [];
-  const max = qty > 15 ? 15 : qty;
-  for (let i = 1; i <= max; i += 1) {
-    list.push(<option key={i}>{i}</option>);
-  }
-  return list;
-};
-
-function Selection({ style }) {
-  const [currentSku, setCurrentSku] = useState();
+function Selection({ style, sku, changeSku }) {
+  const skuTuples = Object.entries(style.skus);
   const [currentQty, setCurrentQty] = useState();
+  const [hideLabel, setHideLabel] = useState(true);
 
-  const skus = Object.entries(style.skus);
-  const skuSizeOptions = skus.map((sku) => {
-    const code = sku[0];
-    const { size, quantity } = sku[1];
+  const addToCartHandler = () => {
+    if (!sku) {
+      setHideLabel(false);
+      document.getElementById('size-select').focus();
+    } else {
+      let count = currentQty;
+      while (count > 0) {
+        axios.post('/cart', { sku_id: sku })
+          .catch((error) => console.error(error));
+        count -= 1;
+      }
+    }
+  };
+
+  const skuSizeOptions = skuTuples.map((skuTuple) => {
+    const code = skuTuple[0];
+    const { size, quantity } = skuTuple[1];
     if (quantity > 0) {
       return (
         <option key={code} data-sku={code} id={size}>{size}</option>
@@ -30,31 +36,55 @@ function Selection({ style }) {
 
   let sizeOptions = (
     <>
-      <option value="disabled selected hidden">SELECT SIZE</option>
+      <option style={{ display: 'none' }}>SELECT SIZE</option>
       {skuSizeOptions}
     </>
   );
 
+  let hideCart = false;
+
   if (skuSizeOptions.length === 0) {
-    sizeOptions = <option value="disabled selected hidden">OUT OF STOCK</option>;
+    sizeOptions = <option style={{ display: 'none' }}>OUT OF STOCK</option>;
+    hideCart = true;
   }
 
-  console.log(style.skus[currentSku]);
-  const quantity = currentSku ? style.skus[currentSku].quantity : 0;
-  const quantityOptions = currentSku ? buildQuantityList(quantity) : <option>{}</option>;
+  const buildQuantityList = (qty) => {
+    const list = [];
+    const max = qty > 15 ? 15 : qty;
+    for (let i = 1; i <= max; i += 1) {
+      list.push(<option key={i}>{i}</option>);
+    }
+    return list;
+  };
+
+  const quantity = sku ? style.skus[sku].quantity : 0;
+  const quantityOptions = sku ? buildQuantityList(quantity) : <option>{}</option>;
 
   return (
     <div>
+      <h5 style={hideLabel ? { display: 'none' } : { display: 'inherit' }}>Please select a size</h5>
       <select
         name="size"
-        onChange={(e) => setCurrentSku(document.getElementById(e.target.value).dataset.sku)}
+        id="size-select"
+        onChange={(e) => {
+          changeSku(document.getElementById(e.target.value).dataset.sku);
+          setHideLabel(true);
+        }}
       >
         {sizeOptions}
       </select>
-      <select name="quantity" onChange={(e) => setCurrentQty(e.target.value)}>
+      <select disabled={!sku} name="quantity" onChange={(e) => setCurrentQty(e.target.value)}>
+        <option style={{ display: 'none' }}>{}</option>
         {quantityOptions}
       </select>
-      <button name="add" type="button">Add to Bag</button>
+      <button
+        name="add"
+        type="button"
+        style={hideCart ? { display: 'none' } : { display: 'inherit' }}
+        onClick={() => addToCartHandler()}
+      >
+        Add to Bag
+      </button>
     </div>
   );
 }

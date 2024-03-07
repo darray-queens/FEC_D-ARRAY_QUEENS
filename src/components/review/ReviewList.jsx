@@ -8,6 +8,8 @@ import Review from './Review';
 
 import Sort from './Sort';
 
+import AverageStars from '../shared/AverageStars';
+
 import { Grid, Row, Col } from '../shared/containers';
 
 const { useState, useEffect } = React;
@@ -17,6 +19,13 @@ function ReviewList({ currentProduct }) {
   const [pageNumber, setPageNumber] = useState(1);
   const [relevantReviews, setRelevantReviews] = useState([]);
   const [renderedReviews, setRenderedReviews] = useState(2);
+
+  useEffect(() => {
+    setReviews([]);
+    setRelevantReviews([]);
+    setPageNumber(1);
+    setRenderedReviews(2);
+  }, [currentProduct]);
 
   useEffect(() => {
     if (currentProduct && currentProduct.id) {
@@ -46,6 +55,7 @@ function ReviewList({ currentProduct }) {
   return (
     <div id="reviews">
       <h2>Ratings & Reviews</h2>
+      <AverageStars currentProduct={currentProduct} />
       <Sort reviews={reviews} setReviews={setReviews} relevantReviews={relevantReviews} />
       <StylesDiv>
         {reviews.slice(0, renderedReviews).map((review) => (
