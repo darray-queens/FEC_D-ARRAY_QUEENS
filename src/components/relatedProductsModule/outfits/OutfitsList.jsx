@@ -17,13 +17,10 @@ function OutfitsList({ currentProduct }) {
 
   const OutfitModuleRef = useRef(null);
 
-  if (Object.keys(currentProduct).length === 0) {
-    return (
-      <div>
-        Loading...
-      </div>
-    );
-  }
+  const setJSONItem = (outfits) => {
+    const outfitsJSON = JSON.stringify(outfits);
+    localStorage.setItem('outfits', outfitsJSON);
+  };
 
   const writeOutfitToLocalStorage = () => {
     const outfits = [];
@@ -35,22 +32,31 @@ function OutfitsList({ currentProduct }) {
     }
 
     outfits.push(currentProduct);
-    const outfitsJSON = JSON.stringify(outfits);
-    localStorage.setItem('outfits', outfitsJSON);
+    setJSONItem(outfits);
+  };
+
+  const deleteOutfitFromLocalStorage = (id) => {
+    const newOutfitList = [];
+    parsedCurrOutfitItems.forEach((element) => {
+      if (element.id !== id) {
+        newOutfitList.push(element);
+      }
+    });
+    setJSONItem(newOutfitList);
   };
 
   const addToOutfitList = (id) => {
     if (Object.keys(outfitList[0]).length === 0) {
-      setOutfitList([currentProduct]);
       writeOutfitToLocalStorage();
+      setOutfitList([currentProduct]);
     } else {
       const listOfIds = [];
       outfitList.forEach((element) => {
         listOfIds.push(element.id);
       });
       if (!listOfIds.includes(id)) {
-        setOutfitList((prevList) => [...prevList, currentProduct]);
         writeOutfitToLocalStorage();
+        setOutfitList((prevList) => [...prevList, currentProduct]);
       }
     }
   };
@@ -58,6 +64,7 @@ function OutfitsList({ currentProduct }) {
   const removeFromOutfitList = (id) => {
     const newOutfitList = [];
 
+    deleteOutfitFromLocalStorage(id);
     if (outfitList.length === 1) {
       newOutfitList.push({});
     } else {
@@ -69,6 +76,14 @@ function OutfitsList({ currentProduct }) {
     }
     setOutfitList(newOutfitList);
   };
+
+  if (Object.keys(currentProduct).length === 0) {
+    return (
+      <div>
+        Loading...
+      </div>
+    );
+  }
 
   return (
     <Grid>
