@@ -15,13 +15,22 @@ const { useState, useEffect } = React;
 function Breakdown({ currentProduct }) {
   const [average, setAverage] = useState(0);
   const [recommendPercent, setRecommendPercent] = useState(0);
-  const [averageRecs, setAverageRecs] = useState(0);
+  const [fiveStarRate, setFiveStarRate] = useState(0);
+  const [fourStarRate, setFourStarRate] = useState(0);
+  const [threeStarRate, setThreeStarRate] = useState(0);
+  const [twoStarRate, setTwoStarRate] = useState(0);
+  const [oneStarRate, setOneStarRate] = useState(0);
 
   useEffect(() => {
     let total = 0;
     let count = 0;
     let Rec = 0;
     let totalRec = 0;
+    let one = 0;
+    let two = 0;
+    let three = 0;
+    let four = 0;
+    let five = 0;
 
     if (currentProduct && currentProduct.id) {
       const productId = currentProduct.id;
@@ -32,12 +41,32 @@ function Breakdown({ currentProduct }) {
               Object.keys(response.data.ratings).forEach((key) => {
                 total += response.data.ratings[key] * Number.parseInt(key, 10);
                 count += Number.parseInt(response.data.ratings[key], 10);
+                if (key === '1') {
+                  one += Number.parseInt(response.data.ratings[key], 10);
+                }
+                if (key === '2') {
+                  two += Number.parseInt(response.data.ratings[key], 10);
+                }
+                if (key === '3') {
+                  three += Number.parseInt(response.data.ratings[key], 10);
+                }
+                if (key === '4') {
+                  four += Number.parseInt(response.data.ratings[key], 10);
+                }
+                if (key === '5') {
+                  five += Number.parseInt(response.data.ratings[key], 10);
+                }
               });
             }
 
             if (count !== 0) {
               setAverage(Math.round((total / count) * 4) / 4);
             }
+            setOneStarRate(one / count);
+            setTwoStarRate(two / count);
+            setThreeStarRate(three / count);
+            setFourStarRate(four / count);
+            setFiveStarRate(five / count);
           }
           if (response.data.recommended !== undefined) {
             if (Object.prototype.hasOwnProperty.call(response.data.recommended, 'true')) {
@@ -48,7 +77,6 @@ function Breakdown({ currentProduct }) {
             }
 
             if (totalRec !== 0) {
-              setAverageRecs(Math.round((Rec / totalRec)));
               setRecommendPercent(Math.round((Rec / totalRec) * 100));
             }
           }
@@ -58,6 +86,8 @@ function Breakdown({ currentProduct }) {
         });
     }
   }, [currentProduct]);
+
+  console.log(oneStarRate);
 
   return (
     <div>
@@ -74,7 +104,41 @@ function Breakdown({ currentProduct }) {
         {recommendPercent}
         % of reviews recommend this product
       </StylesRow>
-      <Bar percent={recommendPercent / 100} />
+      <StylesRow>
+        1 stars
+        {' '}
+        <RightCol>
+          <Bar percent={oneStarRate} />
+        </RightCol>
+      </StylesRow>
+      <StylesRow>
+        2 stars
+        {' '}
+        <RightCol>
+          <Bar percent={twoStarRate} />
+        </RightCol>
+      </StylesRow>
+      <StylesRow>
+        3 stars
+        {' '}
+        <RightCol>
+          <Bar percent={threeStarRate} />
+        </RightCol>
+      </StylesRow>
+      <StylesRow>
+        4 stars
+        {' '}
+        <RightCol>
+          <Bar percent={fourStarRate} />
+        </RightCol>
+      </StylesRow>
+      <StylesRow>
+        5 stars
+        {' '}
+        <RightCol>
+          <Bar percent={fiveStarRate} />
+        </RightCol>
+      </StylesRow>
     </div>
   );
 }
@@ -100,7 +164,7 @@ const StarsWrapper = styled(Col)`
 `;
 
 const RightCol = styled(Col)`
-  text-align: right
+  margin-left: 10px;
 `;
 
 const StylesCol = styled(Col)`
