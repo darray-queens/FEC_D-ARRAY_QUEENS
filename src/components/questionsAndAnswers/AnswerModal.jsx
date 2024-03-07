@@ -17,20 +17,16 @@ function AnswerModal({
 
   const submitAnswer = async (event) => {
     event.preventDefault();
-    console.log('Selected question:', selectedQuestion);
     const answerDetails = {
       body: answerInput,
       name: nicknameInput,
       email: emailInput,
-      photos: [], // Add if you handle photo uploads
+      photos: [],
     };
-    console.log('answerDetails:', answerDetails);
 
     await axios.post(`/qa/questions/${selectedQuestion.question_id}/answers`, answerDetails)
-      .then((response) => {
-        console.log('Answer posted successfully', response.data);
-      }).catch((error) => {
-        console.error('Error submitting answer:', error);
+      .then(() => {
+      }).catch(() => {
       });
   };
 

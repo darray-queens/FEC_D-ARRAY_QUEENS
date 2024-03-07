@@ -3,7 +3,8 @@ import axios from 'axios';
 import './styles.css';
 
 function QuestionModal({
-  isOpen, onRequestClose, productName, currentProduct, refreshQuestions,
+  isOpen, onRequestClose, productName, questions,
+  setQuestions, currentProduct, refreshQuestions, currentPage,
 }) {
   const [questionInput, setQuestionInput] = useState('');
   const [nicknameInput, setNicknameInput] = useState('');
@@ -24,9 +25,18 @@ function QuestionModal({
       product_id: currentProduct.id,
     };
 
-    await axios.post('/qa/questions', questionDetails);
-    onRequestClose(); // Close the modal upon successful submission
-    refreshQuestions();
+    try {
+      await axios.post(`/qa/questions?product_id=${currentProduct.id}`, questionDetails, {
+        params: { page: currentPage, count: 5 },
+      });
+
+      // Refresh the questions after a short delay (optional)
+      await refreshQuestions(currentProduct);
+
+      await onRequestClose(); // Close the modal upon successful submission
+    } catch (error) {
+      console.error('Error submitting question:', error);
+    }
   };
 
   return isOpen ? (
@@ -37,6 +47,12 @@ function QuestionModal({
           About the
           {productName}
         </h3>
+        {questions.map((question) => (
+          <div key={question.id}>
+            <p>{question.body}</p>
+            {/* Add any additional information related to the question */}
+          </div>
+        ))}
         <form onSubmit={submitQuestion} className="form-container">
           <textarea
             id="question-input"
