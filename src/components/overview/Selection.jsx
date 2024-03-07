@@ -1,19 +1,26 @@
 import React from 'react';
+import axios from 'axios';
 
 const { useState } = React;
-
-const buildQuantityList = (qty) => {
-  const list = [];
-  const max = qty > 15 ? 15 : qty;
-  for (let i = 1; i <= max; i += 1) {
-    list.push(<option key={i}>{i}</option>);
-  }
-  return list;
-};
 
 function Selection({ style, sku, changeSku }) {
   const skuTuples = Object.entries(style.skus);
   const [currentQty, setCurrentQty] = useState();
+  const [hideLabel, setHideLabel] = useState(true);
+
+  const addToCartHandler = () => {
+    if (!sku) {
+      setHideLabel(false);
+      document.getElementById('size-select').focus();
+    } else {
+      let count = currentQty;
+      while (count > 0) {
+        axios.post('/cart', { sku_id: sku })
+          .catch((error) => console.error(error));
+        count -= 1;
+      }
+    }
+  };
 
   const skuSizeOptions = skuTuples.map((skuTuple) => {
     const code = skuTuple[0];
@@ -34,25 +41,50 @@ function Selection({ style, sku, changeSku }) {
     </>
   );
 
+  let hideCart = false;
+
   if (skuSizeOptions.length === 0) {
     sizeOptions = <option style={{ display: 'none' }}>OUT OF STOCK</option>;
+    hideCart = true;
   }
+
+  const buildQuantityList = (qty) => {
+    const list = [];
+    const max = qty > 15 ? 15 : qty;
+    for (let i = 1; i <= max; i += 1) {
+      list.push(<option key={i}>{i}</option>);
+    }
+    return list;
+  };
 
   const quantity = sku ? style.skus[sku].quantity : 0;
   const quantityOptions = sku ? buildQuantityList(quantity) : <option>{}</option>;
 
   return (
     <div>
+      <h5 style={hideLabel ? { display: 'none' } : { display: 'inherit' }}>Please select a size</h5>
       <select
         name="size"
-        onChange={(e) => changeSku(document.getElementById(e.target.value).dataset.sku)}
+        id="size-select"
+        onChange={(e) => {
+          changeSku(document.getElementById(e.target.value).dataset.sku);
+          setHideLabel(true);
+        }}
       >
         {sizeOptions}
       </select>
-      <select name="quantity" onChange={(e) => setCurrentQty(e.target.value)}>
+      <select disabled={!sku} name="quantity" onChange={(e) => setCurrentQty(e.target.value)}>
+        <option style={{ display: 'none' }}>{}</option>
         {quantityOptions}
       </select>
-      <button name="add" type="button">Add to Bag</button>
+      <button
+        name="add"
+        type="button"
+        style={hideCart ? { display: 'none' } : { display: 'inherit' }}
+        onClick={() => addToCartHandler()}
+      >
+        Add to Bag
+      </button>
     </div>
   );
 }

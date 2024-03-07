@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import styled from 'styled-components';
 
 import Images from './Images';
 import StarRating from './StarRating';
@@ -18,6 +19,7 @@ function Overview({ currentProduct }) {
   const [styles, setStyles] = useState([]);
   const [currentSku, setCurrentSku] = useState();
   const [currentStyle, setCurrentStyle] = useState({});
+  const [mainImage, setMainImage] = useState();
   const [isLoading, setIsLoading] = useState(true);
 
   async function getStyles() {
@@ -26,6 +28,7 @@ function Overview({ currentProduct }) {
 
     setStyles(response.data.results);
     setCurrentStyle(response.data.results[0]);
+    setMainImage(response.data.results[0].photos[0].url);
     setCurrentSku();
     setIsLoading(false);
   }
@@ -37,11 +40,19 @@ function Overview({ currentProduct }) {
   }, [currentProduct]);
 
   return (
-    <Grid>
+    <OverviewGrid>
       <Row>
-        <Col size={3}>
-          {isLoading ? <Loading /> : <Images styleImages={currentStyle.photos} />}
-        </Col>
+        <ImgCol size={3}>
+          {isLoading ? (
+            <Loading />
+          ) : (
+            <Images
+              styleImages={currentStyle.photos}
+              mainImage={mainImage}
+              changeMainImage={setMainImage}
+            />
+          )}
+        </ImgCol>
         <Col size={1}>
           <StarRating />
           <ProductInfo product={currentProduct} style={currentStyle} />
@@ -57,9 +68,13 @@ function Overview({ currentProduct }) {
                 currentStyles={styles}
                 currentStyle={currentStyle}
                 changeStyle={setCurrentStyle}
-                resetSku={setCurrentSku}
+                changeMainImage={setMainImage}
               />
-              <Selection style={currentStyle} sku={currentSku} changeSku={setCurrentSku} />
+              <Selection
+                style={currentStyle}
+                sku={currentSku}
+                changeSku={setCurrentSku}
+              />
             </>
           )}
         </Col>
@@ -70,8 +85,18 @@ function Overview({ currentProduct }) {
           features={currentProduct.features}
         />
       </Row>
-    </Grid>
+    </OverviewGrid>
   );
 }
+
+const OverviewGrid = styled(Grid)`
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 1100px;
+`;
+
+const ImgCol = styled(Col)`
+  margin-right: 20px;
+`;
 
 export default Overview;
