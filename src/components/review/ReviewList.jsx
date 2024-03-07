@@ -12,6 +12,8 @@ import AverageStars from '../shared/AverageStars';
 
 import { Grid, Row, Col } from '../shared/containers';
 
+import Breakdown from './Breakdown';
+
 const { useState, useEffect } = React;
 
 function ReviewList({ currentProduct }) {
@@ -56,10 +58,10 @@ function ReviewList({ currentProduct }) {
     <div id="reviews">
       <h2>Ratings & Reviews</h2>
       <Row>
-        <Col size={2}>
-          <AverageStars currentProduct={currentProduct} />
+        <Col size={1.5}>
+          <Breakdown currentProduct={currentProduct} />
         </Col>
-        <Col size={3}>
+        <Col size={3.5}>
           <Sort reviews={reviews} setReviews={setReviews} relevantReviews={relevantReviews} />
           <StylesDiv>
             {reviews.slice(0, renderedReviews).map((review) => (
