@@ -117,6 +117,10 @@ function Breakdown({
     }
   }, [activeFilters, reviews, setFilteredReviews]);
 
+  const resetFilter = () => {
+    setActiveFilters([]);
+  };
+
   return (
     <div>
       <Container>
@@ -177,6 +181,14 @@ function Breakdown({
           <Bar percent={fiveStarRate} />
         </RightCol>
       </StylesRow>
+      <StylesRow>
+        {(activeFilters.length >= 1) && (
+        <StylesButton onClick={resetFilter}>
+          Click to disable the following active filters:
+          {activeFilters.join(', ')}
+        </StylesButton>
+        )}
+      </StylesRow>
     </div>
   );
 }
@@ -219,6 +231,7 @@ const StylesButton = styled.button`
   margin-top: 10px;
   margin-bttom: 10px;
   margin-right: 10px;
+  max-width: 200px;
 `;
 
 export default Breakdown;
