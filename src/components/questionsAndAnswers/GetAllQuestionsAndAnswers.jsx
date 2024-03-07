@@ -6,7 +6,8 @@ import QuestionModal from './QuestionModal';
 
 function GetAllQuestionsAndAnswers({ currentProduct }) {
   const [questions, setQuestions] = useState([]);
-  const [visibleQuestions, setVisibleQuestions] = useState(2);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [visibleQuestions, setVisibleQuestions] = useState(Math.min(4, questions.length));
   const [isAnswerModalOpen, setIsAnswerModalOpen] = useState(false);
   const [isQuestionModalOpen, setIsQuestionModalOpen] = useState(false);
   const [selectedQuestion, setSelectedQuestion] = useState({});
@@ -15,21 +16,55 @@ function GetAllQuestionsAndAnswers({ currentProduct }) {
   const [reportedAnswers, setReportedAnswers] = useState(new Set());
   const [reportedQuestions, setReportedQuestions] = useState(new Set());
 
+  const refreshQuestions = async () => {
+    console.log('currentProduct', currentProduct);
+    console.log('Refreshing questions...');
+    if (currentProduct === undefined || currentProduct === null) {
+      console.log('currentProduct is either undefined or null');
+    }
+    console.log('Current product:', currentProduct);
+    try {
+      const response = await axios.get(`/qa/questions?product_id=${currentProduct.id}`, {
+        params: { page: 1, count: 100 },
+      });
+      console.log('Response data:', response.data); // Log the response data
+      const sortedQuestions = response.data.results
+        .sort((a, b) => b.question_helpfulness - a.question_helpfulness);
+      console.log('Sorted questions:', sortedQuestions); // Log the sorted questions
+      setQuestions(sortedQuestions);
+    } catch (error) {
+      console.error('Error refreshing questions:', error);
+    }
+  };
+
   useEffect(() => {
     const fetchQuestions = async () => {
+      refreshQuestions();
       if (currentProduct && currentProduct.id) {
-        const response = await axios.get(`/qa/questions?product_id=${currentProduct.id}`, {
-          params: { page: 1, count: 5 },
-        });
-        setQuestions(response.data.results
-          .sort((a, b) => b.question_helpfulness - a.question_helpfulness));
+        try {
+          const response = await axios.get('/qa/questions', {
+            params: { product_id: currentProduct.id, page: currentPage, count: 5 },
+          });
+          const filteredQuestions = response.data.results
+            .filter((question) => searchTerm.length < 3 || question.question_body
+              .toLowerCase()
+              .includes(searchTerm.toLowerCase()));
+          setQuestions(filteredQuestions
+            .sort((a, b) => b.question_helpfulness - a.question_helpfulness));
+        } catch (error) {
+          console.error('Error fetching questions:', error);
+        }
       }
     };
 
     fetchQuestions();
-  }, [currentProduct]);
+  }, [currentProduct, currentPage]);
 
-  const handleShowMoreQuestions = () => setVisibleQuestions((prev) => prev + 4);
+  const handleShowMoreQuestions = () => {
+    const remainingQuestions = questions.length - visibleQuestions;
+    const increment = Math.min(5, remainingQuestions);
+    setVisibleQuestions(visibleQuestions + increment);
+  };
 
   const openAnswerModal = (question) => {
     setIsAnswerModalOpen(true);
@@ -43,19 +78,6 @@ function GetAllQuestionsAndAnswers({ currentProduct }) {
   const formatDate = (dateString) => {
     const options = { year: 'numeric', month: 'long', day: 'numeric' };
     return new Date(dateString).toLocaleDateString(undefined, options);
-  };
-
-  const refreshQuestions = () => {
-    const fetchQuestions = async () => {
-      if (currentProduct && currentProduct.id) {
-        const response = await axios.get(`/qa/questions?product_id=${currentProduct.id}`, {
-          params: { page: 1, count: 5 },
-        });
-        setQuestions(response.data.results
-          .sort((a, b) => b.question_helpfulness - a.question_helpfulness));
-      }
-    };
-    fetchQuestions();
   };
 
   const markAnswerAsHelpful = async (answerId) => {
@@ -138,7 +160,7 @@ function GetAllQuestionsAndAnswers({ currentProduct }) {
                   {reportedQuestions.has(question.question_id) ? 'Reported' : 'Report'}
                 </button>
               </p>
-              {Object.values(question.answers).map((answer, index) => (
+              {question.answers && Object.values(question.answers).map((answer, index) => (
                 <div key={answer.id} style={{ display: index < 2 || question.expanded ? 'block' : 'none' }}>
                   <strong>
                     A:
@@ -190,6 +212,9 @@ function GetAllQuestionsAndAnswers({ currentProduct }) {
           productName={currentProduct.name}
           currentProduct={currentProduct}
           refreshQuestions={refreshQuestions}
+          currentPage={currentPage}
+          questions={questions} // Pass questions state as prop
+          setQuestions={setQuestions}
         />
       )}
     </div>

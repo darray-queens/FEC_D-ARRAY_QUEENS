@@ -1,8 +1,4 @@
-/**
- * @jest-environment jsdom
- */
-
-jest.mock('../components/questionsAndAnswers/styles.css', () => ({}));
+jest.mock('./styles.css', () => ({}));
 import * as React from 'react';
 import { render, screen } from '@testing-library/react';
 
