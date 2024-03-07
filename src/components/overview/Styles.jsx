@@ -43,7 +43,7 @@ const StylesCol = styled(Col)`
 `;
 
 const StylesRow = styled(Row)`
-  justify-content: flex-start;
+  justify-content: left;
 `;
 
 export default Styles;
