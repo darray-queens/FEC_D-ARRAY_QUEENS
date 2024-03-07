@@ -54,8 +54,12 @@ function ReviewList({ currentProduct }) {
 
   return (
     <div id="reviews">
+      <Row>
+      <Col size={2}>
       <h2>Ratings & Reviews</h2>
       <AverageStars currentProduct={currentProduct} />
+      </Col>
+      <Col size={3}>
       <Sort reviews={reviews} setReviews={setReviews} relevantReviews={relevantReviews} />
       <StylesDiv>
         {reviews.slice(0, renderedReviews).map((review) => (
@@ -70,6 +74,8 @@ function ReviewList({ currentProduct }) {
         More Reviews
       </StylesButton>
       )}
+      </Col>
+      </Row>
     </div>
   );
 }
@@ -77,6 +83,22 @@ function ReviewList({ currentProduct }) {
 const StylesDiv = styled.div`
   overflow: auto;
   max-height: 600px;
+`;
+
+const RightCol = styled(Col)`
+  text-align: right
+`;
+
+const StylesCol = styled(Col)`
+  margin-right: 5px;
+  margin-bottom: 5px;
+  padding: 5px;
+  border: 1px solid rgb(48,48,48);
+  background: rgb(232,232,232);
+  &: hover {
+    background: rgb(224,224,224);
+    border-color: rgb(16,16,16);
+  }
 `;
 
 const StylesButton = styled.button`

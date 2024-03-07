@@ -11,6 +11,7 @@ const ModalContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 1;
 `;
 
 const ModalContent = styled.div`
@@ -20,6 +21,7 @@ const ModalContent = styled.div`
   overflow: auto;
   padding: 20px;
   position: relative;
+  z-index: 1;
 `;
 
 const CloseButton = styled.button`
@@ -27,6 +29,7 @@ const CloseButton = styled.button`
   top: 10px;
   right: 10px;
   font-size: 30px;
+  z-index: 1;
   &: hover {
     color: red
   }
