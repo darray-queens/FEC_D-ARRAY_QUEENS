@@ -93,3 +93,13 @@ export const FloatingModule = styled.div`
 
 export const Button = styled.button`
 `;
+
+export const StyledButton = styled(Button)`
+  background: linear-gradient(to right, white 50%, rgba(240, 240, 240, 0) 100%);
+  border: none;
+  color: black;
+  padding: 10px 20px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+`;
