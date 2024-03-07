@@ -96,7 +96,7 @@ function Images({ styleImages, mainImageIndex, changeMainImageIndex }) {
         &#10094;
       </PrevMain>
       <NextMain
-        style={{ display: mainImageIndex === imageCount ? 'none' : 'inherit' }}
+        style={{ display: mainImageIndex === imageCount - 1 ? 'none' : 'inherit' }}
         onClick={handleNextMain}
       >
         &#10095;
