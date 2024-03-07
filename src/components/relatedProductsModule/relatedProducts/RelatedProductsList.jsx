@@ -65,9 +65,11 @@ function RelatedProductsList({ currentProduct, setProductId }) {
 
   const actionButtonClick = (id) => {
     if (comparedItems.length < 2) {
-      for (let i = 0; i < productsList.length; i += 1) {
-        if (productsList[i].id === id) {
-          setComparedItems((prevList) => [...prevList, productsList[i]]);
+      if (comparedItems.length === 0 || comparedItems[0].id !== id) {
+        for (let i = 0; i < productsList.length; i += 1) {
+          if (productsList[i].id === id) {
+            setComparedItems((prevList) => [...prevList, productsList[i]]);
+          }
         }
       }
     }

@@ -63,7 +63,7 @@ function ComparisonModule({ comparedItems }) {
     });
     setComparedFeatures(allFeatures);
     setProductFeatures([product1Response.data.features.filter((element) => element.value !== null),
-    product2Response.data.features.filter((element) => element.value !== null)]);
+      product2Response.data.features.filter((element) => element.value !== null)]);
   };
 
   useEffect(() => {
