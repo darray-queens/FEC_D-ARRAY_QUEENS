@@ -11,6 +11,7 @@ function Images({ styleImages, mainImageIndex, changeMainImageIndex }) {
   const [minThumbIndex, setMinThumbIndex] = useState(0);
   const [maxThumbIndex, setMaxThumbIndex] = useState(imageCount - 1 > 6 ? 6 : imageCount - 1);
   const [isExpanded, setIsExpanded] = useState(false);
+  const [isZoomed, setIsZoomed] = useState(false);
 
   const handleNextThumb = () => {
     if (maxThumbIndex !== imageCount - 1) {
@@ -49,6 +50,14 @@ function Images({ styleImages, mainImageIndex, changeMainImageIndex }) {
     } else {
       document.getElementById('info-col').style.display = '';
       setIsExpanded(false);
+    }
+  };
+
+  const handleZoom = () => {
+    if (!isZoomed) {
+      setIsZoomed(true);
+    } else {
+      setIsZoomed(false);
     }
   };
 
@@ -99,8 +108,9 @@ function Images({ styleImages, mainImageIndex, changeMainImageIndex }) {
           data-index={mainImageIndex}
           alt="Clothing"
           src={styleImages[mainImageIndex].url}
-          onClick={handleExpansion}
+          onClick={isExpanded ? handleZoom : handleExpansion}
           $expanded={isExpanded}
+          $zoomed={isZoomed}
         />
       </MainImageContainer>
       <PrevMain
@@ -127,7 +137,6 @@ const MainImageContainer = styled.div`
   width: 100%;
   justify-content: center;
   transition: width 0.5s;
-  z-index: 1;
 `;
 
 const GalleryContainer = styled.div`
@@ -135,16 +144,24 @@ const GalleryContainer = styled.div`
   background: #d3d3d3;
   height: 550px;
   min-width: 480px;
+  overflow: hidden;
 `;
 
 const MainImg = styled.img`
-  cursor: ${(props) => (props.$expanded === true ? 'zoom-in' : 'pointer')};
+  cursor: ${(props) => {
+    if (props.$zoomed) {
+      return 'zoom-out';
+    }
+    if (props.$expanded) {
+      return 'zoom-in';
+    }
+    return 'pointer';
+  }};
   position: absolute;
   display: 'flex';
-  height: 100%;
-  max-width: 100%;
-  object-fit: scale-down;
-  transition: 1s cubic-bezier(0.39, 0.575, 0.565, 1);
+  height: ${(props) => (props.$zoomed ? '250%' : '100%')};
+  max-width: ${(props) => (props.$zoomed ? '250%' : '100%')};
+  object-fit: ${(props) => (props.$zoomed ? 'cover' : 'scale-down')};
 `;
 
 const MenuCol = styled(Row)`
@@ -174,7 +191,6 @@ const PrevMain = styled.a`
   &:hover {
     background-color: rgba(0, 0, 0, 0.8);
   }
-  z-index: 2;
 `;
 
 const NextMain = styled.a`
