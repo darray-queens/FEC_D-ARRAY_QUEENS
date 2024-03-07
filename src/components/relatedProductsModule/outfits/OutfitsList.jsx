@@ -13,9 +13,17 @@ function OutfitsList({ currentProduct }) {
   const parsedCurrOutfitItems = JSON.parse(currOutfitItems);
 
   const [outfitList, setOutfitList] = useState(() => (
-    currOutfitItems === null ? [{}] : parsedCurrOutfitItems));
+    (currOutfitItems === null) ? [{}] : parsedCurrOutfitItems));
 
   const OutfitModuleRef = useRef(null);
+
+  if (Object.keys(currentProduct).length === 0) {
+    return (
+      <div>
+        Loading...
+      </div>
+    );
+  }
 
   const setJSONItem = (outfits) => {
     const outfitsJSON = JSON.stringify(outfits);
@@ -42,7 +50,12 @@ function OutfitsList({ currentProduct }) {
         newOutfitList.push(element);
       }
     });
-    setJSONItem(newOutfitList);
+
+    if (newOutfitList.length === 0) {
+      localStorage.clear();
+    } else {
+      setJSONItem(newOutfitList);
+    }
   };
 
   const addToOutfitList = (id) => {
@@ -76,14 +89,6 @@ function OutfitsList({ currentProduct }) {
     }
     setOutfitList(newOutfitList);
   };
-
-  if (Object.keys(currentProduct).length === 0) {
-    return (
-      <div>
-        Loading...
-      </div>
-    );
-  }
 
   return (
     <Grid>
