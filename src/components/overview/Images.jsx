@@ -1,42 +1,57 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import sampleStyles from './sampleStyles';
-
 import { Row } from '../shared/containers';
 
 const { useState } = React;
 
-function Images({ /* styleImages, */ mainImageIndex, changeMainImageIndex }) {
-  const styleImages = sampleStyles;
+function Images({ styleImages, mainImageIndex, changeMainImageIndex }) {
+  const imageCount = styleImages.length;
 
   const [minThumbIndex, setMinThumbIndex] = useState(0);
-  const [maxThumbIndex, setMaxThumbIndex] = useState(6);
+  const [maxThumbIndex, setMaxThumbIndex] = useState(imageCount - 1 > 6 ? 6 : imageCount - 1);
+
+  const handleNextThumb = () => {
+    if (maxThumbIndex !== imageCount - 1) {
+      setMinThumbIndex((prevIndex) => prevIndex + 1);
+      setMaxThumbIndex((prevIndex) => prevIndex + 1);
+    }
+  };
+
+  const handlePrevThumb = () => {
+    if (minThumbIndex !== 0) {
+      setMinThumbIndex((prevIndex) => prevIndex - 1);
+      setMaxThumbIndex((prevIndex) => prevIndex - 1);
+    }
+  };
 
   const handleNextMain = () => {
-    if (mainImageIndex >= styleImages.length - 1) {
+    if (mainImageIndex >= imageCount - 1) {
       changeMainImageIndex(0);
     } else {
-      changeMainImageIndex((previousIndex) => previousIndex + 1);
+      changeMainImageIndex((prevIndex) => prevIndex + 1);
     }
   };
 
   const handlePrevMain = () => {
     if (mainImageIndex <= 0) {
-      changeMainImageIndex(styleImages.length - 1);
+      changeMainImageIndex(imageCount - 1);
     } else {
-      changeMainImageIndex((previousIndex) => previousIndex - 1);
+      changeMainImageIndex((prevIndex) => prevIndex - 1);
     }
   };
 
   return (
     <GalleryContainer>
       <MenuCol>
-        <Row>
-          <PrevThumb>
+        <NavContainer>
+          <PrevThumb
+            style={{ display: minThumbIndex === 0 ? 'none' : 'inherit' }}
+            onClick={handlePrevThumb}
+          >
             &#x2c4;
           </PrevThumb>
-        </Row>
+        </NavContainer>
         {styleImages.map((image, index) => (
           <Row key={image.thumbnail_url}>
             <button
@@ -57,11 +72,14 @@ function Images({ /* styleImages, */ mainImageIndex, changeMainImageIndex }) {
             </button>
           </Row>
         ))}
-        <Row>
-          <NextThumb>
+        <NavContainer>
+          <NextThumb
+            style={{ display: maxThumbIndex === imageCount - 1 ? 'none' : 'inherit' }}
+            onClick={handleNextThumb}
+          >
             &#x2c5;
           </NextThumb>
-        </Row>
+        </NavContainer>
       </MenuCol>
       <MainImageContainer>
         <MainImg
@@ -78,7 +96,7 @@ function Images({ /* styleImages, */ mainImageIndex, changeMainImageIndex }) {
         &#10094;
       </PrevMain>
       <NextMain
-        style={{ display: mainImageIndex === styleImages.length - 1 ? 'none' : 'inherit' }}
+        style={{ display: mainImageIndex === imageCount ? 'none' : 'inherit' }}
         onClick={handleNextMain}
       >
         &#10095;
@@ -164,7 +182,6 @@ const NextMain = styled.a`
 const PrevThumb = styled.a`
   cursor: pointer;
   width: auto;
-  margin-top: -22px;
   padding: 16px;
   color: white;
   font-weight: bold;
@@ -190,6 +207,12 @@ const NextThumb = styled.a`
   &:hover {
     background-color: rgba(0, 0, 0, 0.8);
   }
+`;
+
+const NavContainer = styled(Row)`
+  height: 50px;
+  width: 50px;
+  justify-content: center;
 `;
 
 export default Images;
