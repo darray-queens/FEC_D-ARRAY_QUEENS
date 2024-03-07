@@ -6,6 +6,8 @@ import styled from 'styled-components';
 
 import AverageStars from '../shared/AverageStars';
 
+import Bar from './Bar';
+
 import { Row, Col } from '../shared/containers';
 
 const { useState, useEffect } = React;
@@ -69,6 +71,7 @@ function Breakdown({ currentProduct }) {
         {recommendPercent}
         % of reviews recommend this product
       </StylesRow>
+      <Bar percent={0.50} />
     </div>
   );
 }
