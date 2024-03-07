@@ -43,12 +43,12 @@ function Images({ styleImages, mainImageIndex, changeMainImageIndex }) {
   };
 
   const handleExpansion = () => {
-    if (isExpanded) {
+    if (!isExpanded) {
       document.getElementById('info-col').style.display = 'none';
-      setIsExpanded(false);
+      setIsExpanded(true);
     } else {
       document.getElementById('info-col').style.display = '';
-      setIsExpanded(true);
+      setIsExpanded(false);
     }
   };
 
