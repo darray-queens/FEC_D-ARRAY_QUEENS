@@ -140,10 +140,10 @@ function GetAllQuestionsAndAnswers({ currentProduct }) {
           placeholder="Have a question? Search for answers…"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          style={{ width: '100%', padding: '10px', marginBottom: '20px' }}
+          style={{ width: '50%', padding: '10px', marginBottom: '20px' }}
         />
-        <button type="button" onClick={openQuestionModal} className="open-button">Add a Question</button>
       </div>
+      <button type="button" onClick={openQuestionModal} className="open-button">Add a Question</button>
       <div style={{ maxHeight: '500px', overflowY: 'auto' }}>
         {questions
           .filter((question) => searchTerm.length < 3
@@ -154,6 +154,7 @@ function GetAllQuestionsAndAnswers({ currentProduct }) {
               <p>
                 <strong>
                   Q:
+                  {' '}
                   {question.question_body}
                 </strong>
                 <button type="button" onClick={() => reportQuestion(question.question_id)}>
@@ -164,6 +165,7 @@ function GetAllQuestionsAndAnswers({ currentProduct }) {
                 <div key={answer.id} style={{ display: index < 2 || question.expanded ? 'block' : 'none' }}>
                   <strong>
                     A:
+                    {' '}
                   </strong>
                   {answer.body}
                   <p>
@@ -181,17 +183,19 @@ function GetAllQuestionsAndAnswers({ currentProduct }) {
                     {answer.helpfulness + (votedHelpfulness.has(answer.id) ? 1 : 0)}
                     )
                   </button>
+                  {' '}
                   <button type="button" onClick={() => reportAnswer(answer.id)}>
                     {reportedAnswers.has(answer.id) ? 'Reported' : 'Report'}
                   </button>
                 </div>
               ))}
               {Object.values(question.answers).length > 2 && (
-                <button type="button" onClick={() => toggleExpand(question)}>
+                <button type="button" style={{ background: 'red', padding: '5px' }} onClick={() => toggleExpand(question)}>
                   {question.expanded ? 'Collapse answers' : 'See more answers'}
                 </button>
               )}
-              <button type="button" onClick={() => openAnswerModal(question)}>Add Answer</button>
+              {' '}
+              <button type="button" style={{ padding: '5px' }} onClick={() => openAnswerModal(question)}>Add Answer</button>
             </div>
           ))}
         {visibleQuestions < questions.length && (
