@@ -59,7 +59,7 @@ function ReviewList({ currentProduct }) {
       <h2>Ratings & Reviews</h2>
       <Row>
         <Col size={1.5}>
-          <Breakdown currentProduct={currentProduct} />
+          <Breakdown currentProduct={currentProduct} setReviews={setReviews} reviews={reviews} />
         </Col>
         <Col size={3.5}>
           <Sort reviews={reviews} setReviews={setReviews} relevantReviews={relevantReviews} />

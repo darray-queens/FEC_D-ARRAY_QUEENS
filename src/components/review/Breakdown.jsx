@@ -12,7 +12,7 @@ import { Row, Col } from '../shared/containers';
 
 const { useState, useEffect } = React;
 
-function Breakdown({ currentProduct }) {
+function Breakdown({ currentProduct, setReviews, reviews }) {
   const [average, setAverage] = useState(0);
   const [recommendPercent, setRecommendPercent] = useState(0);
   const [fiveStarRate, setFiveStarRate] = useState(0);
@@ -20,6 +20,11 @@ function Breakdown({ currentProduct }) {
   const [threeStarRate, setThreeStarRate] = useState(0);
   const [twoStarRate, setTwoStarRate] = useState(0);
   const [oneStarRate, setOneStarRate] = useState(0);
+  const [filteredReviews, setFilteredReviews] = useState([]);
+
+  // useEffect(() => {
+  //   setReviews(reviews);
+  // }, [reviews]);
 
   useEffect(() => {
     let total = 0;
@@ -87,7 +92,14 @@ function Breakdown({ currentProduct }) {
     }
   }, [currentProduct]);
 
-  console.log(oneStarRate);
+  const handleFilter = (event) => {
+    const value = Number.parseInt(event.target.textContent, 10);
+    const filtered = reviews.filter((review) => review.rating === value);
+    setFilteredReviews(filtered);
+    console.log(value);
+    console.log(filteredReviews);
+    setReviews(filtered);
+  };
 
   return (
     <div>
@@ -105,36 +117,46 @@ function Breakdown({ currentProduct }) {
         % of reviews recommend this product
       </StylesRow>
       <StylesRow>
-        1 stars
-        {' '}
+        <FilterContainer onClick={handleFilter}>
+          1 stars
+          {' '}
+        </FilterContainer>
         <RightCol>
           <Bar percent={oneStarRate} />
         </RightCol>
       </StylesRow>
       <StylesRow>
-        2 stars
-        {' '}
+        <FilterContainer>
+          2 stars
+          {' '}
+        </FilterContainer>
         <RightCol>
           <Bar percent={twoStarRate} />
         </RightCol>
       </StylesRow>
       <StylesRow>
-        3 stars
-        {' '}
+        <FilterContainer>
+          3 stars
+          {' '}
+        </FilterContainer>
         <RightCol>
           <Bar percent={threeStarRate} />
         </RightCol>
       </StylesRow>
       <StylesRow>
-        4 stars
-        {' '}
+        <FilterContainer>
+          4 stars
+          {' '}
+        </FilterContainer>
         <RightCol>
           <Bar percent={fourStarRate} />
         </RightCol>
       </StylesRow>
       <StylesRow>
-        5 stars
-        {' '}
+        <FilterContainer>
+          5 stars
+          {' '}
+        </FilterContainer>
         <RightCol>
           <Bar percent={fiveStarRate} />
         </RightCol>
@@ -142,11 +164,16 @@ function Breakdown({ currentProduct }) {
     </div>
   );
 }
-
 const Container = styled.div`
   display: flex;
   align-items: flex-start;
   min-width: 250px;
+`;
+
+const FilterContainer = styled(Col)`
+  &:hover {
+    text-decoration: underline;
+  }
 `;
 
 const StylesB = styled.b`
@@ -165,18 +192,6 @@ const StarsWrapper = styled(Col)`
 
 const RightCol = styled(Col)`
   margin-left: 10px;
-`;
-
-const StylesCol = styled(Col)`
-  margin-right: 5px;
-  margin-bottom: 5px;
-  padding: 5px;
-  border: 1px solid rgb(48,48,48);
-  background: rgb(232,232,232);
-  &: hover {
-    background: rgb(224,224,224);
-    border-color: rgb(16,16,16);
-  }
 `;
 
 const StylesButton = styled.button`
