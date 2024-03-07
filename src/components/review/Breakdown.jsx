@@ -13,7 +13,7 @@ import { Row, Col } from '../shared/containers';
 const { useState, useEffect } = React;
 
 function Breakdown({
-  currentProduct, setReviews, reviews, setFilteredReviews, filteredReviews,
+  currentProduct, reviews, setFilteredReviews,
 }) {
   const [average, setAverage] = useState(0);
   const [recommendPercent, setRecommendPercent] = useState(0);
@@ -22,6 +22,7 @@ function Breakdown({
   const [threeStarRate, setThreeStarRate] = useState(0);
   const [twoStarRate, setTwoStarRate] = useState(0);
   const [oneStarRate, setOneStarRate] = useState(0);
+  const [activeFilters, setActiveFilters] = useState([]);
 
   // useEffect(() => {
   //   setReviews(reviews);
@@ -95,11 +96,26 @@ function Breakdown({
 
   const handleFilter = (event) => {
     const value = Number.parseInt(event.target.textContent, 10);
-    const filtered = reviews.filter((review) => review.rating === value);
-    setFilteredReviews(filtered);
-    console.log(value);
-    console.log(filteredReviews);
+    const index = activeFilters.indexOf(value);
+    let newFilters = [];
+
+    if (index === -1) {
+      newFilters = [...activeFilters, value];
+    } else {
+      newFilters = [...activeFilters];
+      newFilters.splice(index, 1);
+    }
+    setActiveFilters(newFilters);
   };
+
+  useEffect(() => {
+    if (activeFilters.length > 0) {
+      const filtered = reviews.filter((review) => activeFilters.includes(review.rating));
+      setFilteredReviews(filtered);
+    } else {
+      setFilteredReviews([]);
+    }
+  }, [activeFilters, reviews, setFilteredReviews]);
 
   return (
     <div>
@@ -117,7 +133,7 @@ function Breakdown({
         % of reviews recommend this product
       </StylesRow>
       <StylesRow>
-        <FilterContainer onClick={handleFilter}>
+        <FilterContainer onClick={handleFilter} active={activeFilters.includes(1)}>
           1 stars
           {' '}
         </FilterContainer>
@@ -126,7 +142,7 @@ function Breakdown({
         </RightCol>
       </StylesRow>
       <StylesRow>
-        <FilterContainer>
+        <FilterContainer onClick={handleFilter} active={activeFilters.includes(2)}>
           2 stars
           {' '}
         </FilterContainer>
@@ -135,7 +151,7 @@ function Breakdown({
         </RightCol>
       </StylesRow>
       <StylesRow>
-        <FilterContainer>
+        <FilterContainer onClick={handleFilter} active={activeFilters.includes(3)}>
           3 stars
           {' '}
         </FilterContainer>
@@ -144,7 +160,7 @@ function Breakdown({
         </RightCol>
       </StylesRow>
       <StylesRow>
-        <FilterContainer>
+        <FilterContainer onClick={handleFilter} active={activeFilters.includes(4)}>
           4 stars
           {' '}
         </FilterContainer>
@@ -153,7 +169,7 @@ function Breakdown({
         </RightCol>
       </StylesRow>
       <StylesRow>
-        <FilterContainer>
+        <FilterContainer onClick={handleFilter} active={activeFilters.includes(5)}>
           5 stars
           {' '}
         </FilterContainer>
@@ -174,6 +190,10 @@ const FilterContainer = styled(Col)`
   &:hover {
     text-decoration: underline;
   }
+  ${({ active }) => active
+  && `
+  font-weight: bold;
+  `}
 `;
 
 const StylesB = styled.b`
