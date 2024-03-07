@@ -69,10 +69,6 @@ function RelatedProductsList({ currentProduct, setProductId }) {
     }
   }, [comparisonHidden]);
 
-  useEffect(() => {
-    console.log(productsList, 'productlist')
-  }, [productsList]);
-
   if (isLoading) {
     return (
       <div>
