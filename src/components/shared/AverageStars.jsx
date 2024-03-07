@@ -3,7 +3,6 @@ import axios from 'axios';
 import StarRating from '../review/StarRating';
 
 function AverageStars({ currentProduct }) {
-  const [ratings, setRatings] = useState({});
   const [average, setAverage] = useState(0);
 
   useEffect(() => {
@@ -15,9 +14,6 @@ function AverageStars({ currentProduct }) {
       axios.get(`/reviews/meta?product_id=${productId}`)
         .then((response) => {
           if (response.data.ratings !== undefined) {
-            setRatings(response.data.ratings);
-
-            // Calculate average rating
             if (Object.prototype.hasOwnProperty.call(response.data.ratings, '1')) {
               Object.keys(response.data.ratings).forEach((key) => {
                 total += response.data.ratings[key] * Number.parseInt(key, 10);
