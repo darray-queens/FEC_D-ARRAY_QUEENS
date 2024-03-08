@@ -28,7 +28,6 @@ function QuestionModal({
 
     try {
       await axios.post('/qa/questions', questionDetails);
-      // If the POST request is successful, setIsSubmitting(false) is called after the state update in GetAllQuestionsAndAnswers triggers a refresh
     } catch (error) {
       console.error('Error submitting question:', error);
     } finally {

@@ -17,9 +17,13 @@ function GetAllQuestionsAndAnswers({ currentProduct }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [currentPage, setCurrentPage] = useState(1); // New state for tracking current page
 
-  const pageSize = 15;
+  const pageSize = 55;
 
   useEffect(() => {
+    setQuestions([]);
+    setVisibleQuestions(2);
+    setCurrentPage(1);
+
     const fetchQuestions = async () => {
       if (currentProduct && currentProduct.id) {
         try {
@@ -52,7 +56,11 @@ function GetAllQuestionsAndAnswers({ currentProduct }) {
     console.log('Updated questions state:', questions);
   }, [questions]);
 
-  const handleShowMoreQuestions = () => setCurrentPage((prevPage) => prevPage + 1);
+  const handleShowMoreQuestions = () => {
+    // Determine new visible questions count, for example, show 5 more questions each time
+    const moreQuestionsToShow = 5;
+    setVisibleQuestions((prevVisibleQuestions) => prevVisibleQuestions + moreQuestionsToShow);
+  };
 
   const openAnswerModal = (question) => {
     setIsAnswerModalOpen(true);
