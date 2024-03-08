@@ -13,7 +13,6 @@ function GetAllQuestionsAndAnswers({ currentProduct }) {
   const [searchTerm, setSearchTerm] = useState('');
   const [votedHelpfulness, setVotedHelpfulness] = useState(new Set());
   const [reportedAnswers, setReportedAnswers] = useState(new Set());
-  const [reportedQuestions, setReportedQuestions] = useState(new Set());
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [currentPage, setCurrentPage] = useState(1); // New state for tracking current page
 
@@ -128,21 +127,6 @@ function GetAllQuestionsAndAnswers({ currentProduct }) {
     refreshQuestions();
   };
 
-  const reportQuestion = async (questionId) => {
-    if (reportedQuestions.has(questionId)) {
-      return;
-    }
-
-    await axios.put(`/qa/questions/${questionId}/report`, {}, {
-      headers: { Authorization: `Bearer ${process.env.TOKEN}` },
-    });
-    const newReportedQuestions = new Set(reportedQuestions);
-    newReportedQuestions.add(questionId);
-    setReportedQuestions(newReportedQuestions);
-    localStorage.setItem('reportedQuestions', JSON.stringify(Array.from(newReportedQuestions)));
-    refreshQuestions();
-  };
-
   const toggleExpand = (question) => {
     const updatedQuestions = questions.map((q) => {
       if (q.question_id === question.question_id) {
@@ -156,7 +140,9 @@ function GetAllQuestionsAndAnswers({ currentProduct }) {
   return (
     <div>
       <div>
-        <h2>Questions & Answers</h2>
+        <div className="regular-text">
+          <h2>Questions & Answers</h2>
+        </div>
         <input
           type="text"
           placeholder="Have a question? Search for answers…"
@@ -164,7 +150,6 @@ function GetAllQuestionsAndAnswers({ currentProduct }) {
           onChange={(e) => setSearchTerm(e.target.value)}
           style={{ width: '100%', padding: '10px', marginBottom: '20px' }}
         />
-        <button type="button" onClick={openQuestionModal} className="open-button">Add a Question</button>
       </div>
       <div style={{ maxHeight: '500px', overflowY: 'auto' }}>
         {questions
@@ -174,10 +159,10 @@ function GetAllQuestionsAndAnswers({ currentProduct }) {
           .map((question) => (
             <div key={question.question_id}>
               <p>
-                <strong>
+                <div className="boldest-text">
                   Q:
                   {question.question_body}
-                </strong>
+                </div>
                 <span style={{ float: 'right' }}>
                   Helpful? (
                   <a
@@ -210,71 +195,79 @@ function GetAllQuestionsAndAnswers({ currentProduct }) {
                 </span>
               </p>
               {Object.values(question.answers).map((answer, index) => (
-                <div key={answer.id} style={{ display: index < 2 || question.expanded ? 'block' : 'none' }}>
+                <div key={answer.id} style={{ fontSize: '12px', display: index < 2 || question.expanded ? 'block' : 'none' }}>
                   <div>
                     <p>
-                      <strong>A: </strong> {answer.body}
+                      <strong>A: </strong>
+                      {answer.body}
                     </p>
-                    <p>
-                      by
-                      {' '}
-                      <strong>
+                    <div className="answerInfo">
+                      <p>
+                        {' '}
+                        by
+                        {' '}
                         {answer.answerer_name === 'Seller' ? <b>Seller</b> : answer.answerer_name}
-                      </strong>
-                      ,
-                      {' '}
-                      <small>
-                        {formatDate(answer.date)}
-                      </small>
-                      {' '}
-                      |
-                      {' '}
-                      <span>
-                        Helpful? (
-                        <a
-                          href="#"
-                          onClick={(e) => {
-                            e.preventDefault()
-                            markAnswerAsHelpful(answer.id)
-                          }}
-                          className="link"
-                          disabled={votedHelpfulness.has(answer.id)}
-                        >
-                          Yes (
-                          {answer.helpfulness + (votedHelpfulness.has(answer.id) ? 1 : 0)}
+                        ,
+                        {' '}
+                        <small>
+                          {formatDate(answer.date)}
+                        </small>
+                        {' '}
+                        |
+                        {' '}
+                        <span>
+                          Helpful? (
+                          <a
+                            href="#"
+                            onClick={(e) => {
+                              e.preventDefault()
+                              markAnswerAsHelpful(answer.id)
+                            }}
+                            className="link"
+                            disabled={votedHelpfulness.has(answer.id)}
+                            >
+                            Yes (
+                            {answer.helpfulness + (votedHelpfulness.has(answer.id) ? 1 : 0)}
+                            )
+                          </a>
                           )
-                        </a>
-                        )
-                      </span>
-                      {' '}
-                      |
-                      {' '}
-                      <span>
-                        <a
-                          href="#"
-                          onClick={(e) => {
-                            e.preventDefault();
-                            reportAnswer(answer.id)
-                          }}
-                          className="link"
-                        >
-                        {reportedAnswers.has(answer.id) ? 'Reported' : 'Report'}
-                        </a>
-                      </span>
-                    </p>
+                        </span>
+                        {' '}
+                        |
+                        {' '}
+                        <span>
+                          <a
+                            href="#"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              reportAnswer(answer.id)
+                            }}
+                            className="link"
+                            >
+                          {reportedAnswers.has(answer.id) ? 'Reported' : 'Report'}
+                          </a>
+                        </span>
+                      </p>
+                    </div>
                   </div>
                 </div>
               ))}
               {Object.values(question.answers).length > 2 && (
-                <button type="button" onClick={() => toggleExpand(question)}>
-                  {question.expanded ? 'Collapse answers' : 'See more answers'}
-                </button>
+                <span
+                  style={{ marginLeft: '26px', fontSize: '12px', fontWeight: 'bold', cursor: 'pointer', color: '#000' }}
+                  onClick={() => toggleExpand(question)}
+                >
+                  {question.expanded ? 'COLLAPSE ANSWERS' : 'LOAD MORE ANSWERS'}
+                </span>
               )}
             </div>
           ))}
-        {visibleQuestions < questions.length && (
-          <button type="button" onClick={handleShowMoreQuestions}>More Questions</button>
-        )}
+          <div>
+            {visibleQuestions < questions.length && (
+              <button type="button" onClick={handleShowMoreQuestions} className="question-button">MORE ANSWERED QUESTIONS</button>
+            )}
+            <button type="button" onClick={openQuestionModal} className="question-button">ADD A QUESTION ➕</button>
+          </div>
       </div>
       <AnswerModal
         isOpen={isAnswerModalOpen}
