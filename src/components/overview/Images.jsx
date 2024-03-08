@@ -12,7 +12,7 @@ import {
   NextMain,
 } from './imageNavButtons';
 
-const { useState, useRef, useCallback } = React;
+const { useState, useCallback } = React;
 
 const GalleryContainer = styled.div`
   position: relative;
@@ -51,8 +51,6 @@ function Images({
 
   const [isExpanded, setIsExpanded] = useState(false);
   const [isZoomed, setIsZoomed] = useState();
-  const [imageShiftX, _setImageShiftX] = useState();
-  const [imageShiftY, _setImageShiftY] = useState();
 
   const handleNextThumb = () => {
     if (maxThumbIndex !== imageCount - 1) {
@@ -94,35 +92,21 @@ function Images({
     }
   };
 
-  const imageShiftXRef = useRef(imageShiftX);
-  const setImageShiftX = (newPosition) => {
-    imageShiftXRef.current = newPosition;
-    _setImageShiftX(newPosition);
-  };
-
-  const imageShiftYRef = useRef(imageShiftY);
-  const setImageShiftY = (newPosition) => {
-    imageShiftYRef.current = newPosition;
-    _setImageShiftY(newPosition);
-  };
-
   const onMovement = useCallback((event) => {
     const galleryWidth = document.getElementById('image-container').clientWidth;
     const galleryHeight = document.getElementById('image-container').clientHeight;
+    const mainImage = document.getElementById('main-image');
+    const imageWidth = mainImage.clientWidth;
+    const imageHeight = mainImage.clientHeight;
 
-    console.log(galleryWidth, 'x', galleryHeight);
+    const changeX = Math.round(
+      ((imageWidth / 2) * ((galleryWidth / 2) - event.offsetX)) / (galleryWidth / 2),
+    );
+    const changeY = Math.round(
+      ((imageHeight / 2) * ((galleryHeight / 2) - event.offsetY)) / (galleryHeight / 2),
+    );
 
-    const percentOffsetX = `${100 - ((event.offsetX / galleryWidth) * 100)}%`;
-    const percentOffsetY = `${100 - ((event.offsetY / galleryHeight) * 100)}%`;
-
-    // setImageShiftX(`${percentOffsetX}%`);
-    // setImageShiftY(`${percentOffsetY}%`);
-    document.getElementById('main-image')
-      .style
-      .transform = `translateX(${percentOffsetX}) translateY(${percentOffsetY})`;
-
-    console.log('offsetX ', percentOffsetX);
-    console.log('offsetY ', percentOffsetY);
+    mainImage.style.transform = `translateX(${changeX}px) translateY(${changeY}px)`;
   }, []);
 
   const handleZoom = () => {
@@ -132,9 +116,7 @@ function Images({
       setIsZoomed(true);
     } else if (isZoomed) {
       galleryWindow.removeEventListener('mousemove', onMovement);
-      document.getElementById('main-image')
-        .style
-        .transform = 'translateX(0) translateY(0)';
+      document.getElementById('main-image').style.transform = 'translateX(0) translateY(0)';
       setIsZoomed(false);
     }
   };
@@ -170,8 +152,6 @@ function Images({
         styleImages={styleImages}
         mainImageIndex={mainImageIndex}
         isExpanded={isExpanded}
-        imageShiftX={imageShiftXRef.current}
-        imageShiftY={imageShiftYRef.current}
         handleZoom={handleZoom}
         handleExpansion={handleExpansion}
       />
