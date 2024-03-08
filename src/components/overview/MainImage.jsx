@@ -1,6 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 
+const { useEffect } = React;
+
 const MainImageContainer = styled.div`
   display: flex;
   flex-wrap: nowrap;
@@ -41,6 +43,12 @@ function MainImage({
   handleZoom,
   handleExpansion,
 }) {
+  let styles = {};
+  useEffect(() => {
+    styles = { translateX: imageShiftX };
+  }, [imageShiftX, imageShiftY]);
+  console.log(styles);
+
   return (
     <MainImageContainer
       id="image-container"
@@ -52,7 +60,7 @@ function MainImage({
         key={styleImages[mainImageIndex].url}
         data-index={mainImageIndex}
         alt="Clothing"
-        style={isExpanded ? { top: imageShiftY, right: imageShiftX } : {}}
+        style={{ translateX: imageShiftX }}
         src={styleImages[mainImageIndex].url}
         onClick={isExpanded ? handleZoom : handleExpansion}
         $expanded={isExpanded}

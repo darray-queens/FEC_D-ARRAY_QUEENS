@@ -116,8 +116,8 @@ function Images({
     setImageShiftX(`${percentOffsetX}%`);
     setImageShiftY(`${percentOffsetY}%`);
 
-    // console.log('offsetX ', imageShiftXRef.current);
-    // console.log('offsetY ', imageShiftYRef.current);
+    console.log('offsetX ', imageShiftXRef.current);
+    console.log('offsetY ', imageShiftYRef.current);
   }, []);
 
   const handleZoom = () => {
