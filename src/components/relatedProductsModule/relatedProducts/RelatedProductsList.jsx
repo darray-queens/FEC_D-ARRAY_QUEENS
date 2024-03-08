@@ -3,6 +3,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import ProductCard from '../shared/ProductCard';
 import ComparisonModule from './ComparisonModule';
 import scrollButtonClick from '../shared/scrollButtonClick';
+import fetchSalePrice from '../shared/fetchSalePrice';
 import {
   Grid,
   ProductModuleRow,
@@ -30,11 +31,7 @@ function RelatedProductsList({ currentProduct, setProductId }) {
     ).filter((element) => element.id !== currentProduct.id);
 
     const salePricePromises = relatedProducts.map(async (element) => {
-      const stylesData = await axios.get(`/products/${element.id}/styles`)
-        .catch((err) => {
-          console.error(err);
-        });
-      const salePrice = stylesData.data.results[0].sale_price;
+      const salePrice = await fetchSalePrice(element.id);
       return { id: element.id, salePrice };
     });
 

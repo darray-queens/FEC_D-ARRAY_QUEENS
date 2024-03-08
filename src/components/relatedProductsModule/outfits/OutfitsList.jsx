@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import ProductCard from '../shared/ProductCard';
 import scrollButtonClick from '../shared/scrollButtonClick';
+import fetchSalePrice from '../shared/fetchSalePrice';
 import {
   Grid,
   Col,
@@ -24,6 +25,7 @@ function OutfitsList({ currentProduct }) {
       </div>
     );
   }
+
 
   const setJSONItem = (outfits) => {
     const outfitsJSON = JSON.stringify(outfits);
