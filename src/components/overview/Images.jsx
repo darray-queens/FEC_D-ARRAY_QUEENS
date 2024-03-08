@@ -12,8 +12,8 @@ function Images({ styleImages, mainImageIndex, changeMainImageIndex }) {
   const [maxThumbIndex, setMaxThumbIndex] = useState(imageCount - 1 > 6 ? 6 : imageCount - 1);
   const [isExpanded, setIsExpanded] = useState(false);
   const [isZoomed, setIsZoomed] = useState(false);
-  const [imageX, setImageX] = useState(0);
-  const [imageY, setImageY] = useState(0);
+  const [imageShiftX, setImageShiftX] = useState();
+  const [imageShiftY, setImageShiftY] = useState();
 
   const handleNextThumb = () => {
     if (maxThumbIndex !== imageCount - 1) {
@@ -56,47 +56,36 @@ function Images({ styleImages, mainImageIndex, changeMainImageIndex }) {
   };
 
   const handleImagePosition = (event) => {
+    if (document.getElementById('image-container').dataset.zoomed === 'false') {
+      return;
+    }
     // move to state
-    const imageWidth = document.getElementById('main-image').clientWidth;
-    const imageHeight = document.getElementById('main-image').clientHeight;
+    // const imageWidth = document.getElementById('main-image').clientWidth;
+    // const imageHeight = document.getElementById('main-image').clientHeight;
+    const galleryWidth = document.getElementById('image-container').clientWidth;
+    const galleryHeight = document.getElementById('image-container').clientHeight;
 
-    console.log('mouseX ', event.offsetX);
-    console.log('mouseY ', event.offsetY);
+    const percentOffsetX = `${100 - ((event.offsetX / galleryWidth) * 100)}%`;
+    const percentOffsetY = `${100 - ((event.offsetY / galleryHeight) * 100)}%`;
 
-    // const imageOffsetX ;
-    // const imageOffsetY;
-  }
+    setImageShiftX(`${percentOffsetX}%`);
+    setImageShiftY(`${percentOffsetY}%`);
 
-  // const handleZoom = () => {
-  //   const galleryWindow = document.getElementById('image-container');
-  //   console.log(isZoomed);
+    console.log('offsetX ', imageShiftX);
+    console.log('offsetY ', imageShiftY);
+  };
 
-  //   if (!isZoomed) {
-  //     galleryWindow.addEventListener('mousemove', handleImagePosition);
-  //     setIsZoomed(true);
-  //     console.log(galleryWindow);
-  //     console.log(handleImagePosition);
-  //   } else if (isZoomed) {
-  //     galleryWindow.removeEventListener('mousemove', handleImagePosition);
-  //     setIsZoomed(false);
-  //     console.log(galleryWindow);
-  //     console.log(handleImagePosition);
-  //   }
-  // }
+  const handleZoom = () => {
+    const galleryWindow = document.getElementById('image-container');
 
-  const handleZoomIn = () => {
-    document.getElementById('image-container').addEventListener('mousemove', handleImagePosition);
-    setIsZoomed(true);
-    console.log(document.getElementById('image-container'));
-    console.log(handleImagePosition);
-  }
-
-  const handleZoomOut = () => {
-    document.getElementById('image-container').removeEventListener('mousemove', handleImagePosition);
-    setIsZoomed(false);
-    console.log(document.getElementById('image-container'));
-    console.log(handleImagePosition);
-  }
+    if (!isZoomed) {
+      galleryWindow.addEventListener('mousemove', handleImagePosition, true);
+      setIsZoomed(true);
+    } else if (isZoomed) {
+      galleryWindow.removeEventListener('mousemove', handleImagePosition, true);
+      setIsZoomed(false);
+    }
+  };
 
   return (
     <GalleryContainer>
@@ -140,18 +129,19 @@ function Images({ styleImages, mainImageIndex, changeMainImageIndex }) {
       </MenuCol>
       <MainImageContainer
         id="image-container"
-        //$zoomed={isZoomed}
+        $zoomed={isZoomed}
+        data-zoomed={isZoomed}
       >
         <MainImg
           id="main-image"
           key={styleImages[mainImageIndex].url}
           data-index={mainImageIndex}
           alt="Clothing"
+          style={{ top: { imageShiftY }, right: { imageShiftX } }}
           src={styleImages[mainImageIndex].url}
-          // onClick={isExpanded ? handleZoom : handleExpansion}
-          onClick={handleZoomIn}
+          onClick={isExpanded ? handleZoom : handleExpansion}
           $expanded={isExpanded}
-          //$zoomed={isZoomed}
+          $zoomed={isZoomed}
         />
       </MainImageContainer>
       <PrevMain
@@ -162,7 +152,7 @@ function Images({ styleImages, mainImageIndex, changeMainImageIndex }) {
       </PrevMain>
       <NextMain
         style={{ display: mainImageIndex === imageCount - 1 ? 'none' : 'inherit' }}
-        onClick={/* handleNextMain */ handleZoomOut}
+        onClick={handleNextMain}
       >
         &#10095;
       </NextMain>
@@ -203,9 +193,9 @@ const MainImg = styled.img`
     ? `height: 250%;
       max-width: 250%;
       object-fit: cover;`
-    : `height: 100%;
-      max-width: 100%;
-      object-fit: scale-down;`)}
+    : `height: 250%;
+      max-width: 250%;
+      object-fit: cover;`)}
 `;
 
 const MenuCol = styled(Row)`
