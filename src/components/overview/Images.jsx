@@ -1,31 +1,87 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import MainImage from './MainImage';
+import ThumbnailMenu from './ThumbnailMenu';
+import {
+  PrevThumb,
+  NextThumb,
+  PrevMain,
+  NextMain,
+} from './imageNavButtons';
+
 import { Row } from '../shared/containers';
 
-const { useState } = React;
+const { useState, useRef } = React;
 
-function Images({ styleImages, mainImageIndex, changeMainImageIndex }) {
+const GalleryContainer = styled.div`
+  position: relative;
+  background: #d3d3d3;
+  height: 550px;
+  min-width: 480px;
+  overflow: hidden;
+`;
+
+const MenuCol = styled(Row)`
+  position: absolute;
+  z-index: 1;
+  flex-direction: column;
+  overflow: hidden;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+`;
+
+const NavContainer = styled(Row)`
+  height: 50px;
+  width: 50px;
+  justify-content: center;
+`;
+
+function Images({
+  styleImages,
+  mainImageIndex,
+  changeMainImageIndex,
+  maxThumbIndex,
+  changeMaxThumbIndex,
+  minThumbIndex,
+  changeMinThumbIndex,
+}) {
   const imageCount = styleImages.length;
 
-  const [minThumbIndex, setMinThumbIndex] = useState(0);
-  const [maxThumbIndex, setMaxThumbIndex] = useState(imageCount - 1 > 6 ? 6 : imageCount - 1);
+  ///
+  console.log(maxThumbIndex);
+  console.log(minThumbIndex);
+  ///
+
   const [isExpanded, setIsExpanded] = useState(false);
-  const [isZoomed, setIsZoomed] = useState(false);
-  const [imageShiftX, setImageShiftX] = useState();
-  const [imageShiftY, setImageShiftY] = useState();
+  const [isZoomed, setIsZoomed] = useState();
+  const [imageShiftX, _setImageShiftX] = useState();
+  const [imageShiftY, _setImageShiftY] = useState();
+
+  const imageShiftXRef = useRef(imageShiftX);
+  const setImageShiftX = (newPosition) => {
+    imageShiftXRef.current = newPosition;
+    _setImageShiftX(newPosition);
+  };
+
+  const imageShiftYRef = useRef(imageShiftY);
+  const setImageShiftY = (newPosition) => {
+    imageShiftYRef.current = newPosition;
+    _setImageShiftY(newPosition);
+  };
 
   const handleNextThumb = () => {
     if (maxThumbIndex !== imageCount - 1) {
-      setMinThumbIndex((prevIndex) => prevIndex + 1);
-      setMaxThumbIndex((prevIndex) => prevIndex + 1);
+      changeMinThumbIndex((prevIndex) => prevIndex + 1);
+      changeMaxThumbIndex((prevIndex) => prevIndex + 1);
     }
   };
 
   const handlePrevThumb = () => {
     if (minThumbIndex !== 0) {
-      setMinThumbIndex((prevIndex) => prevIndex - 1);
-      setMaxThumbIndex((prevIndex) => prevIndex - 1);
+      changeMinThumbIndex((prevIndex) => prevIndex - 1);
+      changeMaxThumbIndex((prevIndex) => prevIndex - 1);
     }
   };
 
@@ -59,9 +115,7 @@ function Images({ styleImages, mainImageIndex, changeMainImageIndex }) {
     if (document.getElementById('image-container').dataset.zoomed === 'false') {
       return;
     }
-    // move to state
-    // const imageWidth = document.getElementById('main-image').clientWidth;
-    // const imageHeight = document.getElementById('main-image').clientHeight;
+
     const galleryWidth = document.getElementById('image-container').clientWidth;
     const galleryHeight = document.getElementById('image-container').clientHeight;
 
@@ -71,8 +125,8 @@ function Images({ styleImages, mainImageIndex, changeMainImageIndex }) {
     setImageShiftX(`${percentOffsetX}%`);
     setImageShiftY(`${percentOffsetY}%`);
 
-    console.log('offsetX ', imageShiftX);
-    console.log('offsetY ', imageShiftY);
+    console.log('offsetX ', imageShiftXRef.current);
+    console.log('offsetY ', imageShiftYRef.current);
   };
 
   const handleZoom = () => {
@@ -98,26 +152,12 @@ function Images({ styleImages, mainImageIndex, changeMainImageIndex }) {
             &#x2c4;
           </PrevThumb>
         </NavContainer>
-        {styleImages.map((image, index) => (
-          <Row key={image.thumbnail_url}>
-            <button
-              name="galleryThumbnail"
-              type="button"
-              style={{
-                display: index >= minThumbIndex && index <= maxThumbIndex ? 'inherit' : 'none',
-              }}
-              onClick={(e) => changeMainImageIndex(Number(e.target.dataset.index))}
-            >
-              <img
-                data-index={index}
-                alt="The next addition to your wardrobe"
-                src={image.thumbnail_url}
-                height="50px"
-                width="50px"
-              />
-            </button>
-          </Row>
-        ))}
+        <ThumbnailMenu
+          styleImages={styleImages}
+          minThumbIndex={minThumbIndex}
+          maxThumbIndex={maxThumbIndex}
+          changeMainImageIndex={changeMainImageIndex}
+        />
         <NavContainer>
           <NextThumb
             style={{ display: maxThumbIndex === imageCount - 1 ? 'none' : 'inherit' }}
@@ -127,23 +167,16 @@ function Images({ styleImages, mainImageIndex, changeMainImageIndex }) {
           </NextThumb>
         </NavContainer>
       </MenuCol>
-      <MainImageContainer
-        id="image-container"
-        $zoomed={isZoomed}
-        data-zoomed={isZoomed}
-      >
-        <MainImg
-          id="main-image"
-          key={styleImages[mainImageIndex].url}
-          data-index={mainImageIndex}
-          alt="Clothing"
-          style={{ top: { imageShiftY }, right: { imageShiftX } }}
-          src={styleImages[mainImageIndex].url}
-          onClick={isExpanded ? handleZoom : handleExpansion}
-          $expanded={isExpanded}
-          $zoomed={isZoomed}
-        />
-      </MainImageContainer>
+      <MainImage
+        isZoomed={isZoomed}
+        styleImages={styleImages}
+        mainImageIndex={mainImageIndex}
+        isExpanded={isExpanded}
+        imageShiftX={imageShiftXRef.current}
+        imageShiftY={imageShiftYRef.current}
+        handleZoom={handleZoom}
+        handleExpansion={handleExpansion}
+      />
       <PrevMain
         style={{ display: mainImageIndex === 0 ? 'none' : 'inherit' }}
         onClick={handlePrevMain}
@@ -159,123 +192,5 @@ function Images({ styleImages, mainImageIndex, changeMainImageIndex }) {
     </GalleryContainer>
   );
 }
-
-const MainImageContainer = styled.div`
-  display: flex;
-  flex-wrap: nowrap;
-  overflow: hidden;
-  height: 100%;
-  width: 100%;
-  justify-content: center;
-`;
-
-const GalleryContainer = styled.div`
-  position: relative;
-  background: #d3d3d3;
-  height: 550px;
-  min-width: 480px;
-  overflow: hidden;
-`;
-
-const MainImg = styled.img`
-  cursor: ${(props) => {
-    if (props.$zoomed) {
-      return 'zoom-out';
-    }
-    if (props.$expanded) {
-      return 'zoom-in';
-    }
-    return 'pointer';
-  }};
-  position: absolute;
-  display: 'flex';
-  ${(props) => (props.$zoomed
-    ? `height: 250%;
-      max-width: 250%;
-      object-fit: cover;`
-    : `height: 250%;
-      max-width: 250%;
-      object-fit: cover;`)}
-`;
-
-const MenuCol = styled(Row)`
-  position: absolute;
-  z-index: 1;
-  flex-direction: column;
-  overflow: hidden;
-  height: 100%;
-  justify-content: center;
-  align-items: center;
-`;
-
-const PrevMain = styled.a`
-  cursor: pointer;
-  position: absolute;
-  top: 50%;
-  width: auto;
-  margin-top: -22px;
-  padding: 16px;
-  color: white;
-  font-weight: bold;
-  font-size: 18px;
-  left: 70px;
-  border-radius: 3px;
-  user-select: none;
-  &:hover {
-    background-color: rgba(0, 0, 0, 0.8);
-  }
-`;
-
-const NextMain = styled.a`
-  cursor: pointer;
-  position: absolute;
-  top: 50%;
-  width: auto;
-  margin-top: -22px;
-  padding: 16px;
-  color: white;
-  font-weight: bold;
-  font-size: 18px;
-  user-select: none;
-  right: 70px;
-  border-radius: 3px;
-  &:hover {
-    background-color: rgba(0, 0, 0, 0.8);
-  }
-`;
-
-const PrevThumb = styled.a`
-  cursor: pointer;
-  width: auto;
-  padding: 16px;
-  color: white;
-  font-weight: bold;
-  font-size: 18px;
-  border-radius: 3px;
-  user-select: none;
-  &:hover {
-    background-color: rgba(0, 0, 0, 0.8);
-  }
-`;
-
-const NextThumb = styled.a`
-  cursor: pointer;
-  width: auto;
-  padding: 16px;
-  color: white;
-  font-weight: bold;
-  font-size: 18px;
-  user-select: none;
-  border-radius: 3px;
-  &:hover {
-    background-color: rgba(0, 0, 0, 0.8);
-  }
-`;
-
-const NavContainer = styled(Row)`
-  height: 50px;
-  width: 50px;
-  justify-content: center;
-`;
 
 export default Images;
