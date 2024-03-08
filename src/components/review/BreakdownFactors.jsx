@@ -51,7 +51,7 @@ const Label = styled.div`
 const Icon = styled.div`
   width: 0;
   height: 0;
-  $left: ${(props) => (props.left)}%;
+  left: ${(props) => (props.$left)}%;
   border-left: 8px solid transparent;
   border-right: 8px solid transparent;
   border-top: 13px solid #00693E;
