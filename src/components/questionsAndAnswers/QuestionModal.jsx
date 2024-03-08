@@ -3,8 +3,7 @@ import axios from 'axios';
 import './styles.css';
 
 function QuestionModal({
-  isOpen, onRequestClose, productName, questions,
-  setQuestions, currentProduct, refreshQuestions, currentPage,
+  isOpen, onRequestClose, productName, currentProduct, setIsSubmitting, questions, setQuestions,
 }) {
   const [questionInput, setQuestionInput] = useState('');
   const [nicknameInput, setNicknameInput] = useState('');
@@ -18,6 +17,8 @@ function QuestionModal({
 
   const submitQuestion = async (event) => {
     event.preventDefault();
+    setIsSubmitting(true); // Indicate that submission has started
+
     const questionDetails = {
       body: questionInput,
       name: nicknameInput,
@@ -26,16 +27,13 @@ function QuestionModal({
     };
 
     try {
-      await axios.post(`/qa/questions?product_id=${currentProduct.id}`, questionDetails, {
-        params: { page: currentPage, count: 5 },
-      });
-
-      // Refresh the questions after a short delay (optional)
-      await refreshQuestions(currentProduct);
-
-      await onRequestClose(); // Close the modal upon successful submission
+      await axios.post('/qa/questions', questionDetails);
+      // If the POST request is successful, setIsSubmitting(false) is called after the state update in GetAllQuestionsAndAnswers triggers a refresh
     } catch (error) {
       console.error('Error submitting question:', error);
+    } finally {
+      setIsSubmitting(false); // Ensure submission status is reset whether successful or error
+      onRequestClose(); // Close the modal upon submission attempt
     }
   };
 
@@ -47,12 +45,6 @@ function QuestionModal({
           About the
           {productName}
         </h3>
-        {questions.map((question) => (
-          <div key={question.id}>
-            <p>{question.body}</p>
-            {/* Add any additional information related to the question */}
-          </div>
-        ))}
         <form onSubmit={submitQuestion} className="form-container">
           <textarea
             id="question-input"

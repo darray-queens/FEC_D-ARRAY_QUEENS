@@ -83,3 +83,13 @@
   align-items: center;
   backdrop-filter: blur(5px); /* Blur effect */
 }
+
+.link {
+  color: gray;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.link:hover {
+  color: black;
+}
