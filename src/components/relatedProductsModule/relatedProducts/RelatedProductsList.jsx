@@ -19,18 +19,44 @@ function RelatedProductsList({ currentProduct, setProductId }) {
   const productModuleRef = useRef(null);
 
   async function fetchProducts() {
-    const response = await axios.get('/products/?count=75')
+    const productsRequest = await axios.get('/products/?count=75')
       .catch((err) => {
         console.error(err);
       });
+
+    const relatedProducts = productsRequest.data.filter(
+      (element) => element.category.toLowerCase().includes(currentProduct.category.toLowerCase())
+        || currentProduct.category.toLowerCase().includes(element.category.toLowerCase()),
+    ).filter((element) => element.id !== currentProduct.id);
+
+    const salePricePromises = relatedProducts.map(async (element) => {
+      const stylesData = await axios.get(`/products/${element.id}/styles`)
+        .catch((err) => {
+          console.error(err);
+        });
+      const salePrice = stylesData.data.results[0].sale_price;
+      return { id: element.id, salePrice };
+    });
+
+    const promisesResolved = await Promise.all(salePricePromises);
+    const itemsWithSale = promisesResolved.filter((element) => element.salePrice !== null); // [{}]
+
+    const hash = {};
+
+    itemsWithSale.forEach((element) => {
+      hash[element.id] = element.salePrice;
+    });
+
+    relatedProducts.forEach((element, index) => {
+      if (hash[element.id] !== undefined) {
+        relatedProducts[index].salePrice = hash[element.id];
+      } else {
+        relatedProducts[index].salePrice = undefined;
+      }
+    });
+
     setIsLoading(false);
-    setProductsList(
-      response.data.filter(
-        (element) => element.category.toLowerCase().includes(currentProduct.category.toLowerCase())
-          // eslint-disable-next-line comma-dangle
-          || currentProduct.category.toLowerCase().includes(element.category.toLowerCase())
-      ).filter((element) => element.id !== currentProduct.id),
-    );
+    setProductsList(relatedProducts);
   }
 
   useEffect(() => {
@@ -82,14 +108,6 @@ function RelatedProductsList({ currentProduct, setProductId }) {
       }
     }
   };
-
-  // const scrollButtonClick = (direction) => {
-  //   if (direction === 'left') {
-  //     productModuleRef.current.scrollLeft -= 310;
-  //   } else {
-  //     productModuleRef.current.scrollLeft += 310;
-  //   }
-  // };
 
   return (
     <Grid>
