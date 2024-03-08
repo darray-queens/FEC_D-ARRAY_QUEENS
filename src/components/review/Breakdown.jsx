@@ -10,6 +10,8 @@ import Bar from './Bar';
 
 import { Row, Col } from '../shared/containers';
 
+import IconBar from './BreakdownFactors';
+
 const { useState, useEffect } = React;
 
 function Breakdown({
@@ -188,6 +190,9 @@ function Breakdown({
           {activeFilters.join(', ')}
         </StylesButton>
         )}
+      </StylesRow>
+      <StylesRow>
+        <IconBar characteristic="cool" average={3} />
       </StylesRow>
     </div>
   );
