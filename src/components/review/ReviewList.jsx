@@ -23,6 +23,7 @@ function ReviewList({ currentProduct }) {
   const [renderedReviews, setRenderedReviews] = useState(2);
   const [filteredReviews, setFilteredReviews] = useState([]);
   const [answerModal, setAnswerModal] = useState(null);
+  const [activeFilters, setActiveFilters] = useState([]);
 
   useEffect(() => {
     setReviews([]);
@@ -74,6 +75,8 @@ function ReviewList({ currentProduct }) {
             reviews={reviews}
             setFilteredReviews={setFilteredReviews}
             filteredReviews={filteredReviews}
+            activeFilters={activeFilters}
+            setActiveFilters={setActiveFilters}
           />
         </Col>
         <Col size={3.5}>
@@ -85,6 +88,8 @@ function ReviewList({ currentProduct }) {
               ? setFilteredReviews
               : setReviews}
             relevantReviews={relevantReviews}
+            activeFilters={activeFilters}
+            setFilteredReviews={setFilteredReviews}
           />
           <StylesDiv>
             {filteredReviews.length >= 1

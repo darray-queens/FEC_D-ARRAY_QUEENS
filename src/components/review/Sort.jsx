@@ -2,7 +2,7 @@ import React from 'react';
 
 import styled from 'styled-components';
 
-function Sort({ reviews, setReviews, relevantReviews }) {
+function Sort({ reviews, setReviews, relevantReviews, activeFilters, setFilteredReviews }) {
   const sortByHelpfulness = () => {
     const sorted = [...reviews].sort((a, b) => b.helpfulness - a.helpfulness);
     setReviews(sorted);
@@ -13,6 +13,14 @@ function Sort({ reviews, setReviews, relevantReviews }) {
     setReviews(sorted);
   };
 
+  const sortByRelevance = () => {
+    setReviews(relevantReviews);
+    if (activeFilters.length > 0) {
+      const filtered = relevantReviews.filter((review) => activeFilters.includes(review.rating));
+      setFilteredReviews(filtered);
+    }
+  };
+
   const handleSortChange = (event) => {
     const selectedSort = event.target.value;
     if (selectedSort === 'helpfulness') {
@@ -20,7 +28,7 @@ function Sort({ reviews, setReviews, relevantReviews }) {
     } else if (selectedSort === 'newest') {
       sortByNewest();
     } else if (selectedSort === 'relevance') {
-      setReviews(relevantReviews);
+      sortByRelevance();
     }
   };
 
