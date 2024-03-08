@@ -1,24 +1,14 @@
 import axios from 'axios';
 import React, { useState, useEffect, useRef } from 'react';
-import styled from 'styled-components';
 import ProductCard from '../shared/ProductCard';
 import ComparisonModule from './ComparisonModule';
+import scrollButtonClick from '../shared/scrollButtonClick';
 import {
   Grid,
   ProductModuleRow,
-  Button,
+  StyledButton,
   Col,
 } from '../../shared/containers';
-
-const StyledButton = styled(Button)`
-  background: linear-gradient(to right, white 50%, rgba(240, 240, 240, 0) 100%);
-  border: none;
-  color: black;
-  padding: 10px 20px;
-  cursor: pointer;
-  position: relative;
-  overflow: hidden;
-`;
 
 function RelatedProductsList({ currentProduct, setProductId }) {
   const [productsList, setProductsList] = useState([]);
@@ -29,18 +19,44 @@ function RelatedProductsList({ currentProduct, setProductId }) {
   const productModuleRef = useRef(null);
 
   async function fetchProducts() {
-    const response = await axios.get('/products/?count=150')
+    const productsRequest = await axios.get('/products/?count=75')
       .catch((err) => {
         console.error(err);
       });
+
+    const relatedProducts = productsRequest.data.filter(
+      (element) => element.category.toLowerCase().includes(currentProduct.category.toLowerCase())
+        || currentProduct.category.toLowerCase().includes(element.category.toLowerCase()),
+    ).filter((element) => element.id !== currentProduct.id);
+
+    const salePricePromises = relatedProducts.map(async (element) => {
+      const stylesData = await axios.get(`/products/${element.id}/styles`)
+        .catch((err) => {
+          console.error(err);
+        });
+      const salePrice = stylesData.data.results[0].sale_price;
+      return { id: element.id, salePrice };
+    });
+
+    const promisesResolved = await Promise.all(salePricePromises);
+    const itemsWithSale = promisesResolved.filter((element) => element.salePrice !== null); // [{}]
+
+    const hash = {};
+
+    itemsWithSale.forEach((element) => {
+      hash[element.id] = element.salePrice;
+    });
+
+    relatedProducts.forEach((element, index) => {
+      if (hash[element.id] !== undefined) {
+        relatedProducts[index].salePrice = hash[element.id];
+      } else {
+        relatedProducts[index].salePrice = undefined;
+      }
+    });
+
     setIsLoading(false);
-    setProductsList(
-      response.data.filter(
-        (element) => element.category.toLowerCase().includes(currentProduct.category.toLowerCase())
-          // eslint-disable-next-line comma-dangle
-          || currentProduct.category.toLowerCase().includes(element.category.toLowerCase())
-      ).filter((element) => element.id !== currentProduct.id),
-    );
+    setProductsList(relatedProducts);
   }
 
   useEffect(() => {
@@ -93,20 +109,12 @@ function RelatedProductsList({ currentProduct, setProductId }) {
     }
   };
 
-  const scrollButtonClick = (direction) => {
-    if (direction === 'left') {
-      productModuleRef.current.scrollLeft -= 310;
-    } else {
-      productModuleRef.current.scrollLeft += 310;
-    }
-  };
-
   return (
     <Grid>
       <h2>Related Products</h2>
       <ProductModuleRow>
         <Col size={1}>
-          <StyledButton type="button" onClick={() => scrollButtonClick('left')}>&lt;</StyledButton>
+          <StyledButton type="button" onClick={() => scrollButtonClick(productModuleRef.current, 'left')}>&lt;</StyledButton>
         </Col>
         <Col size={20}>
           <ProductModuleRow ref={productModuleRef} width={90}>
@@ -123,7 +131,7 @@ function RelatedProductsList({ currentProduct, setProductId }) {
           </ProductModuleRow>
         </Col>
         <Col size={1}>
-          <StyledButton type="button" onClick={() => scrollButtonClick('right')}>&gt;</StyledButton>
+          <StyledButton type="button" onClick={() => scrollButtonClick(productModuleRef.current, 'right')}>&gt;</StyledButton>
         </Col>
       </ProductModuleRow>
       {comparisonHidden ? <div /> : <ComparisonModule comparedItems={comparedItems} />}
