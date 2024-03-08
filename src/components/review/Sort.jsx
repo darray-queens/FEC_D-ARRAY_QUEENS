@@ -2,23 +2,19 @@ import React from 'react';
 
 import styled from 'styled-components';
 
-function Sort({ reviews, setReviews, relevantReviews, activeFilters, setFilteredReviews }) {
+function Sort({
+  reviews, setSort,
+}) {
   const sortByHelpfulness = () => {
-    const sorted = [...reviews].sort((a, b) => b.helpfulness - a.helpfulness);
-    setReviews(sorted);
+    setSort('helpful');
   };
 
   const sortByNewest = () => {
-    const sorted = [...reviews].sort((a, b) => new Date(b.date) - new Date(a.date));
-    setReviews(sorted);
+    setSort('newest');
   };
 
   const sortByRelevance = () => {
-    setReviews(relevantReviews);
-    if (activeFilters.length > 0) {
-      const filtered = relevantReviews.filter((review) => activeFilters.includes(review.rating));
-      setFilteredReviews(filtered);
-    }
+    setSort('relevant');
   };
 
   const handleSortChange = (event) => {
@@ -40,7 +36,7 @@ function Sort({ reviews, setReviews, relevantReviews, activeFilters, setFiltered
           {' '}
           reviews, sorted by
           {' '}
-          <SortSelector id="selectedSort" name="slectedSort" onChange={handleSortChange}>
+          <SortSelector id="selectedSort" name="selectedSort" onChange={handleSortChange}>
             <option value="relevance">relevance</option>
             <option value="helpfulness">helpfulness</option>
             <option value="newest">newest</option>

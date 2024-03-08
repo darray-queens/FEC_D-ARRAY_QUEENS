@@ -18,36 +18,37 @@ const { useState, useEffect } = React;
 
 function ReviewList({ currentProduct }) {
   const [reviews, setReviews] = useState([]);
-  const [pageNumber, setPageNumber] = useState(1);
   const [relevantReviews, setRelevantReviews] = useState([]);
   const [renderedReviews, setRenderedReviews] = useState(2);
   const [filteredReviews, setFilteredReviews] = useState([]);
   const [answerModal, setAnswerModal] = useState(null);
   const [activeFilters, setActiveFilters] = useState([]);
+  const [count, setCount] = useState(2);
+  const [sort, setSort] = useState('relevant');
 
   useEffect(() => {
     setReviews([]);
     setRelevantReviews([]);
-    setPageNumber(1);
+    setCount(1);
     setRenderedReviews(2);
+    setSort('relevant');
   }, [currentProduct]);
 
   useEffect(() => {
     if (currentProduct && currentProduct.id) {
       const productId = currentProduct.id;
-      axios.get(`/reviews?product_id=${productId}&page=${pageNumber}&sort=relevant`)
+      axios.get(`/reviews?product_id=${productId}&count=${count}&sort=${sort}`)
         .then((response) => {
-          if (response.data.results.length !== 0) {
-            setRelevantReviews((prevReviews) => prevReviews.concat(response.data.results));
-            setReviews((prevReviews) => prevReviews.concat(response.data.results));
-            setPageNumber((prevPageNumber) => prevPageNumber + 1);
+          if (JSON.stringify(response.data.results) !== JSON.stringify(reviews)) {
+            setReviews(response.data.results);
+            setCount((prevCount) => prevCount + 10);
           }
         })
         .catch((err) => {
           console.error('failed to set list: ', err);
         });
     }
-  }, [currentProduct, pageNumber]);
+  }, [currentProduct, count, sort]);
 
   if (reviews.length === 0) {
     return <div>No reviews loaded</div>;
@@ -64,6 +65,9 @@ function ReviewList({ currentProduct }) {
   const openAnswerModal = () => {
     setAnswerModal(true);
   };
+
+  console.log(reviews);
+  console.log(renderedReviews)
 
   return (
     <div id="reviews">
@@ -90,6 +94,8 @@ function ReviewList({ currentProduct }) {
             relevantReviews={relevantReviews}
             activeFilters={activeFilters}
             setFilteredReviews={setFilteredReviews}
+            sort={sort}
+            setSort={setSort}
           />
           <StylesDiv>
             {filteredReviews.length >= 1
