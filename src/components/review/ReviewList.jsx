@@ -8,11 +8,11 @@ import Review from './Review';
 
 import Sort from './Sort';
 
-import AverageStars from '../shared/AverageStars';
-
-import { Grid, Row, Col } from '../shared/containers';
+import { Row, Col } from '../shared/containers';
 
 import Breakdown from './Breakdown';
+
+import Write from './Write';
 
 const { useState, useEffect } = React;
 
@@ -22,6 +22,7 @@ function ReviewList({ currentProduct }) {
   const [relevantReviews, setRelevantReviews] = useState([]);
   const [renderedReviews, setRenderedReviews] = useState(2);
   const [filteredReviews, setFilteredReviews] = useState([]);
+  const [answerModal, setAnswerModal] = useState(null);
 
   useEffect(() => {
     setReviews([]);
@@ -53,6 +54,14 @@ function ReviewList({ currentProduct }) {
 
   const moreReviews = () => {
     setRenderedReviews((prevRenderedReviews) => prevRenderedReviews + 2);
+  };
+
+  const exitAnswerModal = () => {
+    setAnswerModal(null);
+  };
+
+  const openAnswerModal = () => {
+    setAnswerModal(true);
   };
 
   return (
@@ -91,9 +100,16 @@ function ReviewList({ currentProduct }) {
             type="button"
             onClick={moreReviews}
           >
-            More Reviews
+            MORE REVIEWS
           </StylesButton>
           )}
+          <StylesButton
+            type="button"
+            onClick={openAnswerModal}
+          >
+            ADD A REVIEW +
+          </StylesButton>
+          {answerModal && <Write closeModal={exitAnswerModal} />}
         </Col>
       </Row>
     </div>
@@ -105,27 +121,18 @@ const StylesDiv = styled.div`
   max-height: 600px;
 `;
 
-const RightCol = styled(Col)`
-  text-align: right
-`;
-
-const StylesCol = styled(Col)`
-  margin-right: 5px;
-  margin-bottom: 5px;
-  padding: 5px;
-  border: 1px solid rgb(48,48,48);
-  background: rgb(232,232,232);
-  &: hover {
-    background: rgb(224,224,224);
-    border-color: rgb(16,16,16);
-  }
-`;
-
 const StylesButton = styled.button`
   padding: 10px;
-  margin-top: 10px;
-  margin-bttom: 10px;
-  margin-right: 10px;
+  margin-top: 60px;
+  margin-bottom: 20px;
+  margin-right: 20px;
+  font-weight: bold;
+  background-color: white;
+  height: 60px;
+  width: 150px;
+  &:hover {
+    background-color: rgb(220,220,220);
+  }
 `;
 
 export default ReviewList;
