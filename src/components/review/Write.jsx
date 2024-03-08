@@ -16,8 +16,8 @@ const ModalContainer = styled.div`
 
 const ModalContent = styled.div`
   background-color: white;
-  width: 80%;
-  max-height: 80%;
+  width: 600px;
+  max-height: 95%;
   overflow: auto;
   padding: 20px;
   position: absolute;
@@ -26,6 +26,10 @@ const ModalContent = styled.div`
   transform: translate(-50%, -50%);
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   z-index: 1;
 `;
 
@@ -46,7 +50,7 @@ function Write({ closeModal }) {
   return (
     <ModalContainer>
       <ModalContent>
-        <h2>Submit your Answer</h2>
+        <h2>Write a Review</h2>
         <form className="form-container">
           <textarea
             id="answer-input"
