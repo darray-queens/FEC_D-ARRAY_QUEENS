@@ -25,6 +25,7 @@ function Breakdown({
   const [twoStarRate, setTwoStarRate] = useState(0);
   const [oneStarRate, setOneStarRate] = useState(0);
   const [activeFilters, setActiveFilters] = useState([]);
+  const [factors, setFactors] = useState({});
 
   // useEffect(() => {
   //   setReviews(reviews);
@@ -45,6 +46,7 @@ function Breakdown({
       const productId = currentProduct.id;
       axios.get(`/reviews/meta?product_id=${productId}`)
         .then((response) => {
+          setFactors(response.data.characteristics);
           if (response.data.ratings !== undefined) {
             if (Object.prototype.hasOwnProperty.call(response.data.ratings, '1')) {
               Object.keys(response.data.ratings).forEach((key) => {
@@ -192,7 +194,13 @@ function Breakdown({
         )}
       </StylesRow>
       <StylesRow>
-        <IconBar characteristic="Width" average={3} />
+        {Object.keys(factors).map((key) => (
+          <IconBar
+            characteristic={key}
+            average={factors[key].value}
+          />
+        ))}
+        {/* <IconBar characteristic="Width" average={3} /> */}
       </StylesRow>
     </div>
   );
