@@ -192,7 +192,7 @@ function Breakdown({
         )}
       </StylesRow>
       <StylesRow>
-        <IconBar characteristic="cool" average={3} />
+        <IconBar characteristic="Width" average={3} />
       </StylesRow>
     </div>
   );
