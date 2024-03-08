@@ -6,14 +6,14 @@ function Styles({
   currentStyles,
   currentStyle,
   changeStyle,
-  changeMainImage,
+  changeMainImageIndex,
 }) {
   const currentStyleText = `Style > ${currentStyle.name}`;
 
   const handleStyleChange = (selectedStyle) => {
     if (selectedStyle.name !== currentStyle.name) {
       changeStyle(selectedStyle);
-      changeMainImage(selectedStyle.photos[0].url);
+      changeMainImageIndex(0);
     }
   };
 
@@ -43,7 +43,7 @@ const StylesCol = styled(Col)`
 `;
 
 const StylesRow = styled(Row)`
-  justify-content: flex-start;
+  justify-content: left;
 `;
 
 export default Styles;
