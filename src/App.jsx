@@ -27,10 +27,10 @@ function App() {
     <div>
       <h2>Howdy, world!!</h2>
       <Overview currentProduct={currentProduct} />
-      <RelatedProductsList currentProduct={currentProduct} setProductId={setProductId} />
-      <OutfitsList currentProduct={currentProduct} />
-      <GetAllQuestionsAndAnswers currentProduct={currentProduct} />
-      <ReviewList currentProduct={currentProduct} />
+      {/* <RelatedProductsList currentProduct={currentProduct} setProductId={setProductId} /> */}
+      {/* <OutfitsList currentProduct={currentProduct} /> */}
+      {/* <GetAllQuestionsAndAnswers currentProduct={currentProduct} /> */}
+      {/* <ReviewList currentProduct={currentProduct} /> */}
     </div>
   );
 }

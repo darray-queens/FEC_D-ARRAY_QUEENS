@@ -12,6 +12,8 @@ function Images({ styleImages, mainImageIndex, changeMainImageIndex }) {
   const [maxThumbIndex, setMaxThumbIndex] = useState(imageCount - 1 > 6 ? 6 : imageCount - 1);
   const [isExpanded, setIsExpanded] = useState(false);
   const [isZoomed, setIsZoomed] = useState(false);
+  const [imageX, setImageX] = useState(0);
+  const [imageY, setImageY] = useState(0);
 
   const handleNextThumb = () => {
     if (maxThumbIndex !== imageCount - 1) {
@@ -53,13 +55,48 @@ function Images({ styleImages, mainImageIndex, changeMainImageIndex }) {
     }
   };
 
-  const handleZoom = () => {
-    if (!isZoomed) {
-      setIsZoomed(true);
-    } else {
-      setIsZoomed(false);
-    }
-  };
+  const handleImagePosition = (event) => {
+    // move to state
+    const imageWidth = document.getElementById('main-image').clientWidth;
+    const imageHeight = document.getElementById('main-image').clientHeight;
+
+    console.log('mouseX ', event.offsetX);
+    console.log('mouseY ', event.offsetY);
+
+    // const imageOffsetX ;
+    // const imageOffsetY;
+  }
+
+  // const handleZoom = () => {
+  //   const galleryWindow = document.getElementById('image-container');
+  //   console.log(isZoomed);
+
+  //   if (!isZoomed) {
+  //     galleryWindow.addEventListener('mousemove', handleImagePosition);
+  //     setIsZoomed(true);
+  //     console.log(galleryWindow);
+  //     console.log(handleImagePosition);
+  //   } else if (isZoomed) {
+  //     galleryWindow.removeEventListener('mousemove', handleImagePosition);
+  //     setIsZoomed(false);
+  //     console.log(galleryWindow);
+  //     console.log(handleImagePosition);
+  //   }
+  // }
+
+  const handleZoomIn = () => {
+    document.getElementById('image-container').addEventListener('mousemove', handleImagePosition);
+    setIsZoomed(true);
+    console.log(document.getElementById('image-container'));
+    console.log(handleImagePosition);
+  }
+
+  const handleZoomOut = () => {
+    document.getElementById('image-container').removeEventListener('mousemove', handleImagePosition);
+    setIsZoomed(false);
+    console.log(document.getElementById('image-container'));
+    console.log(handleImagePosition);
+  }
 
   return (
     <GalleryContainer>
@@ -101,16 +138,20 @@ function Images({ styleImages, mainImageIndex, changeMainImageIndex }) {
           </NextThumb>
         </NavContainer>
       </MenuCol>
-      <MainImageContainer id="image-container">
+      <MainImageContainer
+        id="image-container"
+        //$zoomed={isZoomed}
+      >
         <MainImg
           id="main-image"
           key={styleImages[mainImageIndex].url}
           data-index={mainImageIndex}
           alt="Clothing"
           src={styleImages[mainImageIndex].url}
-          onClick={isExpanded ? handleZoom : handleExpansion}
+          // onClick={isExpanded ? handleZoom : handleExpansion}
+          onClick={handleZoomIn}
           $expanded={isExpanded}
-          $zoomed={isZoomed}
+          //$zoomed={isZoomed}
         />
       </MainImageContainer>
       <PrevMain
@@ -121,7 +162,7 @@ function Images({ styleImages, mainImageIndex, changeMainImageIndex }) {
       </PrevMain>
       <NextMain
         style={{ display: mainImageIndex === imageCount - 1 ? 'none' : 'inherit' }}
-        onClick={handleNextMain}
+        onClick={/* handleNextMain */ handleZoomOut}
       >
         &#10095;
       </NextMain>
@@ -136,7 +177,6 @@ const MainImageContainer = styled.div`
   height: 100%;
   width: 100%;
   justify-content: center;
-  transition: width 0.5s;
 `;
 
 const GalleryContainer = styled.div`
@@ -189,7 +229,6 @@ const PrevMain = styled.a`
   font-weight: bold;
   font-size: 18px;
   left: 70px;
-  transition: 0.6s ease;
   border-radius: 3px;
   user-select: none;
   &:hover {
@@ -207,7 +246,6 @@ const NextMain = styled.a`
   color: white;
   font-weight: bold;
   font-size: 18px;
-  transition: 0.6s ease;
   user-select: none;
   right: 70px;
   border-radius: 3px;
@@ -223,7 +261,6 @@ const PrevThumb = styled.a`
   color: white;
   font-weight: bold;
   font-size: 18px;
-  transition: 0.6s ease;
   border-radius: 3px;
   user-select: none;
   &:hover {
@@ -238,7 +275,6 @@ const NextThumb = styled.a`
   color: white;
   font-weight: bold;
   font-size: 18px;
-  transition: 0.6s ease;
   user-select: none;
   border-radius: 3px;
   &:hover {
