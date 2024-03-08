@@ -12,7 +12,7 @@ import {
 
 import { Row } from '../shared/containers';
 
-const { useState, useRef } = React;
+const { useState, useRef, useCallback } = React;
 
 const GalleryContainer = styled.div`
   position: relative;
@@ -49,27 +49,10 @@ function Images({
 }) {
   const imageCount = styleImages.length;
 
-  ///
-  console.log(maxThumbIndex);
-  console.log(minThumbIndex);
-  ///
-
   const [isExpanded, setIsExpanded] = useState(false);
   const [isZoomed, setIsZoomed] = useState();
   const [imageShiftX, _setImageShiftX] = useState();
   const [imageShiftY, _setImageShiftY] = useState();
-
-  const imageShiftXRef = useRef(imageShiftX);
-  const setImageShiftX = (newPosition) => {
-    imageShiftXRef.current = newPosition;
-    _setImageShiftX(newPosition);
-  };
-
-  const imageShiftYRef = useRef(imageShiftY);
-  const setImageShiftY = (newPosition) => {
-    imageShiftYRef.current = newPosition;
-    _setImageShiftY(newPosition);
-  };
 
   const handleNextThumb = () => {
     if (maxThumbIndex !== imageCount - 1) {
@@ -111,11 +94,19 @@ function Images({
     }
   };
 
-  const handleImagePosition = (event) => {
-    if (document.getElementById('image-container').dataset.zoomed === 'false') {
-      return;
-    }
+  const imageShiftXRef = useRef(imageShiftX);
+  const setImageShiftX = (newPosition) => {
+    imageShiftXRef.current = newPosition;
+    _setImageShiftX(newPosition);
+  };
 
+  const imageShiftYRef = useRef(imageShiftY);
+  const setImageShiftY = (newPosition) => {
+    imageShiftYRef.current = newPosition;
+    _setImageShiftY(newPosition);
+  };
+
+  const onMovement = useCallback((event) => {
     const galleryWidth = document.getElementById('image-container').clientWidth;
     const galleryHeight = document.getElementById('image-container').clientHeight;
 
@@ -125,18 +116,17 @@ function Images({
     setImageShiftX(`${percentOffsetX}%`);
     setImageShiftY(`${percentOffsetY}%`);
 
-    console.log('offsetX ', imageShiftXRef.current);
-    console.log('offsetY ', imageShiftYRef.current);
-  };
+    // console.log('offsetX ', imageShiftXRef.current);
+    // console.log('offsetY ', imageShiftYRef.current);
+  }, []);
 
   const handleZoom = () => {
     const galleryWindow = document.getElementById('image-container');
-
     if (!isZoomed) {
-      galleryWindow.addEventListener('mousemove', handleImagePosition, true);
+      galleryWindow.addEventListener('mousemove', onMovement);
       setIsZoomed(true);
     } else if (isZoomed) {
-      galleryWindow.removeEventListener('mousemove', handleImagePosition, true);
+      galleryWindow.removeEventListener('mousemove', onMovement);
       setIsZoomed(false);
     }
   };
