@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import ProductCard from '../shared/ProductCard';
 import scrollButtonClick from '../shared/scrollButtonClick';
 import fetchSalePrice from '../shared/fetchSalePrice';
@@ -15,8 +15,22 @@ function OutfitsList({ currentProduct }) {
 
   const [outfitList, setOutfitList] = useState(() => (
     (currOutfitItems === null) ? [{}] : parsedCurrOutfitItems));
+  const [salePriceValue, setSalePriceValue] = useState(undefined);
 
   const OutfitModuleRef = useRef(null);
+
+  useEffect(() => {
+    if (Object.keys(currentProduct).length > 0) {
+      const appendSalePrice = async (id) => {
+        const fetchResult = await fetchSalePrice(id);
+        if (fetchResult !== null) {
+          setSalePriceValue(fetchResult);
+        }
+        return undefined;
+      };
+      appendSalePrice(currentProduct.id);
+    }
+  }, [currentProduct]);
 
   if (Object.keys(currentProduct).length === 0) {
     return (
@@ -25,7 +39,6 @@ function OutfitsList({ currentProduct }) {
       </div>
     );
   }
-
 
   const setJSONItem = (outfits) => {
     const outfitsJSON = JSON.stringify(outfits);
@@ -41,7 +54,7 @@ function OutfitsList({ currentProduct }) {
       });
     }
 
-    outfits.push(currentProduct);
+    outfits.push({ ...currentProduct, salePrice: salePriceValue });
     setJSONItem(outfits);
   };
 
@@ -63,7 +76,7 @@ function OutfitsList({ currentProduct }) {
   const addToOutfitList = (id) => {
     if (Object.keys(outfitList[0]).length === 0) {
       writeOutfitToLocalStorage();
-      setOutfitList([currentProduct]);
+      setOutfitList([{ ...currentProduct, salePrice: salePriceValue }]);
     } else {
       const listOfIds = [];
       outfitList.forEach((element) => {
@@ -71,7 +84,8 @@ function OutfitsList({ currentProduct }) {
       });
       if (!listOfIds.includes(id)) {
         writeOutfitToLocalStorage();
-        setOutfitList((prevList) => [...prevList, currentProduct]);
+        setOutfitList((prevList) => [
+          ...prevList, { ...currentProduct, salePrice: salePriceValue }]);
       }
     }
   };
@@ -104,7 +118,8 @@ function OutfitsList({ currentProduct }) {
           product={currentProduct}
           actionButtonClick={addToOutfitList}
           imageClick={() => null}
-          textValue="★"
+          textValue="&#10753;"
+          salePrice={salePriceValue}
         />
         <Col size={1}>
           <StyledButton type="button" onClick={() => scrollButtonClick(OutfitModuleRef.current, 'left')}>&lt;</StyledButton>
@@ -119,6 +134,7 @@ function OutfitsList({ currentProduct }) {
                   actionButtonClick={removeFromOutfitList}
                   imageClick={() => null}
                   textValue="ⓧ"
+                  salePrice={element.salePrice}
                 />
               ))}
           </ProductModuleRow>
