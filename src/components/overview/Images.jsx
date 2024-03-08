@@ -3,14 +3,14 @@ import styled from 'styled-components';
 
 import MainImage from './MainImage';
 import ThumbnailMenu from './ThumbnailMenu';
+
+import { Row } from '../shared/containers';
 import {
   PrevThumb,
   NextThumb,
   PrevMain,
   NextMain,
 } from './imageNavButtons';
-
-import { Row } from '../shared/containers';
 
 const { useState, useRef, useCallback } = React;
 
@@ -110,14 +110,19 @@ function Images({
     const galleryWidth = document.getElementById('image-container').clientWidth;
     const galleryHeight = document.getElementById('image-container').clientHeight;
 
+    console.log(galleryWidth, 'x', galleryHeight);
+
     const percentOffsetX = `${100 - ((event.offsetX / galleryWidth) * 100)}%`;
     const percentOffsetY = `${100 - ((event.offsetY / galleryHeight) * 100)}%`;
 
-    setImageShiftX(`${percentOffsetX}%`);
-    setImageShiftY(`${percentOffsetY}%`);
+    // setImageShiftX(`${percentOffsetX}%`);
+    // setImageShiftY(`${percentOffsetY}%`);
+    document.getElementById('main-image')
+      .style
+      .transform = `translateX(${percentOffsetX}) translateY(${percentOffsetY})`;
 
-    console.log('offsetX ', imageShiftXRef.current);
-    console.log('offsetY ', imageShiftYRef.current);
+    console.log('offsetX ', percentOffsetX);
+    console.log('offsetY ', percentOffsetY);
   }, []);
 
   const handleZoom = () => {
@@ -127,6 +132,9 @@ function Images({
       setIsZoomed(true);
     } else if (isZoomed) {
       galleryWindow.removeEventListener('mousemove', onMovement);
+      document.getElementById('main-image')
+        .style
+        .transform = 'translateX(0) translateY(0)';
       setIsZoomed(false);
     }
   };
