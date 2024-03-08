@@ -16,11 +16,16 @@ const ModalContainer = styled.div`
 
 const ModalContent = styled.div`
   background-color: white;
-  max-width: 80%;
+  width: 80%;
   max-height: 80%;
   overflow: auto;
   padding: 20px;
-  position: relative;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   z-index: 1;
 `;
 
@@ -28,10 +33,12 @@ const CloseButton = styled.button`
   position: absolute;
   top: 10px;
   right: 10px;
-  font-size: 30px;
-  z-index: 1;
-  &: hover {
-    color: red
+  font-size: 24px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  &:hover {
+    color: red;
   }
 `;
 
@@ -39,8 +46,37 @@ function Write({ closeModal }) {
   return (
     <ModalContainer>
       <ModalContent>
-        <CloseButton onClick={closeModal}>x</CloseButton>
-        <p>Hello World I am a button</p>
+        <h2>Submit your Answer</h2>
+        <form className="form-container">
+          <textarea
+            id="answer-input"
+            aria-label="Your Answer"
+            placeholder="Your Answer *"
+            value="haha"
+            required
+            maxLength="1000"
+          />
+          <input
+            type="text"
+            id="nickname-input"
+            aria-label="Your Nickname"
+            placeholder="What is your nickname *"
+            value="dog"
+            required
+            maxLength="60"
+          />
+          <input
+            type="email"
+            id="email-input"
+            aria-label="Your Email"
+            placeholder="Your email *"
+            value="helo"
+            required
+            maxLength="60"
+          />
+          <button type="submit" className="btn">Submit answer</button>
+          <CloseButton onClick={closeModal}>x</CloseButton>
+        </form>
       </ModalContent>
     </ModalContainer>
   );
