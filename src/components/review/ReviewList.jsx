@@ -67,8 +67,8 @@ function ReviewList({ currentProduct }) {
   return (
     <div id="reviews">
       <h2>Ratings & Reviews</h2>
-      <Row style={{ flexWrap: 'wrap' }}>
-        <Col size={1.5} style={{ minWidth: '300px' }}>
+      <Row>
+        <Col size={1.5}>
           <Breakdown
             currentProduct={currentProduct}
             reviews={reviews}
@@ -76,7 +76,7 @@ function ReviewList({ currentProduct }) {
             filteredReviews={filteredReviews}
           />
         </Col>
-        <Col size={3.5} style={{ minWidth: '200px', marginLeft: '20px' }}>
+        <Col size={3.5}>
           <Sort
             reviews={filteredReviews.length >= 1
               ? filteredReviews
