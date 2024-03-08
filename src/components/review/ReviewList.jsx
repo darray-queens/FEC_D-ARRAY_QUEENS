@@ -12,6 +12,8 @@ import AverageStars from '../shared/AverageStars';
 
 import { Grid, Row, Col } from '../shared/containers';
 
+import Breakdown from './Breakdown';
+
 const { useState, useEffect } = React;
 
 function ReviewList({ currentProduct }) {
@@ -19,6 +21,7 @@ function ReviewList({ currentProduct }) {
   const [pageNumber, setPageNumber] = useState(1);
   const [relevantReviews, setRelevantReviews] = useState([]);
   const [renderedReviews, setRenderedReviews] = useState(2);
+  const [filteredReviews, setFilteredReviews] = useState([]);
 
   useEffect(() => {
     setReviews([]);
@@ -55,21 +58,44 @@ function ReviewList({ currentProduct }) {
   return (
     <div id="reviews">
       <h2>Ratings & Reviews</h2>
-      <AverageStars currentProduct={currentProduct} />
-      <Sort reviews={reviews} setReviews={setReviews} relevantReviews={relevantReviews} />
-      <StylesDiv>
-        {reviews.slice(0, renderedReviews).map((review) => (
-          <Review key={review.review_id} entry={review} />
-        ))}
-      </StylesDiv>
-      {renderedReviews < reviews.length && (
-      <StylesButton
-        type="button"
-        onClick={moreReviews}
-      >
-        More Reviews
-      </StylesButton>
-      )}
+      <Row>
+        <Col size={1.5}>
+          <Breakdown
+            currentProduct={currentProduct}
+            reviews={reviews}
+            setFilteredReviews={setFilteredReviews}
+            filteredReviews={filteredReviews}
+          />
+        </Col>
+        <Col size={3.5}>
+          <Sort
+            reviews={filteredReviews.length >= 1
+              ? filteredReviews
+              : reviews}
+            setReviews={filteredReviews.length >= 1
+              ? setFilteredReviews
+              : setReviews}
+            relevantReviews={relevantReviews}
+          />
+          <StylesDiv>
+            {filteredReviews.length >= 1
+              ? filteredReviews.slice(0, renderedReviews).map((review) => (
+                <Review key={review.review_id} entry={review} />
+              ))
+              : reviews.slice(0, renderedReviews).map((review) => (
+                <Review key={review.review_id} entry={review} />
+              ))}
+          </StylesDiv>
+          {renderedReviews < reviews.length && (
+          <StylesButton
+            type="button"
+            onClick={moreReviews}
+          >
+            More Reviews
+          </StylesButton>
+          )}
+        </Col>
+      </Row>
     </div>
   );
 }
@@ -77,6 +103,22 @@ function ReviewList({ currentProduct }) {
 const StylesDiv = styled.div`
   overflow: auto;
   max-height: 600px;
+`;
+
+const RightCol = styled(Col)`
+  text-align: right
+`;
+
+const StylesCol = styled(Col)`
+  margin-right: 5px;
+  margin-bottom: 5px;
+  padding: 5px;
+  border: 1px solid rgb(48,48,48);
+  background: rgb(232,232,232);
+  &: hover {
+    background: rgb(224,224,224);
+    border-color: rgb(16,16,16);
+  }
 `;
 
 const StylesButton = styled.button`
