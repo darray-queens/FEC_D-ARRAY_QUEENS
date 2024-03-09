@@ -84,7 +84,7 @@ function Overview({
           </div>
         </ImgCol>
         <Col id="info-col" size={1}>
-          <StarRating />
+          <StarRating currentProduct={currentProduct} />
           <ProductInfo
             product={currentProduct}
             style={currentStyle}
