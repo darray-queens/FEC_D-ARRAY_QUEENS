@@ -85,7 +85,9 @@ function Overview({
           </div>
         </ImgCol>
         <Col id="info-col" size={1}>
-          <StarRating currentProduct={currentProduct} reviewCount={reviewCount} />
+          {reviewCount > 0 && (
+            <StarRating currentProduct={currentProduct} reviewCount={reviewCount} />
+          )}
           <ProductInfo
             product={currentProduct}
             style={currentStyle}
