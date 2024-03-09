@@ -22,7 +22,7 @@ const ReviewRow = styled(Row)`
   min-width: 100%
 `;
 
-function StarRating({ currentProduct }) {
+function StarRating({ currentProduct, reviewCount }) {
   const scrollToReviews = () => {
     document
       .getElementById('reviews')
@@ -33,7 +33,7 @@ function StarRating({ currentProduct }) {
     <ReviewRow>
       <AverageStars currentProduct={currentProduct} />
       <ReviewButton type="button" onClick={() => scrollToReviews()}>
-        read all reviews
+        {`read ${reviewCount} reviews`}
       </ReviewButton>
     </ReviewRow>
   );

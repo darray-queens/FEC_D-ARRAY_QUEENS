@@ -29,6 +29,7 @@ function Overview({
   currentProduct,
   currentStyle,
   changeCurrentStyle,
+  reviewCount,
   mainImageIndex,
   changeMainImageIndex,
   maxThumbIndex,
@@ -84,7 +85,7 @@ function Overview({
           </div>
         </ImgCol>
         <Col id="info-col" size={1}>
-          <StarRating currentProduct={currentProduct} />
+          <StarRating currentProduct={currentProduct} reviewCount={reviewCount} />
           <ProductInfo
             product={currentProduct}
             style={currentStyle}

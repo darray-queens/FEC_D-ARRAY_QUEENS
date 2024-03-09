@@ -53,7 +53,7 @@ function App() {
         currentProduct={currentProduct}
         currentStyle={currentStyle}
         changeCurrentStyle={(newStyle) => setCurrentStyle(newStyle)}
-        reviews={reviews}
+        reviewCount={reviews.length}
         mainImageIndex={mainImageIndex}
         changeMainImageIndex={setMainImageIndex}
         minThumbIndex={minThumbIndex}
