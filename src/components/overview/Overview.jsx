@@ -12,6 +12,14 @@ import ProductDescription from './ProductDescription';
 import Loading from './Loading';
 
 import { Grid, Row, Col } from '../shared/containers';
+import galleryHandlers from './galleryHandlers';
+
+const {
+  handleNextThumb,
+  handlePrevThumb,
+  handleNextMain,
+  handlePrevMain,
+} = galleryHandlers;
 
 const { useState, useEffect } = React;
 
@@ -25,13 +33,20 @@ const ImgCol = styled(Col)`
   margin-right: 20px;
 `;
 
-function Overview({ currentProduct }) {
+function Overview({
+  currentProduct,
+  currentStyle,
+  changeCurrentStyle,
+  mainImageIndex,
+  changeMainImageIndex,
+  maxThumbIndex,
+  changeMaxThumbIndex,
+  minThumbIndex,
+  changeMinThumbIndex,
+  toggleGalleryModal,
+}) {
   const [styles, setStyles] = useState([]);
   const [currentSku, setCurrentSku] = useState();
-  const [currentStyle, setCurrentStyle] = useState({});
-  const [mainImageIndex, setMainImageIndex] = useState(0);
-  const [minThumbIndex, setMinThumbIndex] = useState(0);
-  const [maxThumbIndex, setMaxThumbIndex] = useState();
   const [isLoading, setIsLoading] = useState(true);
 
   async function getStyles() {
@@ -39,9 +54,9 @@ function Overview({ currentProduct }) {
       .catch((error) => console.error(error));
 
     setStyles(response.data.results);
-    setCurrentStyle(response.data.results[0]);
-    setMainImageIndex(0);
-    setMaxThumbIndex(() => {
+    changeCurrentStyle(response.data.results[0]);
+    changeMainImageIndex(0);
+    changeMaxThumbIndex(() => {
       const imageCount = response.data.results[0].photos.length;
       return imageCount > 6 ? 6 : imageCount - 1;
     });
@@ -66,11 +81,12 @@ function Overview({ currentProduct }) {
               <Images
                 styleImages={currentStyle.photos}
                 mainImageIndex={mainImageIndex}
-                changeMainImageIndex={setMainImageIndex}
+                changeMainImageIndex={changeMainImageIndex}
                 maxThumbIndex={maxThumbIndex}
-                changeMaxThumbIndex={setMaxThumbIndex}
+                changeMaxThumbIndex={changeMaxThumbIndex}
                 minThumbIndex={minThumbIndex}
-                changeMinThumbIndex={setMinThumbIndex}
+                changeMinThumbIndex={changeMinThumbIndex}
+                toggleGalleryModal={toggleGalleryModal}
               />
             )}
           </div>
@@ -92,8 +108,8 @@ function Overview({ currentProduct }) {
               <Styles
                 currentStyles={styles}
                 currentStyle={currentStyle}
-                changeStyle={setCurrentStyle}
-                changeMainImageIndex={setMainImageIndex}
+                changeStyle={changeCurrentStyle}
+                changeMainImageIndex={changeMainImageIndex}
               />
               <Selection
                 style={currentStyle}

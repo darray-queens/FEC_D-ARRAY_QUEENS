@@ -11,8 +11,14 @@ import {
   PrevMain,
   NextMain,
 } from './imageNavButtons';
+import galleryHandlers from './galleryHandlers';
 
-const { useState, useCallback } = React;
+const {
+  handleNextThumb,
+  handlePrevThumb,
+  handleNextMain,
+  handlePrevMain,
+} = galleryHandlers;
 
 const GalleryContainer = styled.div`
   position: relative;
@@ -46,80 +52,49 @@ function Images({
   changeMaxThumbIndex,
   minThumbIndex,
   changeMinThumbIndex,
+  toggleGalleryModal,
 }) {
   const imageCount = styleImages.length;
 
-  const [isExpanded, setIsExpanded] = useState(false);
-  const [isZoomed, setIsZoomed] = useState();
+  // const handleExpansion = () => {
+  //   if (!isExpanded) {
+  //     // document.getElementById('info-col').style.display = 'none';
+  //     setIsExpanded(true);
+  //     toggleGalleryModal(true);
+  //   } else {
+  //     // document.getElementById('info-col').style.display = '';
+  //     setIsExpanded(false);
+  //   }
+  // };
 
-  const handleNextThumb = () => {
-    if (maxThumbIndex !== imageCount - 1) {
-      changeMinThumbIndex((prevIndex) => prevIndex + 1);
-      changeMaxThumbIndex((prevIndex) => prevIndex + 1);
-    }
-  };
+  // const onMovement = useCallback((event) => {
+  //   const galleryWidth = document.getElementById('image-container').clientWidth;
+  //   const galleryHeight = document.getElementById('image-container').clientHeight;
+  //   const mainImage = document.getElementById('main-image');
+  //   const imageWidth = mainImage.clientWidth;
+  //   const imageHeight = mainImage.clientHeight;
 
-  const handlePrevThumb = () => {
-    if (minThumbIndex !== 0) {
-      changeMinThumbIndex((prevIndex) => prevIndex - 1);
-      changeMaxThumbIndex((prevIndex) => prevIndex - 1);
-    }
-  };
+  //   const changeX = Math.round(
+  //     ((imageWidth / 2) * ((galleryWidth / 2) - event.offsetX)) / (galleryWidth / 2),
+  //   );
+  //   const changeY = Math.round(
+  //     ((imageHeight / 2) * ((galleryHeight / 2) - event.offsetY)) / (galleryHeight / 2),
+  //   );
 
-  const handleNextMain = () => {
-    if (mainImageIndex >= imageCount - 1) {
-      changeMainImageIndex(0);
-    } else {
-      changeMainImageIndex((prevIndex) => prevIndex + 1);
-    }
-  };
+  //   mainImage.style.transform = `translateX(${changeX}px) translateY(${changeY}px)`;
+  // }, []);
 
-  const handlePrevMain = () => {
-    if (mainImageIndex <= 0) {
-      changeMainImageIndex(imageCount - 1);
-    } else {
-      changeMainImageIndex((prevIndex) => prevIndex - 1);
-    }
-  };
-
-  const handleExpansion = () => {
-    if (!isExpanded) {
-      document.getElementById('info-col').style.display = 'none';
-      setIsExpanded(true);
-    } else {
-      document.getElementById('info-col').style.display = '';
-      setIsExpanded(false);
-    }
-  };
-
-  const onMovement = useCallback((event) => {
-    const galleryWidth = document.getElementById('image-container').clientWidth;
-    const galleryHeight = document.getElementById('image-container').clientHeight;
-    const mainImage = document.getElementById('main-image');
-    const imageWidth = mainImage.clientWidth;
-    const imageHeight = mainImage.clientHeight;
-
-    const changeX = Math.round(
-      ((imageWidth / 2) * ((galleryWidth / 2) - event.offsetX)) / (galleryWidth / 2),
-    );
-    const changeY = Math.round(
-      ((imageHeight / 2) * ((galleryHeight / 2) - event.offsetY)) / (galleryHeight / 2),
-    );
-
-    mainImage.style.transform = `translateX(${changeX}px) translateY(${changeY}px)`;
-  }, []);
-
-  const handleZoom = () => {
-    const galleryWindow = document.getElementById('image-container');
-    if (!isZoomed) {
-      galleryWindow.addEventListener('mousemove', onMovement);
-      setIsZoomed(true);
-    } else if (isZoomed) {
-      galleryWindow.removeEventListener('mousemove', onMovement);
-      document.getElementById('main-image').style.transform = 'translateX(0) translateY(0)';
-      setIsZoomed(false);
-    }
-  };
+  // const handleZoom = () => {
+  //   const galleryWindow = document.getElementById('image-container');
+  //   if (!isZoomed) {
+  //     galleryWindow.addEventListener('mousemove', onMovement);
+  //     setIsZoomed(true);
+  //   } else if (isZoomed) {
+  //     galleryWindow.removeEventListener('mousemove', onMovement);
+  //     document.getElementById('main-image').style.transform = 'translateX(0) translateY(0)';
+  //     setIsZoomed(false);
+  //   }
+  // };
 
   return (
     <GalleryContainer>
@@ -127,7 +102,10 @@ function Images({
         <NavContainer>
           <PrevThumb
             style={{ display: minThumbIndex === 0 ? 'none' : 'inherit' }}
-            onClick={handlePrevThumb}
+            onClick={() => {
+              changeMinThumbIndex((prevIndex) => handlePrevThumb(minThumbIndex, prevIndex));
+              changeMaxThumbIndex((prevIndex) => handlePrevThumb(minThumbIndex, prevIndex));
+            }}
           >
             &#x2c4;
           </PrevThumb>
@@ -141,29 +119,37 @@ function Images({
         <NavContainer>
           <NextThumb
             style={{ display: maxThumbIndex === imageCount - 1 ? 'none' : 'inherit' }}
-            onClick={handleNextThumb}
+            onClick={() => {
+              changeMinThumbIndex(
+                (prevIndex) => handleNextThumb(maxThumbIndex, prevIndex, imageCount),
+              );
+              changeMaxThumbIndex(
+                (prevIndex) => handleNextThumb(maxThumbIndex, prevIndex, imageCount),
+              );
+            }}
           >
             &#x2c5;
           </NextThumb>
         </NavContainer>
       </MenuCol>
       <MainImage
-        isZoomed={isZoomed}
         styleImages={styleImages}
         mainImageIndex={mainImageIndex}
-        isExpanded={isExpanded}
-        handleZoom={handleZoom}
-        handleExpansion={handleExpansion}
+        toggleGalleryModal={toggleGalleryModal}
       />
       <PrevMain
         style={{ display: mainImageIndex === 0 ? 'none' : 'inherit' }}
-        onClick={handlePrevMain}
+        onClick={() => changeMainImageIndex(
+          (prevIndex) => handlePrevMain(mainImageIndex, prevIndex, imageCount),
+        )}
       >
         &#10094;
       </PrevMain>
       <NextMain
         style={{ display: mainImageIndex === imageCount - 1 ? 'none' : 'inherit' }}
-        onClick={handleNextMain}
+        onClick={() => changeMainImageIndex(
+          (prevIndex) => handleNextMain(mainImageIndex, prevIndex, imageCount),
+        )}
       >
         &#10095;
       </NextMain>
