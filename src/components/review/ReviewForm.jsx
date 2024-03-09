@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import axios from 'axios';
 import FormStars from './FormStars';
 
 const { useState } = React;
@@ -56,14 +57,39 @@ const StylesP = styled.p`
   margin-left: 10px;
 `;
 
-function ReviewForm({ closeModal, currentProduct }) {
-  const [formRating, setFormRating] = useState(null);
+function ReviewForm({ closeModal, currentProduct, refresh, setRefresh}) {
+  const [rating, setRating] = useState(null);
+  const [summary, setSummary] = useState('');
+  const [body, setBody] = useState('');
   const [recommend, setRecommend] = useState(true);
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [photos, setPhotos] = useState([]);
+  const [characteristics, setCharacteristics] = useState({});
+
 
   const handleRecommendChange = (event) => {
     const { value } = event.target;
     setRecommend(value === 'Yes');
-    console.log(recommend)
+  };
+
+  const submitForm = async (event) => {
+    event.preventDefault();
+    const formDetails = {
+      product_id: currentProduct.id,
+      rating,
+      summary,
+      body,
+      recommend,
+      name,
+      email,
+      photos,
+      characteristics,
+    };
+
+    await axios.post('/reviews', formDetails);
+    setRefresh(!refresh);
+    closeModal();
   };
 
   return (
@@ -75,59 +101,33 @@ function ReviewForm({ closeModal, currentProduct }) {
           {' '}
           {currentProduct.name}
         </h3>
-        <Row>
-          <Col>
-            <FormStars formRating={formRating} setFormRating={setFormRating} />
-            *
-          </Col>
-          <Col>
-            {' '}
-            {formRating === 1 && <StylesP>Poor</StylesP>}
-            {formRating === 2 && <StylesP>Fair</StylesP>}
-            {formRating === 3 && <StylesP>Average</StylesP>}
-            {formRating === 4 && <StylesP>Good</StylesP>}
-            {formRating === 5 && <StylesP>Great</StylesP>}
-          </Col>
-        </Row>
-        <fieldset>
-          <legend>Do you recommend this product? *</legend>
-          <div>
-            <input type="radio" id="yes" name="recommendation" value="Yes" checked={recommend} onChange={handleRecommendChange} />
-            <label htmlFor="yes">Yes</label>
-          </div>
+        <form onSubmit={submitForm} className="form-container">
+          <Row>
+            <Col>
+              <FormStars formRating={rating} setFormRating={setRating} />
+              *
+            </Col>
+            <Col>
+              {' '}
+              {rating === 1 && <StylesP>Poor</StylesP>}
+              {rating === 2 && <StylesP>Fair</StylesP>}
+              {rating === 3 && <StylesP>Average</StylesP>}
+              {rating === 4 && <StylesP>Good</StylesP>}
+              {rating === 5 && <StylesP>Great</StylesP>}
+            </Col>
+          </Row>
+          <fieldset>
+            <legend>Do you recommend this product? *</legend>
+            <div>
+              <input type="radio" id="yes" name="recommendation" value="Yes" checked={recommend} onChange={handleRecommendChange} />
+              <label htmlFor="yes">Yes</label>
+            </div>
 
-          <div>
-            <input type="radio" id="no" name="recommendation" value="No" checked={!recommend} onChange={handleRecommendChange} />
-            <label htmlFor="no">No</label>
-          </div>
-        </fieldset>
-        <form className="form-container">
-          <textarea
-            id="answer-input"
-            aria-label="Your Answer"
-            placeholder="Your Answer *"
-            value="haha"
-            required
-            maxLength="1000"
-          />
-          <input
-            type="text"
-            id="nickname-input"
-            aria-label="Your Nickname"
-            placeholder="What is your nickname *"
-            value="dog"
-            required
-            maxLength="60"
-          />
-          <input
-            type="email"
-            id="email-input"
-            aria-label="Your Email"
-            placeholder="Your email *"
-            value="helo"
-            required
-            maxLength="60"
-          />
+            <div>
+              <input type="radio" id="no" name="recommendation" value="No" checked={!recommend} onChange={handleRecommendChange} />
+              <label htmlFor="no">No</label>
+            </div>
+          </fieldset>
           <button type="submit" className="btn">Submit answer</button>
           <CloseButton onClick={closeModal}>x</CloseButton>
         </form>

@@ -25,6 +25,7 @@ function ReviewList({ currentProduct }) {
   const [activeFilters, setActiveFilters] = useState([]);
   const [count, setCount] = useState(2);
   const [sort, setSort] = useState('relevant');
+  const [refresh, setRefresh] = useState(true);
 
   useEffect(() => {
     setReviews([]);
@@ -48,7 +49,7 @@ function ReviewList({ currentProduct }) {
           console.error('failed to set list: ', err);
         });
     }
-  }, [currentProduct, count, sort]);
+  }, [currentProduct, count, sort, refresh]);
 
   if (reviews.length === 0) {
     return <div>No reviews loaded</div>;
@@ -124,6 +125,8 @@ function ReviewList({ currentProduct }) {
           <ReviewForm
             closeModal={exitAnswerModal}
             currentProduct={currentProduct}
+            refresh={refresh}
+            setRefresh={setRefresh}
           />
           )}
         </Col>
