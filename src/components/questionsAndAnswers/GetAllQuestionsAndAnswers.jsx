@@ -1,124 +1,167 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './styles.css';
+import QuestionsList from './QuestionsList';
 import AnswerModal from './AnswerModal';
 import QuestionModal from './QuestionModal';
+import SearchTerm from './SearchInput';
+import LoadMoreButton from './LoadMoreButton';
 
 function GetAllQuestionsAndAnswers({ currentProduct }) {
   const [questions, setQuestions] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [visibleQuestions, setVisibleQuestions] = useState(Math.min(4, questions.length));
+  const [filteredQuestions, setFilteredQuestions] = useState([]);
+  const [visibleQuestions, setVisibleQuestions] = useState(2);
   const [isAnswerModalOpen, setIsAnswerModalOpen] = useState(false);
   const [isQuestionModalOpen, setIsQuestionModalOpen] = useState(false);
   const [selectedQuestion, setSelectedQuestion] = useState({});
   const [searchTerm, setSearchTerm] = useState('');
   const [votedHelpfulness, setVotedHelpfulness] = useState(new Set());
   const [reportedAnswers, setReportedAnswers] = useState(new Set());
-  const [reportedQuestions, setReportedQuestions] = useState(new Set());
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1); // New state for tracking current page
+  const [isLoading, setIsLoading] = useState(true);
 
-  const refreshQuestions = async () => {
-    console.log('currentProduct', currentProduct);
-    console.log('Refreshing questions...');
-    if (currentProduct === undefined || currentProduct === null) {
-      console.log('currentProduct is either undefined or null');
-    }
-    console.log('Current product:', currentProduct);
-    try {
-      const response = await axios.get(`/qa/questions?product_id=${currentProduct.id}`, {
-        params: { page: 1, count: 100 },
-      });
-      console.log('Response data:', response.data); // Log the response data
-      const sortedQuestions = response.data.results
-        .sort((a, b) => b.question_helpfulness - a.question_helpfulness);
-      console.log('Sorted questions:', sortedQuestions); // Log the sorted questions
-      setQuestions(sortedQuestions);
-    } catch (error) {
-      console.error('Error refreshing questions:', error);
-    }
-  };
+  const pageSize = 55;
 
   useEffect(() => {
+    setQuestions([]);
+    setVisibleQuestions(2);
+    setCurrentPage(1);
+
     const fetchQuestions = async () => {
-      refreshQuestions();
-      if (currentProduct && currentProduct.id) {
+      if (!currentProduct?.id) {
+        setIsLoading(true); // Ensure loading state is active if no currentProduct
+        return;
+      }
+      // Make sure currentProduct has an id before proceeding
+      if (currentProduct?.id) {
+        setIsLoading(true); // Indicate the start of data fetching
         try {
-          const response = await axios.get('/qa/questions', {
-            params: { product_id: currentProduct.id, page: currentPage, count: 5 },
+          const response = await axios.get(`/qa/questions?product_id=${currentProduct.id}`, {
+            params: { page: currentPage, count: pageSize },
           });
-          const filteredQuestions = response.data.results
-            .filter((question) => searchTerm.length < 3 || question.question_body
-              .toLowerCase()
-              .includes(searchTerm.toLowerCase()));
-          setQuestions(filteredQuestions
-            .sort((a, b) => b.question_helpfulness - a.question_helpfulness));
+          const fetchedQuestions = response.data.results
+            .sort((a, b) => b.question_helpfulness - a.question_helpfulness);
+          // Filter out duplicates
+          const uniqueQuestions = new Map();
+          fetchedQuestions.forEach((question) => {
+            uniqueQuestions.set(question.question_id, question);
+          });
+
+          setQuestions([...uniqueQuestions.values()]);
+          setIsLoading(false);
         } catch (error) {
           console.error('Error fetching questions:', error);
+        } finally {
+          setIsLoading(false); // Data fetching is complete
         }
       }
     };
 
     fetchQuestions();
-  }, [currentProduct, currentPage]);
+  }, [currentProduct?.id, currentPage, isSubmitting]);
+
+  useEffect(() => {
+    if (searchTerm.length >= 3) {
+      const searchLowerCase = searchTerm.toLowerCase();
+      const filtered = questions.filter((question) => question.question_body
+        .toLowerCase()
+        .includes(searchLowerCase)
+      );
+      setFilteredQuestions(filtered);
+    } else {
+      setFilteredQuestions(questions);
+    }
+  }, [searchTerm, questions]);
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
   const handleShowMoreQuestions = () => {
-    const remainingQuestions = questions.length - visibleQuestions;
-    const increment = Math.min(5, remainingQuestions);
-    setVisibleQuestions(visibleQuestions + increment);
+    // Determine new visible questions count, for example, show 5 more questions each time
+    const moreQuestionsToShow = 5;
+    setVisibleQuestions((prevVisibleQuestions) => prevVisibleQuestions + moreQuestionsToShow);
   };
 
   const openAnswerModal = (question) => {
     setIsAnswerModalOpen(true);
     setSelectedQuestion(question);
   };
-
   const openQuestionModal = () => {
     setIsQuestionModalOpen(true);
   };
 
-  const formatDate = (dateString) => {
-    const options = { year: 'numeric', month: 'long', day: 'numeric' };
-    return new Date(dateString).toLocaleDateString(undefined, options);
+  const refreshQuestions = async () => {
+    try {
+      if (currentProduct && currentProduct.id) {
+        const response = await axios.get(`/qa/questions?product_id=${currentProduct.id}`, {
+          params: { page: currentPage, count: pageSize },
+        });
+        const updatedQuestions = response.data.results
+          .sort((a, b) => b.question_helpfulness - a.question_helpfulness);
+        setQuestions(updatedQuestions);
+      }
+    } catch (error) {
+      console.error('Error refreshing questions:', error);
+    }
   };
 
   const markAnswerAsHelpful = async (answerId) => {
-    if (votedHelpfulness.has(answerId)) {
-      return;
+    if (!votedHelpfulness.has(answerId)) {
+      try {
+        await axios.put(`/qa/answers/${answerId}/helpful`);
+        setVotedHelpfulness(new Set([...votedHelpfulness, answerId]));
+        // Assuming you have a way to update the specific answer's helpfulness count in your state:
+        setQuestions((prevQuestions) => prevQuestions.map((q) => {
+          if (q.answers[answerId]) {
+            const updatedAnswers = { ...q.answers };
+            updatedAnswers[answerId].helpfulness += 1;
+            return { ...q, answers: updatedAnswers };
+          }
+          return q;
+        }),
+       );
+      } catch (error) {
+        console.error("Error marking answer as helpful:", error);
+      }
     }
-    await axios.put(`/qa/answers/${answerId}/helpful`, {});
-    const newVotedHelpfulness = new Set(votedHelpfulness);
-    newVotedHelpfulness.add(answerId);
-    setVotedHelpfulness(newVotedHelpfulness);
-    localStorage.setItem('votedHelpfulness', JSON.stringify(Array.from(newVotedHelpfulness)));
+  };
+
+  const markQuestionAsHelpful = async (questionId) => {
+    if (!votedHelpfulness.has(questionId)) {
+      try {
+        await axios.put(`/qa/questions/${questionId}/helpful`);
+
+        // Add questionId to votedHelpfulness to prevent multiple votes
+        setVotedHelpfulness(new Set([...votedHelpfulness, questionId]));
+
+        // Manually increment the helpfulness count for the question in the state
+        setQuestions((prevQuestions) =>
+          prevQuestions.map((q) => {
+            if (q.question_id === questionId) {
+              // Assuming you have a 'question_helpfulness' property
+              return { ...q, question_helpfulness: q.question_helpfulness + 1 };
+            }
+            return q;
+          }),
+        );
+      } catch (error) {
+        console.error("Error marking question as helpful:", error);
+      }
+    }
   };
 
   const reportAnswer = async (answerId) => {
-    if (reportedAnswers.has(answerId)) {
-      return;
+    if (!reportedAnswers.has(answerId)) {
+      try {
+        await axios.put(`/qa/answers/${answerId}/report`);
+        setReportedAnswers(new Set([...reportedAnswers, answerId]));
+        // Refresh the component or handle UI changes as necessary.
+      } catch (error) {
+        console.error("Error reporting answer:", error);
+      }
     }
-
-    const newReportedAnswers = new Set([...reportedAnswers, answerId]);
-    setReportedAnswers(newReportedAnswers);
-
-    await axios.put(`/qa/answers/${answerId}/report`, {});
-    newReportedAnswers.add(answerId);
-    localStorage.setItem('reportedAnswers', JSON.stringify([...newReportedAnswers]));
-    setReportedAnswers(new Set(newReportedAnswers));
-    refreshQuestions();
-  };
-
-  const reportQuestion = async (questionId) => {
-    if (reportedQuestions.has(questionId)) {
-      return;
-    }
-
-    await axios.put(`/qa/questions/${questionId}/report`, {}, {
-      headers: { Authorization: `Bearer ${process.env.TOKEN}` },
-    });
-    const newReportedQuestions = new Set(reportedQuestions);
-    newReportedQuestions.add(questionId);
-    setReportedQuestions(newReportedQuestions);
-    localStorage.setItem('reportedQuestions', JSON.stringify(Array.from(newReportedQuestions)));
-    refreshQuestions();
   };
 
   const toggleExpand = (question) => {
@@ -131,90 +174,50 @@ function GetAllQuestionsAndAnswers({ currentProduct }) {
     setQuestions(updatedQuestions);
   };
 
+  const handleAddAnswer = (questionData) => {
+    setIsAnswerModalOpen(true);
+    setSelectedQuestion(questionData);
+  };
+
   return (
     <div>
-      <div>
-        <h2>Questions & Answers</h2>
-        <input
-          type="text"
-          placeholder="Have a question? Search for answers…"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          style={{ width: '100%', padding: '10px', marginBottom: '20px' }}
-        />
-        <button type="button" onClick={openQuestionModal} className="open-button">Add a Question</button>
-      </div>
-      <div style={{ maxHeight: '500px', overflowY: 'auto' }}>
-        {questions
-          .filter((question) => searchTerm.length < 3
-            || question.question_body.toLowerCase().includes(searchTerm.toLowerCase()))
-          .slice(0, visibleQuestions)
-          .map((question) => (
-            <div key={question.question_id}>
-              <p>
-                <strong>
-                  Q:
-                  {question.question_body}
-                </strong>
-                <button type="button" onClick={() => reportQuestion(question.question_id)}>
-                  {reportedQuestions.has(question.question_id) ? 'Reported' : 'Report'}
-                </button>
-              </p>
-              {question.answers && Object.values(question.answers).map((answer, index) => (
-                <div key={answer.id} style={{ display: index < 2 || question.expanded ? 'block' : 'none' }}>
-                  <strong>
-                    A:
-                  </strong>
-                  {answer.body}
-                  <p>
-                    by
-                    {' '}
-                    <strong>
-                      {answer.answerer_name === 'Seller' ? <b>Seller</b> : answer.answerer_name}
-                    </strong>
-                    ,
-                    {' '}
-                    {formatDate(answer.date)}
-                  </p>
-                  <button type="button" disabled={votedHelpfulness.has(answer.id)} onClick={() => markAnswerAsHelpful(answer.id)}>
-                    Helpful? (
-                    {answer.helpfulness + (votedHelpfulness.has(answer.id) ? 1 : 0)}
-                    )
-                  </button>
-                  <button type="button" onClick={() => reportAnswer(answer.id)}>
-                    {reportedAnswers.has(answer.id) ? 'Reported' : 'Report'}
-                  </button>
-                </div>
-              ))}
-              {Object.values(question.answers).length > 2 && (
-                <button type="button" onClick={() => toggleExpand(question)}>
-                  {question.expanded ? 'Collapse answers' : 'See more answers'}
-                </button>
-              )}
-              <button type="button" onClick={() => openAnswerModal(question)}>Add Answer</button>
-            </div>
-          ))}
-        {visibleQuestions < questions.length && (
-          <button type="button" onClick={handleShowMoreQuestions}>More Questions</button>
-        )}
-      </div>
-      <AnswerModal
-        isOpen={isAnswerModalOpen}
-        onRequestClose={() => setIsAnswerModalOpen(false)}
-        productName={currentProduct?.name}
-        questionBody={selectedQuestion?.question_body}
-        selectedQuestion={selectedQuestion}
+      <SearchTerm searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+      <QuestionsList
+        questions={filteredQuestions}
+        handleShowMoreQuestions={handleShowMoreQuestions}
+        visibleQuestionCount={visibleQuestions}
+        markAnswerAsHelpful={markAnswerAsHelpful}
+        reportAnswer={reportAnswer}
+        markQuestionAsHelpful={markQuestionAsHelpful}
+        toggleExpand={toggleExpand}
+        reportedAnswers={reportedAnswers}
+        openAnswerModal={openAnswerModal}
+        openQuestionModal={openQuestionModal}
       />
-      {currentProduct && (
+      {isAnswerModalOpen && (
+        <AnswerModal
+          isOpen={isAnswerModalOpen}
+          onRequestClose={() => setIsAnswerModalOpen(false)}
+          productName={currentProduct?.name}
+          questionBody={selectedQuestion?.question_body}
+          selectedQuestion={selectedQuestion}
+          refreshQuestions={refreshQuestions}
+          openAnswerModal={openAnswerModal}
+        />
+      )}
+      <div className="button-container">
+        <LoadMoreButton className="question-button" onClick={handleShowMoreQuestions} text="More Answered Questions" />
+        <button type="button" className="question-button" onClick={() => setIsQuestionModalOpen(true)}>Add a Question ➕</button>
+      </div>
+      {isQuestionModalOpen && (
         <QuestionModal
           isOpen={isQuestionModalOpen}
           onRequestClose={() => setIsQuestionModalOpen(false)}
-          productName={currentProduct.name}
+          productName={currentProduct?.name}
           currentProduct={currentProduct}
+          setIsSubmitting={setIsSubmitting}
           refreshQuestions={refreshQuestions}
-          currentPage={currentPage}
-          questions={questions} // Pass questions state as prop
-          setQuestions={setQuestions}
+          openQuestionModal={openQuestionModal}
         />
       )}
     </div>

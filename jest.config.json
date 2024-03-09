@@ -4,5 +4,10 @@
     "/node_modules/",
     "\\.pnp\\.[^\\/]+$",
     "\\.css$"
+  ],
+  "testPathIgnorePatterns": [
+    ".*\\.ignore\\.js$",
+    "/path/to/specific/directory/",
+    ".*\\.skip\\.test\\.js$"
   ]
 }

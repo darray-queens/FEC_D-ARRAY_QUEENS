@@ -3,6 +3,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import ProductCard from '../shared/ProductCard';
 import ComparisonModule from './ComparisonModule';
 import scrollButtonClick from '../shared/scrollButtonClick';
+import fetchSalePrice from '../shared/fetchSalePrice';
 import {
   Grid,
   ProductModuleRow,
@@ -19,18 +20,41 @@ function RelatedProductsList({ currentProduct, setProductId }) {
   const productModuleRef = useRef(null);
 
   async function fetchProducts() {
-    const response = await axios.get('/products/?count=75')
+    const productsRequest = await axios.get('/products/?count=75')
       .catch((err) => {
         console.error(err);
       });
+
+    const relatedProducts = productsRequest.data.filter(
+      (element) => element.category.toLowerCase().includes(currentProduct.category.toLowerCase())
+        || currentProduct.category.toLowerCase().includes(element.category.toLowerCase()),
+    ).filter((element) => element.id !== currentProduct.id);
+
+    const salePricePromises = relatedProducts.map(async (element) => {
+      const salePrice = await fetchSalePrice(element.id);
+      return { id: element.id, salePrice };
+    });
+
+    const promisesResolved = await Promise.all(salePricePromises);
+    const itemsWithSale = promisesResolved.filter((element) => element.salePrice !== null); // [{}]
+
+    // maybe need to refactor this out into a separate function for SOC
+    const hash = {};
+
+    itemsWithSale.forEach((element) => {
+      hash[element.id] = element.salePrice;
+    });
+
+    relatedProducts.forEach((element, index) => {
+      if (hash[element.id] !== undefined) {
+        relatedProducts[index].salePrice = hash[element.id];
+      } else {
+        relatedProducts[index].salePrice = undefined;
+      }
+    });
+
     setIsLoading(false);
-    setProductsList(
-      response.data.filter(
-        (element) => element.category.toLowerCase().includes(currentProduct.category.toLowerCase())
-          // eslint-disable-next-line comma-dangle
-          || currentProduct.category.toLowerCase().includes(element.category.toLowerCase())
-      ).filter((element) => element.id !== currentProduct.id),
-    );
+    setProductsList(relatedProducts);
   }
 
   useEffect(() => {
@@ -39,12 +63,14 @@ function RelatedProductsList({ currentProduct, setProductId }) {
     }
   }, [currentProduct]);
 
+  // if two items, show modal
   useEffect(() => {
     if (comparedItems.length === 2) {
       setComparisonHidden(false);
     }
   }, [comparedItems]);
 
+  // attach/remove event listener
   useEffect(() => {
     if (!comparisonHidden) {
       const hideComparison = () => {
@@ -67,6 +93,7 @@ function RelatedProductsList({ currentProduct, setProductId }) {
     );
   }
 
+  // click handlers
   const imageClick = (id) => {
     setProductId(id);
   };
@@ -82,14 +109,6 @@ function RelatedProductsList({ currentProduct, setProductId }) {
       }
     }
   };
-
-  // const scrollButtonClick = (direction) => {
-  //   if (direction === 'left') {
-  //     productModuleRef.current.scrollLeft -= 310;
-  //   } else {
-  //     productModuleRef.current.scrollLeft += 310;
-  //   }
-  // };
 
   return (
     <Grid>

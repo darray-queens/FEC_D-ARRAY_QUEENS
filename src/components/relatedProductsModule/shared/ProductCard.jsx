@@ -14,6 +14,7 @@ function ProductCard(
     imageClick,
     actionButtonClick,
     textValue,
+    salePrice,
   },
 ) {
   const [thumbnailUrl, setThumbnailUrl] = useState('');
@@ -47,7 +48,23 @@ function ProductCard(
         {product.name}
       </div>
       <div>
-        {product.default_price}
+        {(product.salePrice || salePrice)
+          ? (
+            <span>
+              <span style={{ color: 'red' }}>
+                <b>
+                  $
+                  {(product.salePrice || salePrice)}
+                </b>
+              </span>
+              &nbsp;&nbsp;
+              <span style={{ textDecoration: 'line-through' }}>
+                $
+                {product.default_price}
+              </span>
+            </span>
+          )
+          : `$${product.default_price}`}
       </div>
       <div>
         <AverageStars currentProduct={product} />
