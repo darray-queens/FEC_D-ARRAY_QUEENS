@@ -115,12 +115,14 @@ function Overview({
           )}
         </Col>
       </Row>
-      <Row>
-        <ProductDescription
-          description={currentProduct.description}
-          features={currentProduct.features}
-        />
-      </Row>
+      {currentProduct.description && (
+        <Row>
+          <ProductDescription
+            description={currentProduct.description}
+            features={currentProduct.features}
+          />
+        </Row>
+      )}
     </OverviewGrid>
   );
 }
