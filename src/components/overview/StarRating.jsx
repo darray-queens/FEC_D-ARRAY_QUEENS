@@ -7,7 +7,8 @@ import { Row } from '../shared/containers';
 const ReviewButton = styled.button`
   background: none;
   background-color: none;
-  margin-top: -1px;
+  font-family: inherit;
+  margin-top: -2px;
   margin: none;
   border: none;
   text-align: center;
