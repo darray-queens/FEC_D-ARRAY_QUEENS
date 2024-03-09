@@ -2,10 +2,9 @@ import axios from 'axios';
 
 import React from 'react';
 import Overview from './components/overview/Overview';
-import RelatedProductsList from './components/relatedProductsModule/relatedProducts/RelatedProductsList';
-import OutfitsList from './components/relatedProductsModule/outfits/OutfitsList';
 import GetAllQuestionsAndAnswers from './components/questionsAndAnswers/GetAllQuestionsAndAnswers';
 import ReviewList from './components/review/ReviewList';
+import RelatedProductsContainer from './components/relatedProductsModule/Container';
 
 const { useState, useEffect } = React;
 
@@ -31,8 +30,7 @@ function App() {
     <div>
       <h2>Howdy, world!!</h2>
       <Overview currentProduct={currentProduct} />
-      <RelatedProductsList currentProduct={currentProduct} setProductId={setProductId} />
-      <OutfitsList currentProduct={currentProduct} />
+      <RelatedProductsContainer currentProduct={currentProduct} setProductId={setProductId} />
       <GetAllQuestionsAndAnswers currentProduct={currentProduct} />
       <ReviewList currentProduct={currentProduct} />
     </div>

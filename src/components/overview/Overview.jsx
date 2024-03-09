@@ -19,7 +19,7 @@ function Overview({ currentProduct }) {
   const [styles, setStyles] = useState([]);
   const [currentSku, setCurrentSku] = useState();
   const [currentStyle, setCurrentStyle] = useState({});
-  const [mainImage, setMainImage] = useState();
+  const [mainImageIndex, setMainImageIndex] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
 
   async function getStyles() {
@@ -28,7 +28,7 @@ function Overview({ currentProduct }) {
 
     setStyles(response.data.results);
     setCurrentStyle(response.data.results[0]);
-    setMainImage(response.data.results[0].photos[0].url);
+    setMainImageIndex(0);
     setCurrentSku();
     setIsLoading(false);
   }
@@ -41,19 +41,21 @@ function Overview({ currentProduct }) {
 
   return (
     <OverviewGrid>
-      <Row>
+      <Row id="image-info-row">
         <ImgCol size={3}>
-          {isLoading ? (
-            <Loading />
-          ) : (
-            <Images
-              styleImages={currentStyle.photos}
-              mainImage={mainImage}
-              changeMainImage={setMainImage}
-            />
-          )}
+          <div>
+            {isLoading ? (
+              <Loading />
+            ) : (
+              <Images
+                styleImages={currentStyle.photos}
+                mainImageIndex={mainImageIndex}
+                changeMainImageIndex={setMainImageIndex}
+              />
+            )}
+          </div>
         </ImgCol>
-        <Col size={1}>
+        <Col id="info-col" size={1}>
           <StarRating />
           <ProductInfo product={currentProduct} style={currentStyle} />
           {isLoading ? (
@@ -68,7 +70,7 @@ function Overview({ currentProduct }) {
                 currentStyles={styles}
                 currentStyle={currentStyle}
                 changeStyle={setCurrentStyle}
-                changeMainImage={setMainImage}
+                changeMainImageIndex={setMainImageIndex}
               />
               <Selection
                 style={currentStyle}
