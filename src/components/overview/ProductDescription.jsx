@@ -6,7 +6,7 @@ import { Row, Col } from '../shared/containers';
 const DescriptionRow = styled(Row)`
   align-items: center;
   padding-top: 20px;
-  max-width: 1080px;
+  max-width: 1075px;
   `;
 
 const DescriptionCol = styled(Col)`
