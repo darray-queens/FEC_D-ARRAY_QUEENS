@@ -7,26 +7,39 @@ function IconBar({ characteristic, average }) {
     <Container>
       <Label>{characteristic}</Label>
       <BarWrapper>
-        <Icon left={iconPosition} />
+        <Icon $left={iconPosition} />
       </BarWrapper>
-      {(characteristic === 'Fit' || characteristic === 'Size') && (
+      {(characteristic === 'Fit') && (
       <Meaning>
-        <span>Too Small</span>
+        <span>Runs tight</span>
         <span>Perfect</span>
-        <span>Too Large</span>
+        <span>Runs long</span>
+      </Meaning>
+      )}
+      {(characteristic === 'Size') && (
+      <Meaning>
+        <span>A size too small</span>
+        <span>Perfect</span>
+        <span>A size too wide</span>
       </Meaning>
       )}
       {(characteristic === 'Length') && (
       <Meaning>
-        <span>Too short</span>
+        <span>Runs short</span>
         <span>Perfect</span>
-        <span>Too long</span>
+        <span>Runs long</span>
       </Meaning>
       )}
-      {(characteristic === 'Comfort' || characteristic === 'Quality') && (
+      {(characteristic === 'Comfort') && (
+      <Meaning>
+        <span>Uncomfortable</span>
+        <span>Perfect</span>
+      </Meaning>
+      )}
+      {(characteristic === 'Quality') && (
       <Meaning>
         <span>Poor</span>
-        <span>Great</span>
+        <span>Perfect</span>
       </Meaning>
       )}
       {(characteristic === 'Width') && (
@@ -51,7 +64,7 @@ const Label = styled.div`
 const Icon = styled.div`
   width: 0;
   height: 0;
-  left: ${(props) => (props.left)}%;
+  left: ${(props) => (props.$left)}%;
   border-left: 8px solid transparent;
   border-right: 8px solid transparent;
   border-top: 13px solid #00693E;
