@@ -8,6 +8,8 @@ import Modal from './Modal';
 
 import StarRating from './StarRating';
 
+import HelpfulButton from './HelpfulButton';
+
 const { useState } = React;
 
 function Review({ entry }) {
@@ -50,6 +52,7 @@ function Review({ entry }) {
         ))}
       </StylesRow>
       { modalPhoto && <Modal photo={modalPhoto} closeModal={exitModal} /> }
+      <HelpfulButton entry={entry} />
     </StylesDiv>
   );
 }

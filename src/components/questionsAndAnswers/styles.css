@@ -164,6 +164,17 @@ body {
   font-size: 12px;
 }
 
+button {
+  color: gray;
+  text-decoration: underline;
+  cursor: pointer;
+  font-family: 'Source Code Pro', monospace;
+}
+
+button:hover {
+  color: black;
+}
+
 /*
 .button-container {
   display: flex;
