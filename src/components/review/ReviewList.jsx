@@ -106,14 +106,21 @@ function ReviewList({ currentProduct }) {
                 <Review key={review.review_id} entry={review} />
               ))}
           </StylesDiv>
-          {renderedReviews < reviews.length && (
+          {filteredReviews.length > 0 ? (renderedReviews < filteredReviews.length && (
           <StylesButton
             type="button"
             onClick={moreReviews}
           >
             MORE REVIEWS
           </StylesButton>
-          )}
+          )) : (renderedReviews < reviews.length && (
+          <StylesButton
+            type="button"
+            onClick={moreReviews}
+          >
+            MORE REVIEWS
+          </StylesButton>
+          ))}
           <StylesButton
             type="button"
             onClick={openAnswerModal}
