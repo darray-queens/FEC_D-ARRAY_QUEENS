@@ -66,9 +66,6 @@ function ReviewList({ currentProduct }) {
     setAnswerModal(true);
   };
 
-  console.log(reviews);
-  console.log(renderedReviews)
-
   return (
     <div id="reviews">
       <h2>Ratings & Reviews</h2>

@@ -15,7 +15,7 @@ import IconBar from './BreakdownFactors';
 const { useState, useEffect } = React;
 
 function Breakdown({
-  currentProduct, reviews, setFilteredReviews, filteredReviews, activeFilters, setActiveFilters,
+  currentProduct, reviews, setFilteredReviews, activeFilters, setActiveFilters,
 }) {
   const [average, setAverage] = useState(0);
   const [recommendPercent, setRecommendPercent] = useState(0);
@@ -113,8 +113,6 @@ function Breakdown({
 
   useEffect(() => {
     if (activeFilters.length > 0) {
-      console.log('filteredReviews', filteredReviews);
-      console.log('activeFilter', activeFilters);
       const filtered = reviews.filter((review) => activeFilters.includes(review.rating));
       setFilteredReviews(filtered);
     } else {
@@ -194,19 +192,18 @@ function Breakdown({
         </StylesButton>
         )}
       </StylesRow>
-      <StylesRow>
-        {Object.keys(factors).map((key) => (
+      {Object.keys(factors).map((key) => (
+        <StylesRow key={key}>
           <IconBar
-            key={key}
             characteristic={key}
             average={factors[key].value}
           />
-        ))}
-        {/* <IconBar characteristic="Width" average={3} /> */}
-      </StylesRow>
+        </StylesRow>
+      ))}
     </div>
   );
 }
+
 const Container = styled.div`
   display: flex;
   align-items: flex-start;
