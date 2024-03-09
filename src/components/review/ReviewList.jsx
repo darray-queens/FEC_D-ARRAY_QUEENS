@@ -55,7 +55,7 @@ function ReviewList({ currentProduct }) {
   }
 
   const moreReviews = () => {
-    setRenderedReviews((prevRenderedReviews) => prevRenderedReviews + 2);
+    setRenderedReviews((prevRenderedReviews) => prevRenderedReviews + reviews.length);
   };
 
   const exitAnswerModal = () => {
@@ -80,7 +80,7 @@ function ReviewList({ currentProduct }) {
             setActiveFilters={setActiveFilters}
           />
         </Col>
-        <Col size={4}>
+        <StylesCol size={4}>
           <Sort
             reviews={reviews}
             setReviews={setReviews}
@@ -126,7 +126,7 @@ function ReviewList({ currentProduct }) {
             currentProduct={currentProduct}
           />
           )}
-        </Col>
+        </StylesCol>
       </Row>
     </div>
   );
@@ -136,6 +136,11 @@ const StylesDiv = styled.div`
   overflow-y: auto;
   max-height: 600px;
   padding-left: 0;
+  width: 100%
+`;
+
+const StylesCol = styled(Col)`
+  width: 80%
 `;
 
 const StylesButton = styled.button`
