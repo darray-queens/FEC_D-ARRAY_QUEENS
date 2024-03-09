@@ -18,13 +18,25 @@ function AnswerModal({
     };
   }, [isOpen]);
 
-  const handleFileChange = (event) => {
+  const handleFileChange = async (event) => {
     // Limit to 3 photos
     const files = Array.from(event.target.files).slice(0, 3);
-    const urls = files.map((file) => URL.createObjectURL(file)); // Create URLs for preview
-    const updatedPhotos = [...photos, ...urls]; // Combine existing photos with newly uploaded ones
-    setPhotos(updatedPhotos);
+    const formData = new FormData();
+    files.forEach((file) => {
+      formData.append('images', file);
+    });
+
+    try {
+      const response = await axios.post('/upload', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      });
+      const uploadedUrls = response.data.urls;
+      setPhotos(uploadedUrls);
+    } catch (error) {
+      console.error('Error uploading files:', error);
+    }
   };
+
   const submitAnswer = async (event) => {
     event.preventDefault();
     const answerDetails = {
