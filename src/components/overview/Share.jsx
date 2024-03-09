@@ -5,6 +5,7 @@ import { FaFacebook, FaTwitter, FaPinterest } from 'react-icons/fa';
 import { Row } from '../shared/containers';
 
 const ShareRow = styled(Row)`
+  margin-top: 2px;
   max-width: 100%;
 `;
 
