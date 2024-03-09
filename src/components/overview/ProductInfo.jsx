@@ -21,23 +21,18 @@ const SaleText = styled.h4`
 
 function ProductInfo({ product, style }) {
   const { category, name } = product;
-
-  let priceText = <h4>{`$${style.original_price}`}</h4>;
-
-  if (style.sale_price) {
-    priceText = (
-      <Row>
-        <SaleText>{`$${style.sale_price}`}</SaleText>
-        <h4 style={{ textDecoration: 'line-through' }}>{`$${style.original_price}`}</h4>
-      </Row>
-    );
-  }
+  const salePrice = style.sale_price;
 
   return (
     <div>
       <Category>{category}</Category>
       <ProductName>{name}</ProductName>
-      {priceText}
+      <Row>
+        {salePrice && (
+          <SaleText>{`$${style.sale_price}`}</SaleText>
+        )}
+        <h4 style={salePrice && { textDecoration: 'line-through' }}>{`$${style.original_price}`}</h4>
+      </Row>
     </div>
   );
 }
