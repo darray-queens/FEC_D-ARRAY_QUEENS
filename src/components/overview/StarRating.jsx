@@ -17,6 +17,7 @@ const ReviewButton = styled.button`
 `;
 
 const ReviewRow = styled(Row)`
+  padding-top: 20px;
   align-items: self-start;
   min-width: 100%
 `;
