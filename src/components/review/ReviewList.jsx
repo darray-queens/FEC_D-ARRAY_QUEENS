@@ -16,15 +16,14 @@ import Breakdown from './Breakdown';
 
 const { useState, useEffect } = React;
 
-function ReviewList({ currentProduct }) {
-  const [reviews, setReviews] = useState([]);
+function ReviewList({ currentProduct, reviews, updateReviews }) {
   const [pageNumber, setPageNumber] = useState(1);
   const [relevantReviews, setRelevantReviews] = useState([]);
   const [renderedReviews, setRenderedReviews] = useState(2);
   const [filteredReviews, setFilteredReviews] = useState([]);
 
   useEffect(() => {
-    setReviews([]);
+    updateReviews([]);
     setRelevantReviews([]);
     setPageNumber(1);
     setRenderedReviews(2);
@@ -37,7 +36,7 @@ function ReviewList({ currentProduct }) {
         .then((response) => {
           if (response.data.results.length !== 0) {
             setRelevantReviews((prevReviews) => prevReviews.concat(response.data.results));
-            setReviews((prevReviews) => prevReviews.concat(response.data.results));
+            updateReviews((prevReviews) => prevReviews.concat(response.data.results));
             setPageNumber((prevPageNumber) => prevPageNumber + 1);
           }
         })
@@ -74,7 +73,7 @@ function ReviewList({ currentProduct }) {
               : reviews}
             setReviews={filteredReviews.length >= 1
               ? setFilteredReviews
-              : setReviews}
+              : updateReviews}
             relevantReviews={relevantReviews}
           />
           <StylesDiv>

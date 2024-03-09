@@ -20,6 +20,8 @@ function App() {
   const [maxThumbIndex, setMaxThumbIndex] = useState();
   const [galleryModal, setGalleryModal] = useState(false);
 
+  const [reviews, setReviews] = useState([]);
+
   useEffect(() => {
     axios.get(`products/${productId}`)
       .then((response) => {
@@ -51,6 +53,7 @@ function App() {
         currentProduct={currentProduct}
         currentStyle={currentStyle}
         changeCurrentStyle={(newStyle) => setCurrentStyle(newStyle)}
+        reviews={reviews}
         mainImageIndex={mainImageIndex}
         changeMainImageIndex={setMainImageIndex}
         minThumbIndex={minThumbIndex}
@@ -61,7 +64,11 @@ function App() {
       />
       <RelatedProductsContainer currentProduct={currentProduct} setProductId={setProductId} />
       <GetAllQuestionsAndAnswers currentProduct={currentProduct} />
-      <ReviewList currentProduct={currentProduct} />
+      <ReviewList
+        currentProduct={currentProduct}
+        reviews={reviews}
+        updateReviews={(newReviews) => setReviews(newReviews)}
+      />
     </div>
   );
 }
