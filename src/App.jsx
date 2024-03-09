@@ -17,8 +17,6 @@ function App() {
   const [mainImageIndex, setMainImageIndex] = useState(0);
   const [minThumbIndex, setMinThumbIndex] = useState(0);
   const [maxThumbIndex, setMaxThumbIndex] = useState();
-  const [imageShiftX, setImageShiftX] = useState();
-  const [imageShiftY, setImageShiftY] = useState();
   const [galleryModal, setGalleryModal] = useState(false);
 
   useEffect(() => {
