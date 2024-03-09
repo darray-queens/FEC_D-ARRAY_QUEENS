@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import FormStars from './FormStars';
+import Characteristics from './Characteristics';
 
 const { useState } = React;
 
@@ -57,7 +58,9 @@ const StylesP = styled.p`
   margin-left: 10px;
 `;
 
-function ReviewForm({ closeModal, currentProduct, refresh, setRefresh}) {
+function ReviewForm({
+  closeModal, currentProduct, refresh, setRefresh, factors
+}) {
   const [rating, setRating] = useState(null);
   const [summary, setSummary] = useState('');
   const [body, setBody] = useState('');
@@ -66,7 +69,6 @@ function ReviewForm({ closeModal, currentProduct, refresh, setRefresh}) {
   const [email, setEmail] = useState('');
   const [photos, setPhotos] = useState([]);
   const [characteristics, setCharacteristics] = useState({});
-
 
   const handleRecommendChange = (event) => {
     const { value } = event.target;
@@ -95,6 +97,8 @@ function ReviewForm({ closeModal, currentProduct, refresh, setRefresh}) {
     closeModal();
   };
 
+  console.log(characteristics);
+
   return (
     <ModalContainer>
       <ModalContent>
@@ -119,6 +123,7 @@ function ReviewForm({ closeModal, currentProduct, refresh, setRefresh}) {
               {rating === 5 && <StylesP>Great</StylesP>}
             </Col>
           </Row>
+          <Characteristics factors={factors} setCharacteristics={setCharacteristics} />
           <fieldset>
             <legend>Do you recommend this product? *</legend>
             <h2>hahaha</h2>

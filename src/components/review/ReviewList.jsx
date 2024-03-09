@@ -26,6 +26,7 @@ function ReviewList({ currentProduct }) {
   const [count, setCount] = useState(2);
   const [sort, setSort] = useState('relevant');
   const [refresh, setRefresh] = useState(true);
+  const [factors, setFactors] = useState({});
 
   useEffect(() => {
     setReviews([]);
@@ -79,6 +80,8 @@ function ReviewList({ currentProduct }) {
             filteredReviews={filteredReviews}
             activeFilters={activeFilters}
             setActiveFilters={setActiveFilters}
+            factors={factors}
+            setFactors={setFactors}
           />
         </StylesCol2>
         <StylesCol size={4}>
@@ -127,6 +130,7 @@ function ReviewList({ currentProduct }) {
             currentProduct={currentProduct}
             refresh={refresh}
             setRefresh={setRefresh}
+            factors={factors}
           />
           )}
         </StylesCol>
