@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import ImageModal from './ImageModal';
+import './styles.css';
 
 function AnswerItem({
-  answerData, markAnswerAsHelpful, reportAnswer, reportedAnswers, photos,
+  answerData, markAnswerAsHelpful, reportAnswer, reportedAnswers,
 }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState('');
@@ -16,8 +17,6 @@ function AnswerItem({
     const options = { year: 'numeric', month: 'long', day: 'numeric' };
     return new Date(dateString).toLocaleDateString(undefined, options);
   };
-
-  console.log('photos', photos)
   return (
     <>
       <div className="answer-item">
@@ -27,21 +26,15 @@ function AnswerItem({
           </strong>
           {answerData.body}
         </p>
-        {/* <div className="answer-thumbnails">
-          {photos.map((photo, index) => (
-            <AnswerItem
-              key={index}
-              answerData={answerData}
-              markAnswerAsHelpful={markAnswerAsHelpful}
-              reportAnswer={reportAnswer}
-              reportedAnswers={reportedAnswers}
-              photos={photos} // Pass down the photos prop
-            />
-          ))}
-        </div>
+        <div className="answer-item" />
         {isModalOpen && (
           <ImageModal image={selectedImage} onClose={() => setIsModalOpen(false)} />
-        )} */}
+        )}
+      </div>
+      <div className="picture">
+        {answerData.photos && answerData.photos.map((photoUrl, index) => (
+          <img key={index} src={photoUrl} alt="Thumbnail" onClick={() => openImageModal(photoUrl)} style={{ width: 100, cursor: 'pointer', margin: '5px' }} />
+        ))}
       </div>
       <div className="answerInfo">
         by
@@ -63,6 +56,9 @@ function AnswerItem({
           <a className="link" onClick={() => reportAnswer(answerData.id)}>Report</a>
         )}
       </div>
+      {isModalOpen && (
+        <ImageModal image={selectedImage} onClose={() => setIsModalOpen(false)} />
+      )}
     </>
   );
 }
