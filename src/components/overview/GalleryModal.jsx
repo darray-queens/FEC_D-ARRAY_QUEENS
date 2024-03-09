@@ -41,7 +41,7 @@ const ModalImage = styled.div`
   height: 100vh;
   width: 100%;
   overflow: hidden;
-  z-index: 94;
+  z-index: 93;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -78,6 +78,11 @@ const ModalPrevMain = styled(PrevMain)`
 
 const ModalNextMain = styled(NextMain)`
   z-index: 95;
+`;
+
+const ModalClose = styled(NextMain)`
+  z-index: 94;
+  top: 70px;
 `;
 
 function GalleryModal({
@@ -159,6 +164,11 @@ function GalleryModal({
       >
         &#10095;
       </ModalNextMain>
+      <ModalClose
+        onClick={() => toggleGalleryModal(false)}
+      >
+        &#10005;
+      </ModalClose>
     </ModalContainer>
   );
 }
