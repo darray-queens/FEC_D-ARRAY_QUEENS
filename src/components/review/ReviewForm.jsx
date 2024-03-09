@@ -75,6 +75,9 @@ function ReviewForm({ closeModal, currentProduct, refresh, setRefresh}) {
 
   const submitForm = async (event) => {
     event.preventDefault();
+    if (rating === null) {
+      alert('Please select a rating');
+    }
     const formDetails = {
       product_id: currentProduct.id,
       rating,
@@ -118,13 +121,14 @@ function ReviewForm({ closeModal, currentProduct, refresh, setRefresh}) {
           </Row>
           <fieldset>
             <legend>Do you recommend this product? *</legend>
+            <h2>hahaha</h2>
             <div>
-              <input type="radio" id="yes" name="recommendation" value="Yes" checked={recommend} onChange={handleRecommendChange} />
+              <input type="radio" id="yes" name="recommendation" value="Yes" checked={recommend} onChange={handleRecommendChange} required />
               <label htmlFor="yes">Yes</label>
             </div>
 
             <div>
-              <input type="radio" id="no" name="recommendation" value="No" checked={!recommend} onChange={handleRecommendChange} />
+              <input type="radio" id="no" name="recommendation" value="No" checked={!recommend} onChange={handleRecommendChange} required />
               <label htmlFor="no">No</label>
             </div>
           </fieldset>

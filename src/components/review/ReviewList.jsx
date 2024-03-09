@@ -71,7 +71,7 @@ function ReviewList({ currentProduct }) {
     <div id="reviews">
       <h2>Ratings & Reviews</h2>
       <Row>
-        <Col size={1}>
+        <StylesCol2 size={1}>
           <Breakdown
             currentProduct={currentProduct}
             reviews={reviews}
@@ -80,7 +80,7 @@ function ReviewList({ currentProduct }) {
             activeFilters={activeFilters}
             setActiveFilters={setActiveFilters}
           />
-        </Col>
+        </StylesCol2>
         <StylesCol size={4}>
           <Sort
             reviews={reviews}
@@ -143,7 +143,12 @@ const StylesDiv = styled.div`
 `;
 
 const StylesCol = styled(Col)`
-  width: 80%
+  width: 80%;
+`;
+
+const StylesCol2 = styled(Col)`
+  min-width: 270px;
+  margin-right: 20px;
 `;
 
 const StylesButton = styled.button`
