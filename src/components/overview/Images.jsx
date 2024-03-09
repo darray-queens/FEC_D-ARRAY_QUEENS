@@ -56,46 +56,6 @@ function Images({
 }) {
   const imageCount = styleImages.length;
 
-  // const handleExpansion = () => {
-  //   if (!isExpanded) {
-  //     // document.getElementById('info-col').style.display = 'none';
-  //     setIsExpanded(true);
-  //     toggleGalleryModal(true);
-  //   } else {
-  //     // document.getElementById('info-col').style.display = '';
-  //     setIsExpanded(false);
-  //   }
-  // };
-
-  // const onMovement = useCallback((event) => {
-  //   const galleryWidth = document.getElementById('image-container').clientWidth;
-  //   const galleryHeight = document.getElementById('image-container').clientHeight;
-  //   const mainImage = document.getElementById('main-image');
-  //   const imageWidth = mainImage.clientWidth;
-  //   const imageHeight = mainImage.clientHeight;
-
-  //   const changeX = Math.round(
-  //     ((imageWidth / 2) * ((galleryWidth / 2) - event.offsetX)) / (galleryWidth / 2),
-  //   );
-  //   const changeY = Math.round(
-  //     ((imageHeight / 2) * ((galleryHeight / 2) - event.offsetY)) / (galleryHeight / 2),
-  //   );
-
-  //   mainImage.style.transform = `translateX(${changeX}px) translateY(${changeY}px)`;
-  // }, []);
-
-  // const handleZoom = () => {
-  //   const galleryWindow = document.getElementById('image-container');
-  //   if (!isZoomed) {
-  //     galleryWindow.addEventListener('mousemove', onMovement);
-  //     setIsZoomed(true);
-  //   } else if (isZoomed) {
-  //     galleryWindow.removeEventListener('mousemove', onMovement);
-  //     document.getElementById('main-image').style.transform = 'translateX(0) translateY(0)';
-  //     setIsZoomed(false);
-  //   }
-  // };
-
   return (
     <GalleryContainer>
       <MenuCol>

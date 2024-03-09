@@ -12,11 +12,15 @@ import {
 } from './imageNavButtons';
 import galleryHandlers from './galleryHandlers';
 
+const { useState, useCallback } = React;
+
 const {
   handleNextThumb,
   handlePrevThumb,
   handleNextMain,
   handlePrevMain,
+  handleZoom,
+  onMovement,
 } = galleryHandlers;
 
 const ModalContainer = styled.div`
@@ -31,6 +35,18 @@ const ModalContainer = styled.div`
   transform: translate(-50%, -50%);
 `;
 
+const ModalImage = styled.div`
+  position: fixed;
+  background-repeat: no-repeat;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  z-index: 94;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+`;
+
 const ModalMenuCol = styled(Row)`
   position: absolute;
   z-index: 1;
@@ -39,6 +55,7 @@ const ModalMenuCol = styled(Row)`
   height: 100%;
   justify-content: center;
   align-items: center;
+  z-index: 100;
 `;
 
 const ModalNavContainer = styled(Row)`
@@ -73,24 +90,24 @@ function GalleryModal({
   changeMinThumbIndex,
   toggleGalleryModal,
 }) {
-  const { length } = styleImages;
-  const imageCount = length;
+  const [isZoomed, setIsZoomed] = useState(false);
+
+  const handleMovement = useCallback(onMovement, []);
+
+  const imageCount = styleImages.length;
 
   const styles = {
     backgroundImage: `url(${styleImages[mainImageIndex].url})`,
-    backgroundPosition: 'center',
-    backgroundRepeat: 'no-repeat',
-    backgroundSize: 'contain',
+    backgroundPosition: !isZoomed && 'center',
+    backgroundSize: isZoomed ? '125%' : 'contain',
   };
 
   return (
-    <ModalContainer
-      style={styles}
-    >
+    <ModalContainer>
       <ModalMenuCol>
         <ModalNavContainer>
           <ModalPrevThumb
-            style={{ display: minThumbIndex === 0 ? 'none' : 'inherit', zIndex: '90' }}
+            style={{ display: minThumbIndex === 0 ? 'none' : 'inherit', zIndex: '99' }}
             onClick={() => {
               changeMinThumbIndex((prevIndex) => handlePrevThumb(minThumbIndex, prevIndex));
               changeMaxThumbIndex((prevIndex) => handlePrevThumb(minThumbIndex, prevIndex));
@@ -121,6 +138,11 @@ function GalleryModal({
           </ModalNextThumb>
         </ModalNavContainer>
       </ModalMenuCol>
+      <ModalImage
+        id="modal-main-image"
+        style={styles}
+        onClick={() => setIsZoomed((prevState) => handleZoom(prevState, handleMovement))}
+      />
       <ModalPrevMain
         style={{ display: mainImageIndex === 0 ? 'none' : 'inherit' }}
         onClick={() => changeMainImageIndex(

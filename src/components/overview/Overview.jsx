@@ -12,14 +12,6 @@ import ProductDescription from './ProductDescription';
 import Loading from './Loading';
 
 import { Grid, Row, Col } from '../shared/containers';
-import galleryHandlers from './galleryHandlers';
-
-const {
-  handleNextThumb,
-  handlePrevThumb,
-  handleNextMain,
-  handlePrevMain,
-} = galleryHandlers;
 
 const { useState, useEffect } = React;
 
