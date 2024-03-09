@@ -85,12 +85,8 @@ function ReviewList({ currentProduct }) {
         </Col>
         <Col size={3.5}>
           <Sort
-            reviews={filteredReviews.length >= 1
-              ? filteredReviews
-              : reviews}
-            setReviews={filteredReviews.length >= 1
-              ? setFilteredReviews
-              : setReviews}
+            reviews={reviews}
+            setReviews={setReviews}
             relevantReviews={relevantReviews}
             activeFilters={activeFilters}
             setFilteredReviews={setFilteredReviews}

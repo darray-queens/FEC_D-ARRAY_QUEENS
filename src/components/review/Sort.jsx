@@ -3,12 +3,12 @@ import React from 'react';
 import styled from 'styled-components';
 
 function Sort({
-  reviews, setSort,
+  reviews, setSort, setReviews,
 }) {
   const sortByHelpfulness = () => {
     // setSort('helpful');
     const sortedHelpful = [...reviews].sort((a, b) => b.helpfulness - a.helpfulness);
-    setSort(sortedHelpful);
+    setReviews(sortedHelpful);
   };
 
   const sortByNewest = () => {
