@@ -23,13 +23,12 @@ function App() {
   useEffect(() => {
     axios.get(`products/${productId}`)
       .then((response) => {
-        console.log("Product data:", response.data);
         setCurrentProduct(response.data);
-        setIsLoading(false); // Set loading to false after data is fetched
+        setIsLoading(false);
       })
       .catch((err) => {
         console.error(err);
-        setIsLoading(false); // Set loading to false in case of error
+        setIsLoading(false);
       });
   }, [productId]);
 
