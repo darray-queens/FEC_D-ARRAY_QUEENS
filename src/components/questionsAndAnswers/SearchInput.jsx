@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 
-function SearchTerm() {
-  const [searchTerm, setSearchTerm] = useState('');
+function SearchTerm({ searchTerm, setSearchTerm }) {
   return (
     <input
+      className="text"
       type="text"
       placeholder="Have a question? Search for answers…"
       value={searchTerm}

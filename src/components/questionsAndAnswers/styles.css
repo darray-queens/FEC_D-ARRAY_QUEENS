@@ -139,7 +139,7 @@ body {
 .answer-item {
   display: flex;
   align-items: flex-start;
-  margin-left: 20px; /* Adjust this value to align answers under the question */
+  /* margin-left: 20px; Adjust this value to align answers under the question */
   margin-bottom: 5px; /* Space between each answer */
 }
 
@@ -147,9 +147,26 @@ body {
   margin-left: 20px; /* Align 'LOAD MORE ANSWERS' with answer text */
   font-weight: bold;
   cursor: pointer;
-  text-decoration: underline;
+  background-color: white;
+  border: none;
+  padding: 5px;
+  margin-top: 3px;
+  margin-bottom: 3px;
+}
+.load-more-answers:hover {
+  background-color: #f1f1f1; /* Light grey background on hover */
+}
+.answerInfo {
+  margin-left: 22px;
+  font-family: 'Source Code Pro', monospace;
+  letter-spacing: 0.1px;
+  word-spacing: .1px;
+  font-size: 12px;
 }
 
-.answerInfo {
-  margin-left: 25px;
+/*
+.button-container {
+  display: flex;
+  justify-content: flex-start;
 }
+*/

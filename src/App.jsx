@@ -17,7 +17,7 @@ function App() {
   useEffect(() => {
     axios.get(`products/${productId}`)
       .then((response) => {
-        console.log(response.data);
+        console.log("Product data:", response.data);
         setCurrentProduct(response.data);
         setIsLoading(false); // Set loading to false after data is fetched
       })
@@ -33,11 +33,7 @@ function App() {
       <Overview currentProduct={currentProduct} />
       <RelatedProductsList currentProduct={currentProduct} setProductId={setProductId} />
       <OutfitsList currentProduct={currentProduct} />
-      {isLoading ? (
-        <p>Loading...</p>
-      ) : (
-        <GetAllQuestionsAndAnswers currentProduct={currentProduct} />
-      )}
+      <GetAllQuestionsAndAnswers currentProduct={currentProduct} />
       <ReviewList currentProduct={currentProduct} />
     </div>
   );

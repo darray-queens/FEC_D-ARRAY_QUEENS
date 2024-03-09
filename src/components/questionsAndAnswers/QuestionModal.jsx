@@ -1,19 +1,24 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './styles.css';
 
 function QuestionModal({
-  isOpen, onRequestClose, productName, currentProduct, setIsSubmitting, questions, setQuestions,
+  isOpen, onRequestClose, productName, currentProduct, setIsSubmitting, refreshQuestions,
 }) {
   const [questionInput, setQuestionInput] = useState('');
   const [nicknameInput, setNicknameInput] = useState('');
   const [emailInput, setEmailInput] = useState('');
 
-  if (isOpen) {
-    document.body.style.overflow = 'hidden';
-  } else {
-    document.body.style.overflow = 'unset';
-  }
+  useEffect(() => {
+    // Control the body scroll based on the isOpen state
+    const handleBodyScroll = isOpen ? 'hidden' : 'unset';
+    document.body.style.overflow = handleBodyScroll;
+
+    // Cleanup function to reset overflow when the component unmounts or isOpen changes
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isOpen]);
 
   const submitQuestion = async (event) => {
     event.preventDefault();
@@ -28,6 +33,7 @@ function QuestionModal({
 
     try {
       await axios.post('/qa/questions', questionDetails);
+      refreshQuestions();
     } catch (error) {
       console.error('Error submitting question:', error);
     } finally {
