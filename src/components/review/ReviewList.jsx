@@ -14,6 +14,8 @@ import Breakdown from './Breakdown';
 
 import Write from './Write';
 
+import FormStars from './FormStars';
+
 const { useState, useEffect } = React;
 
 function ReviewList({ currentProduct }) {
@@ -69,6 +71,7 @@ function ReviewList({ currentProduct }) {
   return (
     <div id="reviews">
       <h2>Ratings & Reviews</h2>
+      <FormStars />
       <Row>
         <Col size={1}>
           <Breakdown
