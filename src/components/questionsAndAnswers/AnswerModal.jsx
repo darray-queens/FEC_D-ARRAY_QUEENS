@@ -84,14 +84,7 @@ function AnswerModal({
           {/* Preview uploaded photos */}
           <div className="photo-previews">
             {photos.map((photo, index) => (
-              <AnswerItem
-                key={index}
-                answerData={answerData}
-                markAnswerAsHelpful={markAnswerAsHelpful}
-                reportAnswer={reportAnswer}
-                reportedAnswers={reportedAnswers}
-                photos={photos} // Pass down the photos prop
-            />
+              <img key={index} src={photo} alt="Preview" style={{ width: '100px', height: '100px' }} />
             ))}
           </div>
           <button type="submit" className="btn">Submit answer</button>
