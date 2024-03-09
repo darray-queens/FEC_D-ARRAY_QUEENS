@@ -10,27 +10,6 @@ const MainImageContainer = styled.div`
   justify-content: center;
 `;
 
-// const MainImg = styled.img`
-//   cursor: ${(props) => {
-//     if (props.$zoomed) {
-//       return 'zoom-out';
-//     }
-//     if (props.$expanded) {
-//       return 'zoom-in';
-//     }
-//     return 'pointer';
-//   }};
-//   position: absolute;
-//   display: 'flex';
-//   ${(props) => (props.$zoomed
-//     ? `height: 250%;
-//       max-width: 250%;
-//       object-fit: cover;`
-//     : `height: 100%;
-//       max-width: 100%;
-//       object-fit: scale-down;`)}
-// `;
-
 const MainImg = styled.img`
   cursor: 'pointer';
   position: absolute;
