@@ -98,7 +98,7 @@ function Overview({
             <>
               <Share
                 currentProduct={currentProduct}
-                styleImage={styles[0].photos[0].thumbnail_url}
+                styleImage={styles[0].photos[0].url}
               />
               <Styles
                 currentStyles={styles}

@@ -33,20 +33,35 @@ const PinShareLink = styled(ShareLink)`
 
 function Share(props) {
   const { currentProduct, styleImage } = props;
+  const twitterUrl = `https://twitter.com/intent/tweet?text=Check out the ${currentProduct.name}&url=${window.location.href}`.replace(/ /g, '%20');
 
-  const fbUrl = `https://www.facebook.com/sharer/sharer.php?u=${window.location.href}`;
-  const twitterUrl = `http://twitter.com/share?text=check out this ${currentProduct.name}&url=${window.location.href}`.replace(/ /g, '%20');
-  const pinterestUrl = `https://www.pinterest.com/pin/create/button/?url=${window.location.href}&media=${styleImage}`;
+  const fbShare = () => {
+    window.FB.ui({
+      method: 'share',
+      href: window.location.href,
+    }, (response) => console.log(response));
+  };
+
+  const pinShare = () => {
+    window.PinUtils.pinOne({
+      url: window.location.href,
+      media: styleImage,
+      description: currentProduct.description,
+    });
+  };
 
   return (
     <ShareRow>
-      <FbShareLink href={fbUrl} target="blank">
+      <FbShareLink onClick={() => fbShare()}>
         <FaFacebook />
       </FbShareLink>
       <TwShareLink href={twitterUrl} target="blank">
         <FaTwitter />
       </TwShareLink>
-      <PinShareLink href={pinterestUrl} target="blank">
+      <PinShareLink
+        onClick={() => pinShare()}
+        target="blank"
+      >
         <FaPinterest />
       </PinShareLink>
     </ShareRow>
