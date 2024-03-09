@@ -14,6 +14,7 @@ const ReviewButton = styled.button`
   text-align: center;
   &:hover {
     text-decoration: underline;
+    cursor: pointer;
   }
 `;
 
