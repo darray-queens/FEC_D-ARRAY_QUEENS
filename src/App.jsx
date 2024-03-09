@@ -11,18 +11,14 @@ const { useState, useEffect } = React;
 function App() {
   const [currentProduct, setCurrentProduct] = useState({});
   const [productId, setProductId] = useState('40344');
-  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     axios.get(`products/${productId}`)
       .then((response) => {
-        console.log("Product data:", response.data);
         setCurrentProduct(response.data);
-        setIsLoading(false); // Set loading to false after data is fetched
       })
       .catch((err) => {
         console.error(err);
-        setIsLoading(false); // Set loading to false in case of error
       });
   }, [productId]);
 
