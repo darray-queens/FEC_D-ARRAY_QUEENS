@@ -6,7 +6,9 @@ function Sort({
   reviews, setSort,
 }) {
   const sortByHelpfulness = () => {
-    setSort('helpful');
+    // setSort('helpful');
+    const sortedHelpful = [...reviews].sort((a, b) => b.helpfulness - a.helpfulness);
+    setSort(sortedHelpful);
   };
 
   const sortByNewest = () => {
