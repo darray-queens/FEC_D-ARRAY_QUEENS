@@ -1,23 +1,29 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './styles.css';
 
 function QuestionModal({
-  isOpen, onRequestClose, productName, questions,
-  setQuestions, currentProduct, refreshQuestions, currentPage,
+  isOpen, onRequestClose, productName, currentProduct, setIsSubmitting, refreshQuestions,
 }) {
   const [questionInput, setQuestionInput] = useState('');
   const [nicknameInput, setNicknameInput] = useState('');
   const [emailInput, setEmailInput] = useState('');
 
-  if (isOpen) {
-    document.body.style.overflow = 'hidden';
-  } else {
-    document.body.style.overflow = 'unset';
-  }
+  useEffect(() => {
+    // Control the body scroll based on the isOpen state
+    const handleBodyScroll = isOpen ? 'hidden' : 'unset';
+    document.body.style.overflow = handleBodyScroll;
+
+    // Cleanup function to reset overflow when the component unmounts or isOpen changes
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isOpen]);
 
   const submitQuestion = async (event) => {
     event.preventDefault();
+    setIsSubmitting(true); // Indicate that submission has started
+
     const questionDetails = {
       body: questionInput,
       name: nicknameInput,
@@ -26,16 +32,13 @@ function QuestionModal({
     };
 
     try {
-      await axios.post(`/qa/questions?product_id=${currentProduct.id}`, questionDetails, {
-        params: { page: currentPage, count: 5 },
-      });
-
-      // Refresh the questions after a short delay (optional)
-      await refreshQuestions(currentProduct);
-
-      await onRequestClose(); // Close the modal upon successful submission
+      await axios.post('/qa/questions', questionDetails);
+      refreshQuestions();
     } catch (error) {
       console.error('Error submitting question:', error);
+    } finally {
+      setIsSubmitting(false); // Ensure submission status is reset whether successful or error
+      onRequestClose(); // Close the modal upon submission attempt
     }
   };
 
@@ -47,12 +50,6 @@ function QuestionModal({
           About the
           {productName}
         </h3>
-        {questions.map((question) => (
-          <div key={question.id}>
-            <p>{question.body}</p>
-            {/* Add any additional information related to the question */}
-          </div>
-        ))}
         <form onSubmit={submitQuestion} className="form-container">
           <textarea
             id="question-input"

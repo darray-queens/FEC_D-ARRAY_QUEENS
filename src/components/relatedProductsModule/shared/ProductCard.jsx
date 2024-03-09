@@ -14,6 +14,7 @@ function ProductCard(
     imageClick,
     actionButtonClick,
     textValue,
+    salePrice,
   },
 ) {
   const [thumbnailUrl, setThumbnailUrl] = useState('');
@@ -47,13 +48,13 @@ function ProductCard(
         {product.name}
       </div>
       <div>
-        {product.salePrice
+        {(product.salePrice || salePrice)
           ? (
             <span>
               <span style={{ color: 'red' }}>
                 <b>
                   $
-                  {product.salePrice}
+                  {(product.salePrice || salePrice)}
                 </b>
               </span>
               &nbsp;&nbsp;

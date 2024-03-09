@@ -3,6 +3,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import ProductCard from '../shared/ProductCard';
 import ComparisonModule from './ComparisonModule';
 import scrollButtonClick from '../shared/scrollButtonClick';
+import fetchSalePrice from '../shared/fetchSalePrice';
 import {
   Grid,
   ProductModuleRow,
@@ -30,17 +31,14 @@ function RelatedProductsList({ currentProduct, setProductId }) {
     ).filter((element) => element.id !== currentProduct.id);
 
     const salePricePromises = relatedProducts.map(async (element) => {
-      const stylesData = await axios.get(`/products/${element.id}/styles`)
-        .catch((err) => {
-          console.error(err);
-        });
-      const salePrice = stylesData.data.results[0].sale_price;
+      const salePrice = await fetchSalePrice(element.id);
       return { id: element.id, salePrice };
     });
 
     const promisesResolved = await Promise.all(salePricePromises);
     const itemsWithSale = promisesResolved.filter((element) => element.salePrice !== null); // [{}]
 
+    // maybe need to refactor this out into a separate function for SOC
     const hash = {};
 
     itemsWithSale.forEach((element) => {
@@ -65,12 +63,14 @@ function RelatedProductsList({ currentProduct, setProductId }) {
     }
   }, [currentProduct]);
 
+  // if two items, show modal
   useEffect(() => {
     if (comparedItems.length === 2) {
       setComparisonHidden(false);
     }
   }, [comparedItems]);
 
+  // attach/remove event listener
   useEffect(() => {
     if (!comparisonHidden) {
       const hideComparison = () => {
@@ -93,6 +93,7 @@ function RelatedProductsList({ currentProduct, setProductId }) {
     );
   }
 
+  // click handlers
   const imageClick = (id) => {
     setProductId(id);
   };
