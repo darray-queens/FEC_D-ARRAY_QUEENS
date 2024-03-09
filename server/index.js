@@ -6,7 +6,6 @@ const cloudinary = require('cloudinary').v2;
 const multer = require('multer');
 const upload = multer();
 
-
 cloudinary.config({
   cloud_name: process.env.CLOUD_NAME,
   api_key: process.env.API_KEY,
@@ -18,7 +17,6 @@ app.use(express.json());
 
 // Endpoint for uploading images
 app.post('/upload', upload.array('images', 3), async (req, res) => {
-  console.log("req.files", req.files);
   try {
     const uploadPromises = req.files.map((file) => new Promise((resolve, reject) => {
       const uploadStream = cloudinary.uploader.upload_stream(
@@ -32,11 +30,9 @@ app.post('/upload', upload.array('images', 3), async (req, res) => {
     }));
 
     const uploadResults = await Promise.all(uploadPromises);
-    console.log("Upload results:", uploadResults);
     const imageUrls = uploadResults.map((result) => result.url);
     res.json({ urls: imageUrls });
   } catch (error) {
-    console.error('Error uploading images:', error);
     res.status(500).send('Error uploading images');
   }
 });

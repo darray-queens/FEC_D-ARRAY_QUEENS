@@ -33,7 +33,7 @@ function AnswerItem({
       </div>
       <div className="picture">
         {answerData.photos && answerData.photos.map((photoUrl, index) => (
-          <img key={index} src={photoUrl} alt="Thumbnail" onClick={() => openImageModal(photoUrl)} style={{ width: 100, cursor: 'pointer', margin: '5px' }} />
+          <img key={index} src={photoUrl} alt="Thumbnail" onClick={() => openImageModal(photoUrl)} style={{ width: 80, cursor: 'pointer', margin: '5px' }} />
         ))}
       </div>
       <div className="answerInfo">
