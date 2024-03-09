@@ -70,7 +70,7 @@ function ReviewList({ currentProduct }) {
     <div id="reviews">
       <h2>Ratings & Reviews</h2>
       <Row>
-        <Col size={1.5}>
+        <Col size={1}>
           <Breakdown
             currentProduct={currentProduct}
             reviews={reviews}
@@ -80,7 +80,7 @@ function ReviewList({ currentProduct }) {
             setActiveFilters={setActiveFilters}
           />
         </Col>
-        <Col size={3.5}>
+        <Col size={4}>
           <Sort
             reviews={reviews}
             setReviews={setReviews}
@@ -120,7 +120,7 @@ function ReviewList({ currentProduct }) {
           >
             ADD A REVIEW +
           </StylesButton>
-          {answerModal && <Write closeModal={exitAnswerModal} />}
+          {answerModal && <Write closeModal={exitAnswerModal} currentProduct={currentProduct} />}
         </Col>
       </Row>
     </div>
@@ -128,8 +128,9 @@ function ReviewList({ currentProduct }) {
 }
 
 const StylesDiv = styled.div`
-  overflow: auto;
+  overflow-y: auto;
   max-height: 600px;
+  padding-left: 0;
 `;
 
 const StylesButton = styled.button`

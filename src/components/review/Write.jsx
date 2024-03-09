@@ -46,11 +46,16 @@ const CloseButton = styled.button`
   }
 `;
 
-function Write({ closeModal }) {
+function Write({ closeModal, currentProduct }) {
   return (
     <ModalContainer>
       <ModalContent>
-        <h2>Write a Review</h2>
+        <h2>Write Your Review</h2>
+        <h3>
+          About the
+          {' '}
+          {currentProduct.name}
+        </h3>
         <form className="form-container">
           <textarea
             id="answer-input"
