@@ -12,9 +12,7 @@ import { Row, Col } from '../shared/containers';
 
 import Breakdown from './Breakdown';
 
-import Write from './Write';
-
-import FormStars from './FormStars';
+import ReviewForm from './ReviewForm';
 
 const { useState, useEffect } = React;
 
@@ -71,7 +69,6 @@ function ReviewList({ currentProduct }) {
   return (
     <div id="reviews">
       <h2>Ratings & Reviews</h2>
-      <FormStars />
       <Row>
         <Col size={1}>
           <Breakdown
@@ -123,7 +120,12 @@ function ReviewList({ currentProduct }) {
           >
             ADD A REVIEW +
           </StylesButton>
-          {answerModal && <Write closeModal={exitAnswerModal} currentProduct={currentProduct} />}
+          {answerModal && (
+          <ReviewForm
+            closeModal={exitAnswerModal}
+            currentProduct={currentProduct}
+          />
+          )}
         </Col>
       </Row>
     </div>

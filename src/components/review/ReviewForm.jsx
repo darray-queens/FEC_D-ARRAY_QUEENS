@@ -1,5 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
+import FormStars from './FormStars';
+
+const { useState } = React;
+
+import { Row, Col } from '../shared/containers';
 
 const ModalContainer = styled.div`
   background-color: rgba(0, 0, 0, 0.1);
@@ -46,7 +51,21 @@ const CloseButton = styled.button`
   }
 `;
 
-function Write({ closeModal, currentProduct }) {
+const StylesP = styled.p`
+  margin-top: auto;
+  margin-left: 10px;
+`;
+
+function ReviewForm({ closeModal, currentProduct }) {
+  const [formRating, setFormRating] = useState(null);
+  const [recommend, setRecommend] = useState(true);
+
+  const handleRecommendChange = (event) => {
+    const { value } = event.target;
+    setRecommend(value === 'Yes');
+    console.log(recommend)
+  };
+
   return (
     <ModalContainer>
       <ModalContent>
@@ -56,6 +75,32 @@ function Write({ closeModal, currentProduct }) {
           {' '}
           {currentProduct.name}
         </h3>
+        <Row>
+          <Col>
+            <FormStars formRating={formRating} setFormRating={setFormRating} />
+            *
+          </Col>
+          <Col>
+            {' '}
+            {formRating === 1 && <StylesP>Poor</StylesP>}
+            {formRating === 2 && <StylesP>Fair</StylesP>}
+            {formRating === 3 && <StylesP>Average</StylesP>}
+            {formRating === 4 && <StylesP>Good</StylesP>}
+            {formRating === 5 && <StylesP>Great</StylesP>}
+          </Col>
+        </Row>
+        <fieldset>
+          <legend>Do you recommend this product? *</legend>
+          <div>
+            <input type="radio" id="yes" name="recommendation" value="Yes" checked={recommend} onChange={handleRecommendChange} />
+            <label htmlFor="yes">Yes</label>
+          </div>
+
+          <div>
+            <input type="radio" id="no" name="recommendation" value="No" checked={!recommend} onChange={handleRecommendChange} />
+            <label htmlFor="no">No</label>
+          </div>
+        </fieldset>
         <form className="form-container">
           <textarea
             id="answer-input"
@@ -91,4 +136,4 @@ function Write({ closeModal, currentProduct }) {
   );
 }
 
-export default Write;
+export default ReviewForm;
