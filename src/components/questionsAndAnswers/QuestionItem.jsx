@@ -1,45 +1,56 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import AnswersList from './AnswersList';
 
 function QuestionItem({
-  question, reportQuestion, toggleExpand, openAnswerModal, reportedQuestions,
+  reportAnswer, reportedAnswers, openAnswerModal,
+  questionData, markQuestionAsHelpful, markAnswerAsHelpful,
 }) {
-  const {
-    question_id, question_body, expanded, answers,
-  } = question;
-
-  const formatDate = (dateString) => {
-    const options = { year: 'numeric', month: 'long', day: 'numeric' };
-    return new Date(dateString).toLocaleDateString(undefined, options);
-  };
+  const [isExpanded, setIsExpanded] = useState(false);
 
   return (
-    <div key={question_id}>
-      <p>
-        <strong>
-          Q:
-          {question_body}
-        </strong>
-        <button type="button" onClick={() => reportQuestion(question_id)}>
-          {reportedQuestions.has(question_id) ? 'Reported' : 'Report'}
-        </button>
-      </p>
-      {Object.values(answers).map((answer, index) => (
-        <div key={answer.id} style={{ display: index < 2 || expanded ? 'block' : 'none' }}>
-          <strong>A:</strong> {answer.body}
-          <p>
-            by
-            <strong>
-              {answer.answerer_name === 'Seller' ? <b>Seller</b> : answer.answerer_name}
-            </strong>
-            ,
-            {' '}
-            {formatDate(answer.date)}
-          </p>
-          {/* Add buttons for helpfulness and reporting */}
+    <div>
+      <div className="qa-item">
+        <div className="qa-label">Q:</div>
+        <div className="qa-content">
+          <strong>
+            {questionData.question_body}
+          </strong>
         </div>
-      ))}
-      {/* Add Answer button */}
-      <button type="button" onClick={() => openAnswerModal(question)}>Add Answer</button>
+        <button
+          type="button"
+          href="#"
+          onClick={(e) => {
+            e.preventDefault(); // Prevent default anchor action
+            markQuestionAsHelpful(questionData.question_id);
+          }}
+          className="link"
+        >
+          Helpful? Yes(
+          {questionData.question_helpfulness}
+          )
+        </button>
+        {'  |  '}
+        <button
+          type="button"
+          className="link"
+          onClick={() => openAnswerModal(questionData)}
+        >
+          Add Answer
+        </button>
+      </div>
+      <AnswersList
+        answers={questionData.answers}
+        markAnswerAsHelpful={markAnswerAsHelpful}
+        reportAnswer={reportAnswer}
+        isExpanded={isExpanded}
+        reportedAnswers={reportedAnswers}
+      />
+      {' '}
+      {Object.keys(questionData.answers).length > 2 && (
+        <button type="button" className="load-more-answers" onClick={() => setIsExpanded(!isExpanded)}>
+          {isExpanded ? 'COLLAPSE ANSWERS' : 'LOAD MORE ANSWERS'}
+        </button>
+      )}
     </div>
   );
 }

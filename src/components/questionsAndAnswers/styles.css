@@ -1,20 +1,28 @@
-/* Button used to open the contact form - fixed at the bottom of the page */
-.open-button {
-  background-color: #555;
-  color: white;
-  padding: 16px 20px;
-  border: none;
-  cursor: pointer;
-  opacity: 0.8;
-  position: relative;
-  bottom: 23px;
-  right: 28px;
-  width: 280px;
-  margin-top: 20px;
+body {
+  font-family: 'Source Code Pro', monospace;
+  letter-spacing: 0.5px;
+  word-spacing: 1px;
 }
 
-.open-button:hover {
-  opacity: 1;
+.regular-text {
+  font-weight: 400; /* Regular weight */
+}
+
+.semi-bold-text {
+  font-weight: 600; /* Semi-Bold weight */
+}
+
+.bold-text {
+  font-weight: 700; /* Bold weight */
+}
+
+.bolder-text {
+  font-weight: 800; /* Bold weight */
+}
+
+.boldest-text {
+  font-weight: 900; /* Bold weight */
+  display: inline;
 }
 
 /* The popup form - hidden by default */
@@ -82,4 +90,122 @@
   justify-content: center;
   align-items: center;
   backdrop-filter: blur(5px); /* Blur effect */
+}
+
+.link {
+  color: gray;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.link:hover {
+  color: black;
+}
+
+.question-button {
+  padding: 15px 20px; /* Adds padding */
+  margin: 5px; /* Adds a little space between the buttons */
+  border: 2px solid black; /* Black border */
+  background-color: white; /* White background */
+  cursor: pointer; /* Changes cursor to pointer */
+  display: inline-block; /* Displays buttons inline */
+}
+
+/* Additional styling for hover effects, if desired */
+.question-button:hover {
+  background-color: #f1f1f1; /* Light grey background on hover */
+}
+
+.text {
+  letter-spacing: 1px; /* Adjusts spacing between letters */
+  word-spacing: 2px; /* Adjusts spacing between words */
+}
+
+.qa-item {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 10px;
+}
+
+.qa-label {
+  font-weight: bold;
+  margin-right: 5px; /* Adjust this value as needed */
+}
+
+.qa-content {
+  flex: 1;
+}
+
+.answer-item {
+  display: flex;
+  align-items: flex-start;
+  /* margin-left: 20px; Adjust this value to align answers under the question */
+  margin-bottom: 5px; /* Space between each answer */
+}
+
+.load-more-answers {
+  margin-left: 20px; /* Align 'LOAD MORE ANSWERS' with answer text */
+  font-weight: bold;
+  cursor: pointer;
+  background-color: white;
+  border: none;
+  padding: 5px;
+  margin-top: 3px;
+  margin-bottom: 3px;
+}
+.load-more-answers:hover {
+  background-color: #f1f1f1; /* Light grey background on hover */
+}
+.answerInfo {
+  margin-left: 22px;
+  font-family: 'Source Code Pro', monospace;
+  letter-spacing: 0.1px;
+  word-spacing: .1px;
+  font-size: 12px;
+}
+
+
+
+/* .image-modal {
+  background: white;
+  padding: 10px;
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-width: 50%;
+  max-height: 50%;
+}
+*/
+.modal-overlay-image {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 50%;
+  height: 50%;
+  background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-image {
+  max-width: 50%; /* Allows image to be up to 100% of its container width */
+  max-height: 50%; /* Allows image to be up to 100% of its container height */
+  object-fit: contain; /* Keeps aspect ratio and fits the image within bounds */
+}
+
+.close-modal {
+  position: absolute;
+  top: 10px; /* Adjust as necessary */
+  right: 10px; /* Adjust as necessary */
+  background: #f1f1f1;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  z-index: 100;
+}
+
+.picture {
+  margin-left: 22px;
 }
