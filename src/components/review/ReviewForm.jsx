@@ -115,9 +115,6 @@ function ReviewForm({
       characteristics,
     };
 
-    console.log(factors);
-    console.log(formDetails, 'testting');
-
     await axios.post('/reviews', formDetails);
     setRefresh(!refresh);
     closeModal();

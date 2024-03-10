@@ -11,7 +11,7 @@ function Characteristics({ factors, setCharacteristics }) {
 
   const handleSelection = (event) => {
     const { value, id } = event.target;
-    setCharacteristics((prevObj) => ({ ...prevObj, [id]: value }));
+    setCharacteristics((prevObj) => ({ ...prevObj, [id]: parseInt(value, 10) }));
   };
 
   return (
