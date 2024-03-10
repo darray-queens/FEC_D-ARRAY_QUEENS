@@ -5,7 +5,7 @@ import { Row, Col } from '../shared/containers';
 import FormStars from './FormStars';
 import Characteristics from './Characteristics';
 
-const { useState, useEffect } = React;
+const { useState } = React;
 
 const ModalContainer = styled.div`
   background-color: rgba(0, 0, 0, 0.1);
