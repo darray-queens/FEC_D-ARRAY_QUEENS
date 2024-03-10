@@ -9,17 +9,15 @@ import Review from './Review';
 import Sort from './Sort';
 
 import { Row, Col } from '../shared/containers';
-import { Row, Col } from '../shared/containers';
 
 import Breakdown from './Breakdown';
 
 import ReviewForm from './ReviewForm';
 
-import ReviewForm from './ReviewForm';
-
 const { useState, useEffect } = React;
 
-function ReviewList({ currentProduct, reviews, updateReviews }) {
+function ReviewList({ currentProduct }) {
+  const [reviews, setReviews] = useState([]);
   const [relevantReviews, setRelevantReviews] = useState([]);
   const [renderedReviews, setRenderedReviews] = useState(2);
   const [filteredReviews, setFilteredReviews] = useState([]);
@@ -27,18 +25,12 @@ function ReviewList({ currentProduct, reviews, updateReviews }) {
   const [activeFilters, setActiveFilters] = useState([]);
   const [count, setCount] = useState(2);
   const [sort, setSort] = useState('relevant');
-  const [answerModal, setAnswerModal] = useState(null);
-  const [activeFilters, setActiveFilters] = useState([]);
-  const [count, setCount] = useState(2);
-  const [sort, setSort] = useState('relevant');
 
   useEffect(() => {
-    updateReviews([]);
+    setReviews([]);
     setRelevantReviews([]);
     setCount(1);
-    setCount(1);
     setRenderedReviews(2);
-    setSort('relevant');
     setSort('relevant');
   }, [currentProduct]);
 
@@ -46,10 +38,9 @@ function ReviewList({ currentProduct, reviews, updateReviews }) {
     if (currentProduct && currentProduct.id) {
       const productId = currentProduct.id;
       axios.get(`/reviews?product_id=${productId}&count=${count}&sort=${sort}`)
-      axios.get(`/reviews?product_id=${productId}&count=${count}&sort=${sort}`)
         .then((response) => {
           if (JSON.stringify(response.data.results) !== JSON.stringify(reviews)) {
-            updateReviews(response.data.results);
+            setReviews(response.data.results);
             setCount((prevCount) => prevCount + 10);
           }
         })
@@ -57,7 +48,6 @@ function ReviewList({ currentProduct, reviews, updateReviews }) {
           console.error('failed to set list: ', err);
         });
     }
-  }, [currentProduct, count, sort]);
   }, [currentProduct, count, sort]);
 
   if (reviews.length === 0) {
@@ -74,22 +64,12 @@ function ReviewList({ currentProduct, reviews, updateReviews }) {
 
   const openAnswerModal = () => {
     setAnswerModal(true);
-    setRenderedReviews((prevRenderedReviews) => prevRenderedReviews + reviews.length);
-  };
-
-  const exitAnswerModal = () => {
-    setAnswerModal(null);
-  };
-
-  const openAnswerModal = () => {
-    setAnswerModal(true);
   };
 
   return (
     <div id="reviews">
       <h2>Ratings & Reviews</h2>
       <Row>
-        <Col size={1}>
         <Col size={1}>
           <Breakdown
             currentProduct={currentProduct}
@@ -98,20 +78,13 @@ function ReviewList({ currentProduct, reviews, updateReviews }) {
             filteredReviews={filteredReviews}
             activeFilters={activeFilters}
             setActiveFilters={setActiveFilters}
-            activeFilters={activeFilters}
-            setActiveFilters={setActiveFilters}
           />
         </Col>
         <StylesCol size={4}>
-        <StylesCol size={4}>
           <Sort
             reviews={reviews}
-            setReviews={updateReviews}
+            setReviews={setReviews}
             relevantReviews={relevantReviews}
-            activeFilters={activeFilters}
-            setFilteredReviews={setFilteredReviews}
-            sort={sort}
-            setSort={setSort}
             activeFilters={activeFilters}
             setFilteredReviews={setFilteredReviews}
             sort={sort}
@@ -134,14 +107,6 @@ function ReviewList({ currentProduct, reviews, updateReviews }) {
             MORE REVIEWS
           </StylesButton>
           )) : (renderedReviews < reviews.length && (
-          {filteredReviews.length > 0 ? (renderedReviews < filteredReviews.length && (
-          <StylesButton
-            type="button"
-            onClick={moreReviews}
-          >
-            MORE REVIEWS
-          </StylesButton>
-          )) : (renderedReviews < reviews.length && (
           <StylesButton
             type="button"
             onClick={moreReviews}
@@ -154,27 +119,13 @@ function ReviewList({ currentProduct, reviews, updateReviews }) {
             onClick={openAnswerModal}
           >
             ADD A REVIEW +
-            MORE REVIEWS
           </StylesButton>
-          ))}
-          <StylesButton
-            type="button"
-            onClick={openAnswerModal}
-          >
-            ADD A REVIEW +
-          </StylesButton>
-          {answerModal && (
-          <ReviewForm
-            closeModal={exitAnswerModal}
-            currentProduct={currentProduct}
-          />
           {answerModal && (
           <ReviewForm
             closeModal={exitAnswerModal}
             currentProduct={currentProduct}
           />
           )}
-        </StylesCol>
         </StylesCol>
       </Row>
     </div>
@@ -183,31 +134,17 @@ function ReviewList({ currentProduct, reviews, updateReviews }) {
 
 const StylesDiv = styled.div`
   overflow-y: auto;
-  overflow-y: auto;
   max-height: 600px;
-  padding-left: 0;
-  width: 100%
   padding-left: 0;
   width: 100%
 `;
 
 const StylesCol = styled(Col)`
   width: 80%
-  width: 80%
 `;
 
 const StylesButton = styled.button`
   padding: 10px;
-  margin-top: 60px;
-  margin-bottom: 20px;
-  margin-right: 20px;
-  font-weight: bold;
-  background-color: white;
-  height: 60px;
-  width: 150px;
-  &:hover {
-    background-color: rgb(220,220,220);
-  }
   margin-top: 60px;
   margin-bottom: 20px;
   margin-right: 20px;
