@@ -9,8 +9,11 @@ import Review from './Review';
 import Sort from './Sort';
 
 import { Row, Col } from '../shared/containers';
+import { Row, Col } from '../shared/containers';
 
 import Breakdown from './Breakdown';
+
+import ReviewForm from './ReviewForm';
 
 import ReviewForm from './ReviewForm';
 
@@ -26,18 +29,25 @@ function ReviewList({ currentProduct }) {
   const [activeFilters, setActiveFilters] = useState([]);
   const [count, setCount] = useState(2);
   const [sort, setSort] = useState('relevant');
+  const [answerModal, setAnswerModal] = useState(null);
+  const [activeFilters, setActiveFilters] = useState([]);
+  const [count, setCount] = useState(2);
+  const [sort, setSort] = useState('relevant');
 
   useEffect(() => {
     updateReviews([]);
     setRelevantReviews([]);
     setCount(1);
+    setCount(1);
     setRenderedReviews(2);
+    setSort('relevant');
     setSort('relevant');
   }, [currentProduct]);
 
   useEffect(() => {
     if (currentProduct && currentProduct.id) {
       const productId = currentProduct.id;
+      axios.get(`/reviews?product_id=${productId}&count=${count}&sort=${sort}`)
       axios.get(`/reviews?product_id=${productId}&count=${count}&sort=${sort}`)
         .then((response) => {
           if (JSON.stringify(response.data.results) !== JSON.stringify(reviews)) {
@@ -49,6 +59,7 @@ function ReviewList({ currentProduct }) {
           console.error('failed to set list: ', err);
         });
     }
+  }, [currentProduct, count, sort]);
   }, [currentProduct, count, sort]);
 
   if (reviews.length === 0) {
@@ -65,12 +76,22 @@ function ReviewList({ currentProduct }) {
 
   const openAnswerModal = () => {
     setAnswerModal(true);
+    setRenderedReviews((prevRenderedReviews) => prevRenderedReviews + reviews.length);
+  };
+
+  const exitAnswerModal = () => {
+    setAnswerModal(null);
+  };
+
+  const openAnswerModal = () => {
+    setAnswerModal(true);
   };
 
   return (
     <div id="reviews">
       <h2>Ratings & Reviews</h2>
       <Row>
+        <Col size={1}>
         <Col size={1}>
           <Breakdown
             currentProduct={currentProduct}
@@ -79,13 +100,20 @@ function ReviewList({ currentProduct }) {
             filteredReviews={filteredReviews}
             activeFilters={activeFilters}
             setActiveFilters={setActiveFilters}
+            activeFilters={activeFilters}
+            setActiveFilters={setActiveFilters}
           />
         </Col>
+        <StylesCol size={4}>
         <StylesCol size={4}>
           <Sort
             reviews={reviews}
             setReviews={updateReviews}
             relevantReviews={relevantReviews}
+            activeFilters={activeFilters}
+            setFilteredReviews={setFilteredReviews}
+            sort={sort}
+            setSort={setSort}
             activeFilters={activeFilters}
             setFilteredReviews={setFilteredReviews}
             sort={sort}
@@ -108,10 +136,26 @@ function ReviewList({ currentProduct }) {
             MORE REVIEWS
           </StylesButton>
           )) : (renderedReviews < reviews.length && (
+          {filteredReviews.length > 0 ? (renderedReviews < filteredReviews.length && (
           <StylesButton
             type="button"
             onClick={moreReviews}
           >
+            MORE REVIEWS
+          </StylesButton>
+          )) : (renderedReviews < reviews.length && (
+          <StylesButton
+            type="button"
+            onClick={moreReviews}
+          >
+            MORE REVIEWS
+          </StylesButton>
+          ))}
+          <StylesButton
+            type="button"
+            onClick={openAnswerModal}
+          >
+            ADD A REVIEW +
             MORE REVIEWS
           </StylesButton>
           ))}
@@ -126,7 +170,13 @@ function ReviewList({ currentProduct }) {
             closeModal={exitAnswerModal}
             currentProduct={currentProduct}
           />
+          {answerModal && (
+          <ReviewForm
+            closeModal={exitAnswerModal}
+            currentProduct={currentProduct}
+          />
           )}
+        </StylesCol>
         </StylesCol>
       </Row>
     </div>
@@ -135,17 +185,31 @@ function ReviewList({ currentProduct }) {
 
 const StylesDiv = styled.div`
   overflow-y: auto;
+  overflow-y: auto;
   max-height: 600px;
+  padding-left: 0;
+  width: 100%
   padding-left: 0;
   width: 100%
 `;
 
 const StylesCol = styled(Col)`
   width: 80%
+  width: 80%
 `;
 
 const StylesButton = styled.button`
   padding: 10px;
+  margin-top: 60px;
+  margin-bottom: 20px;
+  margin-right: 20px;
+  font-weight: bold;
+  background-color: white;
+  height: 60px;
+  width: 150px;
+  &:hover {
+    background-color: rgb(220,220,220);
+  }
   margin-top: 60px;
   margin-bottom: 20px;
   margin-right: 20px;
