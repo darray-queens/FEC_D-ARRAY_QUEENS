@@ -87,16 +87,37 @@ function ReviewForm({
     setBodyCharacterCount(inputValue.length);
   };
 
-  const handleFileChange = (event) => {
+  const handleFileChange = async (event) => {
+    // Limit to 5 photos
     const files = Array.from(event.target.files).slice(0, 5);
-    const urls = files.map((file) => URL.createObjectURL(file));
-    const updatedPhotos = [...photos, ...urls];
-    if (updatedPhotos.length > 5) {
-      alert("You can't upload more than 5 images.");
-      return;
+    const formData = new FormData();
+    files.forEach((file) => {
+      formData.append('images', file);
+    });
+
+    try {
+      const response = await axios.post('/uploadrev', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      });
+      const uploadedUrls = response.data.urls;
+
+      setPhotos((prevPhotos) => [...prevPhotos, ...uploadedUrls]);
+    } catch (error) {
+      console.error('Error uploading files:', error);
     }
-    setPhotos(updatedPhotos);
   };
+
+
+  // const handleFileChange = (event) => {
+  //   const files = Array.from(event.target.files).slice(0, 5);
+  //   const urls = files.map((file) => URL.createObjectURL(file));
+  //   const updatedPhotos = [...photos, ...urls];
+  //   if (updatedPhotos.length > 5) {
+  //     alert("You can't upload more than 5 images.");
+  //     return;
+  //   }
+  //   setPhotos(updatedPhotos);
+  // };
 
   const submitForm = async (event) => {
     event.preventDefault();
