@@ -9,5 +9,6 @@
     ".*\\.ignore\\.js$",
     "/path/to/specific/directory/",
     ".*\\.skip\\.test\\.js$"
-  ]
+  ],
+  "collectCoverage": true
 }
