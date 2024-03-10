@@ -25,7 +25,7 @@ const ModalContent = styled.div`
   background-color: white;
   width: 600px;
   max-height: 95%;
-  overflow: auto;
+  overflow-y: auto;
   padding: 20px;
   position: absolute;
   top: 50%;
@@ -35,9 +35,15 @@ const ModalContent = styled.div`
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   z-index: 1;
+`;
+
+const StarRow = styled(Row)`
+  border: 0.5px solid grey;
+  padding-top: 5px;
+  padding-bottom: 5px;
 `;
 
 const CloseButton = styled.button`
@@ -55,7 +61,7 @@ const CloseButton = styled.button`
 
 const StylesP = styled.p`
   margin-top: auto;
-  margin-left: 10px;
+  margin-left: 40px;
 `;
 
 function ReviewForm({
@@ -64,6 +70,7 @@ function ReviewForm({
   const [rating, setRating] = useState(null);
   const [summary, setSummary] = useState('');
   const [body, setBody] = useState('');
+  const [bodyCharacterCount, setBodyCharacterCount] = useState(0);
   const [recommend, setRecommend] = useState(true);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -73,6 +80,23 @@ function ReviewForm({
   const handleRecommendChange = (event) => {
     const { value } = event.target;
     setRecommend(value === 'Yes');
+  };
+
+  const handleBodyChange = (event) => {
+    const inputValue = event.target.value;
+    setBody(inputValue);
+    setBodyCharacterCount(inputValue.length);
+  };
+
+  const handleFileChange = (event) => {
+    const files = Array.from(event.target.files).slice(0, 5);
+    const urls = files.map((file) => URL.createObjectURL(file));
+    const updatedPhotos = [...photos, ...urls];
+    if (updatedPhotos.length > 5) {
+      alert("You can't upload more than 5 images.");
+      return;
+    }
+    setPhotos(updatedPhotos);
   };
 
   const submitForm = async (event) => {
@@ -97,8 +121,6 @@ function ReviewForm({
     closeModal();
   };
 
-  console.log(characteristics);
-
   return (
     <ModalContainer>
       <ModalContent>
@@ -109,8 +131,9 @@ function ReviewForm({
           {currentProduct.name}
         </h3>
         <form onSubmit={submitForm} className="form-container">
-          <Row>
+          <StarRow>
             <Col>
+            <p>Overall rating</p>
               <FormStars formRating={rating} setFormRating={setRating} />
               *
             </Col>
@@ -122,11 +145,9 @@ function ReviewForm({
               {rating === 4 && <StylesP>Good</StylesP>}
               {rating === 5 && <StylesP>Great</StylesP>}
             </Col>
-          </Row>
-          <Characteristics factors={factors} setCharacteristics={setCharacteristics} />
+          </StarRow>
           <fieldset>
             <legend>Do you recommend this product? *</legend>
-            <h2>hahaha</h2>
             <div>
               <input type="radio" id="yes" name="recommendation" value="Yes" checked={recommend} onChange={handleRecommendChange} required />
               <label htmlFor="yes">Yes</label>
@@ -137,6 +158,88 @@ function ReviewForm({
               <label htmlFor="no">No</label>
             </div>
           </fieldset>
+          <Row>
+            <Characteristics factors={factors} setCharacteristics={setCharacteristics} />
+          </Row>
+          <Row>
+            <h3>Review summary</h3>
+            <input
+              type="text"
+              id="summary-input"
+              placeholder="Example: Best purchase ever!"
+              value={summary}
+              onChange={(e) => setSummary(e.target.value)}
+              maxLength="60"
+            />
+          </Row>
+          <Row>
+            <h3>Review body *</h3>
+            <textarea
+              value={body}
+              onChange={handleBodyChange}
+              placeholder="Why did you like the product or not? *"
+              required
+              maxLength="1000"
+            />
+            <Row>
+              {bodyCharacterCount < 50 ? (
+                <span>
+                  Minimum required characters left:
+                  {50 - bodyCharacterCount}
+                </span>
+              ) : (
+                <span>Minimum reached</span>
+              )}
+            </Row>
+            <Row>
+              <h3>Upload your photos</h3>
+              {photos.length < 5 && (
+                <input
+                  type="file"
+                  accept="image/*"
+                  multiple
+                  onChange={handleFileChange}
+                />
+              )}
+              <div className="photo-previews">
+                {photos.map((photo, index) => (
+                  <img key={index} src={photo} alt="Preview" style={{ width: '100px', height: '100px' }} />
+                ))}
+              </div>
+            </Row>
+            <Row>
+              <h3>What is your nickname? *</h3>
+              <input
+                type="text"
+                id="nickname-input"
+                aria-label="Your Nickname"
+                placeholder="Example: jackson11!"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                required
+                maxLength="60"
+              />
+              <p>For privacy reasons, do not use your full name or email address</p>
+            </Row>
+            <Row>
+              <Row>
+                <h3>Your email *</h3>
+              </Row>
+              <Row>
+                <input
+                  type="email"
+                  id="email-input"
+                  aria-label="Your Email"
+                  placeholder="Example: jackson11@email.com"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                  maxLength="60"
+                />
+              </Row>
+              <p>For authentication reasons, you will not be emailed</p>
+            </Row>
+          </Row>
           <button type="submit" className="btn">Submit answer</button>
           <CloseButton onClick={closeModal}>x</CloseButton>
         </form>
