@@ -1,10 +1,46 @@
 import React from 'react';
 import axios from 'axios';
+import styled from 'styled-components';
 
 const { useState } = React;
 
+const StyleSelect = styled.select`
+  padding-left: 12px;
+  padding-right: 10px;
+  margin-right: 20px;
+  font-family: inherit;
+  font-weight: bold;
+  background-color: white;
+  border-radius: 0%;
+  border-width: 2px;
+  height: 55px;
+  width: 150px;
+  &:hover {
+    background-color: rgb(220,220,220);
+  }
+  &:focus {
+    border-radius: 0%;
+    border-width: 2px;
+  }
+`;
+
+const StyleOption = styled.option`
+  padding: 10px;
+  margin-top: 60px;
+  margin-bottom: 20px;
+  margin-right: 20px;
+  font-family: inherit;
+  font-weight: bold;
+  background-color: white;
+  border-radius: 0%;
+  border-width: 2px;
+  height: 60px;
+  width: 150px;
+`;
+
 function Selection({ style, sku, changeSku }) {
   const skuTuples = Object.entries(style.skus);
+
   const [currentQty, setCurrentQty] = useState();
   const [hideLabel, setHideLabel] = useState(true);
 
@@ -27,7 +63,7 @@ function Selection({ style, sku, changeSku }) {
     const { size, quantity } = skuTuple[1];
     if (quantity > 0) {
       return (
-        <option key={code} data-sku={code} id={size}>{size}</option>
+        <StyleOption key={code} data-sku={code} id={size}>{size}</StyleOption>
       );
     }
 
@@ -36,7 +72,7 @@ function Selection({ style, sku, changeSku }) {
 
   let sizeOptions = (
     <>
-      <option style={{ display: 'none' }}>SELECT SIZE</option>
+      <StyleOption style={{ display: 'none' }}>SELECT SIZE</StyleOption>
       {skuSizeOptions}
     </>
   );
@@ -44,7 +80,7 @@ function Selection({ style, sku, changeSku }) {
   let hideCart = false;
 
   if (skuSizeOptions.length === 0) {
-    sizeOptions = <option style={{ display: 'none' }}>OUT OF STOCK</option>;
+    sizeOptions = <StyleOption style={{ display: 'none' }}>OUT OF STOCK</StyleOption>;
     hideCart = true;
   }
 
@@ -63,7 +99,7 @@ function Selection({ style, sku, changeSku }) {
   return (
     <div>
       <h5 style={hideLabel ? { display: 'none' } : { display: 'inherit' }}>Please select a size</h5>
-      <select
+      <StyleSelect
         name="size"
         id="size-select"
         onChange={(e) => {
@@ -72,7 +108,7 @@ function Selection({ style, sku, changeSku }) {
         }}
       >
         {sizeOptions}
-      </select>
+      </StyleSelect>
       <select disabled={!sku} name="quantity" onChange={(e) => setCurrentQty(e.target.value)}>
         <option style={{ display: 'none' }}>{}</option>
         {quantityOptions}
