@@ -8,73 +8,89 @@ import Review from './Review';
 
 import Sort from './Sort';
 
-import AverageStars from '../shared/AverageStars';
-
-import { Grid, Row, Col } from '../shared/containers';
+import { Row, Col } from '../shared/containers';
 
 import Breakdown from './Breakdown';
+
+import ReviewForm from './ReviewForm';
 
 const { useState, useEffect } = React;
 
 function ReviewList({ currentProduct, reviews, updateReviews }) {
   const [pageNumber, setPageNumber] = useState(1);
+function ReviewList({ currentProduct }) {
+  const [reviews, setReviews] = useState([]);
   const [relevantReviews, setRelevantReviews] = useState([]);
   const [renderedReviews, setRenderedReviews] = useState(2);
   const [filteredReviews, setFilteredReviews] = useState([]);
+  const [answerModal, setAnswerModal] = useState(null);
+  const [activeFilters, setActiveFilters] = useState([]);
+  const [count, setCount] = useState(2);
+  const [sort, setSort] = useState('relevant');
 
   useEffect(() => {
     updateReviews([]);
     setRelevantReviews([]);
-    setPageNumber(1);
+    setCount(1);
     setRenderedReviews(2);
+    setSort('relevant');
   }, [currentProduct]);
 
   useEffect(() => {
     if (currentProduct && currentProduct.id) {
       const productId = currentProduct.id;
-      axios.get(`/reviews?product_id=${productId}&page=${pageNumber}&sort=relevant`)
+      axios.get(`/reviews?product_id=${productId}&count=${count}&sort=${sort}`)
         .then((response) => {
-          if (response.data.results.length !== 0) {
-            setRelevantReviews((prevReviews) => prevReviews.concat(response.data.results));
-            updateReviews((prevReviews) => prevReviews.concat(response.data.results));
-            setPageNumber((prevPageNumber) => prevPageNumber + 1);
+          if (JSON.stringify(response.data.results) !== JSON.stringify(reviews)) {
+            setReviews(response.data.results);
+            setCount((prevCount) => prevCount + 10);
           }
         })
         .catch((err) => {
           console.error('failed to set list: ', err);
         });
     }
-  }, [currentProduct, pageNumber]);
+  }, [currentProduct, count, sort]);
 
   if (reviews.length === 0) {
     return <div>No reviews loaded</div>;
   }
 
   const moreReviews = () => {
-    setRenderedReviews((prevRenderedReviews) => prevRenderedReviews + 2);
+    setRenderedReviews((prevRenderedReviews) => prevRenderedReviews + reviews.length);
+  };
+
+  const exitAnswerModal = () => {
+    setAnswerModal(null);
+  };
+
+  const openAnswerModal = () => {
+    setAnswerModal(true);
   };
 
   return (
     <div id="reviews">
       <h2>Ratings & Reviews</h2>
       <Row>
-        <Col size={1.5}>
+        <Col size={1}>
           <Breakdown
             currentProduct={currentProduct}
             reviews={reviews}
             setFilteredReviews={setFilteredReviews}
             filteredReviews={filteredReviews}
+            activeFilters={activeFilters}
+            setActiveFilters={setActiveFilters}
           />
         </Col>
-        <Col size={3.5}>
+        <StylesCol size={4}>
           <Sort
-            reviews={filteredReviews.length >= 1
-              ? filteredReviews
-              : reviews}
-            setReviews={filteredReviews.length >= 1
-              ? setFilteredReviews
-              : updateReviews}
+            reviews={reviews}
+            setReviews={setReviews}
             relevantReviews={relevantReviews}
+            activeFilters={activeFilters}
+            setFilteredReviews={setFilteredReviews}
+            sort={sort}
+            setSort={setSort}
           />
           <StylesDiv>
             {filteredReviews.length >= 1
@@ -85,46 +101,62 @@ function ReviewList({ currentProduct, reviews, updateReviews }) {
                 <Review key={review.review_id} entry={review} />
               ))}
           </StylesDiv>
-          {renderedReviews < reviews.length && (
+          {filteredReviews.length > 0 ? (renderedReviews < filteredReviews.length && (
           <StylesButton
             type="button"
             onClick={moreReviews}
           >
-            More Reviews
+            MORE REVIEWS
           </StylesButton>
+          )) : (renderedReviews < reviews.length && (
+          <StylesButton
+            type="button"
+            onClick={moreReviews}
+          >
+            MORE REVIEWS
+          </StylesButton>
+          ))}
+          <StylesButton
+            type="button"
+            onClick={openAnswerModal}
+          >
+            ADD A REVIEW +
+          </StylesButton>
+          {answerModal && (
+          <ReviewForm
+            closeModal={exitAnswerModal}
+            currentProduct={currentProduct}
+          />
           )}
-        </Col>
+        </StylesCol>
       </Row>
     </div>
   );
 }
 
 const StylesDiv = styled.div`
-  overflow: auto;
+  overflow-y: auto;
   max-height: 600px;
-`;
-
-const RightCol = styled(Col)`
-  text-align: right
+  padding-left: 0;
+  width: 100%
 `;
 
 const StylesCol = styled(Col)`
-  margin-right: 5px;
-  margin-bottom: 5px;
-  padding: 5px;
-  border: 1px solid rgb(48,48,48);
-  background: rgb(232,232,232);
-  &: hover {
-    background: rgb(224,224,224);
-    border-color: rgb(16,16,16);
-  }
+  width: 80%
 `;
 
 const StylesButton = styled.button`
   padding: 10px;
-  margin-top: 10px;
-  margin-bttom: 10px;
-  margin-right: 10px;
+  margin-top: 60px;
+  margin-bottom: 20px;
+  margin-right: 20px;
+  font-weight: bold;
+  background-color: white;
+  height: 60px;
+  width: 150px;
+  &:hover {
+    background-color: rgb(220,220,220);
+  }
 `;
 
 export default ReviewList;

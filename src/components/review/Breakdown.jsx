@@ -15,7 +15,7 @@ import IconBar from './BreakdownFactors';
 const { useState, useEffect } = React;
 
 function Breakdown({
-  currentProduct, reviews, setFilteredReviews,
+  currentProduct, reviews, setFilteredReviews, activeFilters, setActiveFilters,
 }) {
   const [average, setAverage] = useState(0);
   const [recommendPercent, setRecommendPercent] = useState(0);
@@ -24,7 +24,6 @@ function Breakdown({
   const [threeStarRate, setThreeStarRate] = useState(0);
   const [twoStarRate, setTwoStarRate] = useState(0);
   const [oneStarRate, setOneStarRate] = useState(0);
-  const [activeFilters, setActiveFilters] = useState([]);
   const [factors, setFactors] = useState({});
 
   // useEffect(() => {
@@ -141,7 +140,7 @@ function Breakdown({
         % of reviews recommend this product
       </StylesRow>
       <StylesRow>
-        <FilterContainer onClick={handleFilter} active={activeFilters.includes(1)}>
+        <FilterContainer onClick={handleFilter} $active={activeFilters.includes(1)}>
           1 stars
           {' '}
         </FilterContainer>
@@ -150,7 +149,7 @@ function Breakdown({
         </RightCol>
       </StylesRow>
       <StylesRow>
-        <FilterContainer onClick={handleFilter} active={activeFilters.includes(2)}>
+        <FilterContainer onClick={handleFilter} $active={activeFilters.includes(2)}>
           2 stars
           {' '}
         </FilterContainer>
@@ -159,7 +158,7 @@ function Breakdown({
         </RightCol>
       </StylesRow>
       <StylesRow>
-        <FilterContainer onClick={handleFilter} active={activeFilters.includes(3)}>
+        <FilterContainer onClick={handleFilter} $active={activeFilters.includes(3)}>
           3 stars
           {' '}
         </FilterContainer>
@@ -168,7 +167,7 @@ function Breakdown({
         </RightCol>
       </StylesRow>
       <StylesRow>
-        <FilterContainer onClick={handleFilter} active={activeFilters.includes(4)}>
+        <FilterContainer onClick={handleFilter} $active={activeFilters.includes(4)}>
           4 stars
           {' '}
         </FilterContainer>
@@ -177,7 +176,7 @@ function Breakdown({
         </RightCol>
       </StylesRow>
       <StylesRow>
-        <FilterContainer onClick={handleFilter} active={activeFilters.includes(5)}>
+        <FilterContainer onClick={handleFilter} $active={activeFilters.includes(5)}>
           5 stars
           {' '}
         </FilterContainer>
@@ -193,18 +192,18 @@ function Breakdown({
         </StylesButton>
         )}
       </StylesRow>
-      <StylesRow>
-        {Object.keys(factors).map((key) => (
+      {Object.keys(factors).map((key) => (
+        <StylesRow key={key}>
           <IconBar
             characteristic={key}
             average={factors[key].value}
           />
-        ))}
-        {/* <IconBar characteristic="Width" average={3} /> */}
-      </StylesRow>
+        </StylesRow>
+      ))}
     </div>
   );
 }
+
 const Container = styled.div`
   display: flex;
   align-items: flex-start;
@@ -215,7 +214,7 @@ const FilterContainer = styled(Col)`
   &:hover {
     text-decoration: underline;
   }
-  ${({ active }) => active
+  ${({ $active }) => $active
   && `
   font-weight: bold;
   `}
@@ -245,6 +244,11 @@ const StylesButton = styled.button`
   margin-bttom: 10px;
   margin-right: 10px;
   max-width: 200px;
+  font-weight: bold;
+  background-color: white;
+  &:hover {
+    background-color: rgb(220,220,220);
+  }
 `;
 
 export default Breakdown;

@@ -164,9 +164,48 @@ body {
   font-size: 12px;
 }
 
-/*
-.button-container {
+
+
+/* .image-modal {
+  background: white;
+  padding: 10px;
+  border-radius: 8px;
   display: flex;
-  justify-content: flex-start;
+  justify-content: center;
+  align-items: center;
+  max-width: 50%;
+  max-height: 50%;
 }
 */
+.modal-overlay-image {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 50%;
+  height: 50%;
+  background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-image {
+  max-width: 50%; /* Allows image to be up to 100% of its container width */
+  max-height: 50%; /* Allows image to be up to 100% of its container height */
+  object-fit: contain; /* Keeps aspect ratio and fits the image within bounds */
+}
+
+.close-modal {
+  position: absolute;
+  top: 10px; /* Adjust as necessary */
+  right: 10px; /* Adjust as necessary */
+  background: #f1f1f1;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  z-index: 100;
+}
+
+.picture {
+  margin-left: 22px;
+}
