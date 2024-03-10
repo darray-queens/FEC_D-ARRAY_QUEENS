@@ -16,8 +16,7 @@ import ReviewForm from './ReviewForm';
 
 const { useState, useEffect } = React;
 
-function ReviewList({ currentProduct }) {
-  const [reviews, setReviews] = useState([]);
+function ReviewList({ currentProduct, reviews, updateReviews }) {
   const [relevantReviews, setRelevantReviews] = useState([]);
   const [renderedReviews, setRenderedReviews] = useState(2);
   const [filteredReviews, setFilteredReviews] = useState([]);
@@ -27,7 +26,7 @@ function ReviewList({ currentProduct }) {
   const [sort, setSort] = useState('relevant');
 
   useEffect(() => {
-    setReviews([]);
+    updateReviews([]);
     setRelevantReviews([]);
     setCount(1);
     setRenderedReviews(2);
@@ -40,7 +39,7 @@ function ReviewList({ currentProduct }) {
       axios.get(`/reviews?product_id=${productId}&count=${count}&sort=${sort}`)
         .then((response) => {
           if (JSON.stringify(response.data.results) !== JSON.stringify(reviews)) {
-            setReviews(response.data.results);
+            updateReviews(response.data.results);
             setCount((prevCount) => prevCount + 10);
           }
         })
@@ -83,7 +82,7 @@ function ReviewList({ currentProduct }) {
         <StylesCol size={4}>
           <Sort
             reviews={reviews}
-            setReviews={setReviews}
+            setReviews={updateReviews}
             relevantReviews={relevantReviews}
             activeFilters={activeFilters}
             setFilteredReviews={setFilteredReviews}
