@@ -25,6 +25,12 @@ const ImgCol = styled(Col)`
   margin-right: 20px;
 `;
 
+const InfoCol = styled(Col)`
+  width: 270px;
+  min-width: 270px;
+  max-width: 270px;
+`;
+
 function Overview({
   currentProduct,
   currentStyle,
@@ -84,7 +90,7 @@ function Overview({
             )}
           </div>
         </ImgCol>
-        <Col id="info-col" size={1}>
+        <InfoCol id="info-col" size={1}>
           {reviewCount > 0 && (
             <StarRating currentProduct={currentProduct} reviewCount={reviewCount} />
           )}
@@ -113,7 +119,7 @@ function Overview({
               />
             </>
           )}
-        </Col>
+        </InfoCol>
       </Row>
       {currentProduct.description && (
         <Row>
