@@ -20,8 +20,6 @@ import ReviewForm from './ReviewForm';
 const { useState, useEffect } = React;
 
 function ReviewList({ currentProduct, reviews, updateReviews }) {
-  const [pageNumber, setPageNumber] = useState(1);
-function ReviewList({ currentProduct }) {
   const [relevantReviews, setRelevantReviews] = useState([]);
   const [renderedReviews, setRenderedReviews] = useState(2);
   const [filteredReviews, setFilteredReviews] = useState([]);
