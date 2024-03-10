@@ -27,23 +27,23 @@ function Characteristics({ factors, setCharacteristics }) {
           </Row>
           <Row>
           <Col>
-            <input type="radio" id={key} name={key} value="1" onChange={handleSelection} required />
+            <input type="radio" id={factors[key].id} name={key} value="1" onChange={handleSelection} required />
             <label htmlFor={`${key }+1`}>1</label>
           </Col>
           <Col>
-            <input type="radio" id={key} name={key} value="2" onChange={handleSelection} required />
+            <input type="radio" id={factors[key].id} name={key} value="2" onChange={handleSelection} required />
             <label htmlFor={`${key }+2`}>2</label>
           </Col>
           <Col>
-            <input type="radio" id={key} name={key} value="3" onChange={handleSelection} required />
+            <input type="radio" id={factors[key].id} name={key} value="3" onChange={handleSelection} required />
             <label htmlFor={`${key }+3`}>3</label>
           </Col>
           <Col>
-            <input type="radio" id={key} name={key} value="4" onChange={handleSelection} required />
+            <input type="radio" id={factors[key].id} name={key} value="4" onChange={handleSelection} required />
             <label htmlFor={`${key }+4`}>4</label>
           </Col>
           <Col>
-            <input type="radio" id={key} name={key} value="5" onChange={handleSelection} required />
+            <input type="radio" id={factors[key].id} name={key} value="5" onChange={handleSelection} required />
             <label htmlFor={`${key }+5`}>5</label>
           </Col>
           </Row>

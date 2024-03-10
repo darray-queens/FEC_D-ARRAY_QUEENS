@@ -1,12 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
+import { Row, Col } from '../shared/containers';
 import FormStars from './FormStars';
 import Characteristics from './Characteristics';
 
-const { useState } = React;
-
-import { Row, Col } from '../shared/containers';
+const { useState, useEffect } = React;
 
 const ModalContainer = styled.div`
   background-color: rgba(0, 0, 0, 0.1);
@@ -115,6 +114,9 @@ function ReviewForm({
       photos,
       characteristics,
     };
+
+    console.log(factors);
+    console.log(formDetails, 'testting');
 
     await axios.post('/reviews', formDetails);
     setRefresh(!refresh);
