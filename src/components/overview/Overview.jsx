@@ -15,11 +15,30 @@ import { Grid, Row, Col } from '../shared/containers';
 
 const { useState, useEffect } = React;
 
-function Overview({ currentProduct }) {
+const OverviewGrid = styled(Grid)`
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 1100px;
+`;
+
+const ImgCol = styled(Col)`
+  margin-right: 20px;
+`;
+
+function Overview({
+  currentProduct,
+  currentStyle,
+  changeCurrentStyle,
+  mainImageIndex,
+  changeMainImageIndex,
+  maxThumbIndex,
+  changeMaxThumbIndex,
+  minThumbIndex,
+  changeMinThumbIndex,
+  toggleGalleryModal,
+}) {
   const [styles, setStyles] = useState([]);
   const [currentSku, setCurrentSku] = useState();
-  const [currentStyle, setCurrentStyle] = useState({});
-  const [mainImageIndex, setMainImageIndex] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
 
   async function getStyles() {
@@ -27,8 +46,12 @@ function Overview({ currentProduct }) {
       .catch((error) => console.error(error));
 
     setStyles(response.data.results);
-    setCurrentStyle(response.data.results[0]);
-    setMainImageIndex(0);
+    changeCurrentStyle(response.data.results[0]);
+    changeMainImageIndex(0);
+    changeMaxThumbIndex(() => {
+      const imageCount = response.data.results[0].photos.length;
+      return imageCount > 6 ? 6 : imageCount - 1;
+    });
     setCurrentSku();
     setIsLoading(false);
   }
@@ -50,14 +73,22 @@ function Overview({ currentProduct }) {
               <Images
                 styleImages={currentStyle.photos}
                 mainImageIndex={mainImageIndex}
-                changeMainImageIndex={setMainImageIndex}
+                changeMainImageIndex={changeMainImageIndex}
+                maxThumbIndex={maxThumbIndex}
+                changeMaxThumbIndex={changeMaxThumbIndex}
+                minThumbIndex={minThumbIndex}
+                changeMinThumbIndex={changeMinThumbIndex}
+                toggleGalleryModal={toggleGalleryModal}
               />
             )}
           </div>
         </ImgCol>
         <Col id="info-col" size={1}>
           <StarRating />
-          <ProductInfo product={currentProduct} style={currentStyle} />
+          <ProductInfo
+            product={currentProduct}
+            style={currentStyle}
+          />
           {isLoading ? (
             <Loading />
           ) : (
@@ -69,8 +100,8 @@ function Overview({ currentProduct }) {
               <Styles
                 currentStyles={styles}
                 currentStyle={currentStyle}
-                changeStyle={setCurrentStyle}
-                changeMainImageIndex={setMainImageIndex}
+                changeStyle={changeCurrentStyle}
+                changeMainImageIndex={changeMainImageIndex}
               />
               <Selection
                 style={currentStyle}
@@ -90,15 +121,5 @@ function Overview({ currentProduct }) {
     </OverviewGrid>
   );
 }
-
-const OverviewGrid = styled(Grid)`
-  margin-left: auto;
-  margin-right: auto;
-  max-width: 1100px;
-`;
-
-const ImgCol = styled(Col)`
-  margin-right: 20px;
-`;
 
 export default Overview;
