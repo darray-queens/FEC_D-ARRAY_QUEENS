@@ -55,7 +55,11 @@ function AnswerModal({
     <div className="modal-overlay" onClick={onRequestClose}>
       <div className="form-popup" onClick={(e) => e.stopPropagation()}>
         <h2>Submit your Answer</h2>
-        <h3>{productName}: {questionBody}</h3>
+        <h3>
+          {productName}
+          :
+          {questionBody}
+        </h3>
         <form onSubmit={submitAnswer} className="form-container">
           <textarea
             id="answer-input"
