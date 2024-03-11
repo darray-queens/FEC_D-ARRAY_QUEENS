@@ -25,7 +25,7 @@ const StyleSelect = styled.select`
   }
   &:focus {
     border-radius: 0%;
-    border-width: 2px;
+    border-width: 3px;
     outline: 0;
   }
 `;
@@ -71,6 +71,12 @@ const CartButton = styled.button`
     border-width: 2px;
     outline: 0;
   }
+`;
+
+const Alert = styled.h5`
+  line-height; 12px;
+  padding: 0;
+  margin: 0;
 `;
 
 function Selection({ style, sku, changeSku }) {
@@ -133,11 +139,16 @@ function Selection({ style, sku, changeSku }) {
 
   return (
     <div>
-      <h5 style={hideLabel ? { display: 'none' } : { display: 'inherit' }}>Please select a size</h5>
+      {hideLabel ? (
+        <Alert> </Alert>
+      ) : (
+        <Alert>Please select a size</Alert>
+      )}
       <Row>
         <StyleSelect
           name="size"
           id="size-select"
+          style={hideLabel ? { marginTop: '17px' } : { marginTop: '0' }}
           onChange={(e) => {
             changeSku(document.getElementById(e.target.value).dataset.sku);
             setHideLabel(true);
@@ -145,7 +156,12 @@ function Selection({ style, sku, changeSku }) {
         >
           {sizeOptions}
         </StyleSelect>
-        <QuantSelect disabled={!sku} name="quantity" onChange={(e) => setCurrentQty(e.target.value)}>
+        <QuantSelect
+          disabled={!sku}
+          name="quantity"
+          style={hideLabel ? { marginTop: '17px' } : { marginTop: '0' }}
+          onChange={(e) => setCurrentQty(e.target.value)}
+        >
           <SelectOption style={{ display: 'none' }}>&#129139;</SelectOption>
           {quantityOptions}
         </QuantSelect>
