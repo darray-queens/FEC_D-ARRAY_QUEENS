@@ -135,7 +135,7 @@ function Selection({ style, sku, changeSku }) {
   };
 
   const quantity = sku ? style.skus[sku].quantity : 0;
-  const quantityOptions = sku ? buildQuantityList(quantity) : <SelectOption>{}</SelectOption>;
+  const quantityOptions = sku ? buildQuantityList(quantity) : <SelectOption> - </SelectOption>;
 
   return (
     <div>
@@ -162,7 +162,7 @@ function Selection({ style, sku, changeSku }) {
           style={hideLabel ? { marginTop: '17px' } : { marginTop: '0' }}
           onChange={(e) => setCurrentQty(e.target.value)}
         >
-          <SelectOption style={{ display: 'none' }}> - </SelectOption>
+          {!sku && <SelectOption style={{ display: 'none' }}> - </SelectOption>}
           {quantityOptions}
         </QuantSelect>
         <CartButton
