@@ -6,8 +6,6 @@ function QuestionsList({
   openAnswerModal, reportAnswer, markQuestionAsHelpful, toggleExpand, reportedAnswers,
   questions, visibleQuestionCount, markAnswerAsHelpful,
 }) {
-
-  console.log('Inside QuestionsList', openAnswerModal);
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
       <div style={{ flex: 1, overflowY: 'auto', maxHeight: '50vh' }}>
