@@ -16,7 +16,7 @@ const app = express();
 app.use(express.json());
 
 // Endpoint for uploading images
-app.post('/upload', upload.array('images', 3), async (req, res) => {
+app.post('/upload', upload.array('images', 5), async (req, res) => {
   try {
     const uploadPromises = req.files.map((file) => new Promise((resolve, reject) => {
       const uploadStream = cloudinary.uploader.upload_stream(
@@ -39,6 +39,27 @@ app.post('/upload', upload.array('images', 3), async (req, res) => {
 
 app.use(express.static(path.join(__dirname, '../dist')));
 // other configuration...
+
+app.post('/uploadrev', upload.array('images', 5), async (req, res) => {
+  try {
+    const uploadPromises = req.files.map((file) => new Promise((resolve, reject) => {
+      const uploadStream = cloudinary.uploader.upload_stream(
+        { resource_type: 'auto' },
+        (error, result) => {
+          if (error) reject(error);
+          else resolve(result);
+        },
+      );
+      uploadStream.end(file.buffer);
+    }));
+
+    const uploadResults = await Promise.all(uploadPromises);
+    const imageUrls = uploadResults.map((result) => result.url);
+    res.json({ urls: imageUrls });
+  } catch (error) {
+    res.status(500).send('Error uploading images');
+  }
+});
 
 app.use('/*', (req, res, next) => {
   axios({

@@ -81,7 +81,7 @@ const Meaning = styled.div`
 const BarWrapper = styled.div`
  display: inline-block;
  position: relative;
- width: 200px;
+ width: 235px;
  height: 7px;
  background-color: rgb(221, 221, 221);
 `;
