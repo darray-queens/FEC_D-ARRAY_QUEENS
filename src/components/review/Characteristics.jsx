@@ -117,9 +117,9 @@ function Characteristics({ factor, ID, setCharacteristics }) {
             <StyledH2>{factor}</StyledH2>
           </Row>
           <StylesDiv>
-          <Row>
-            <StyledP>{selectionMeaning}</StyledP>
-          </Row>
+            <Row>
+              <StyledP>{selectionMeaning}</StyledP>
+            </Row>
           </StylesDiv>
           <Row>
             <Col>
