@@ -5,6 +5,7 @@
 import axios from 'axios';
 
 import { render, screen, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event'
 
 import productSample from './sampleData';
 import sampleProductData from './sampleProductData';
@@ -61,7 +62,11 @@ describe('RelatedProductsList', () => {
     })
 
     it('closes the Comparison Module when clicked away', async () => {
+      const user = userEvent.setup();
 
+      await user.click()
+
+      expect(screen.queryByText('Comparing')).not.toBeTruthy();
     })
 
 });
