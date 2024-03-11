@@ -16,7 +16,7 @@ const app = express();
 app.use(express.json());
 
 // Endpoint for uploading images
-app.post('/upload', upload.array('images', 3), async (req, res) => {
+app.post('/upload', upload.array('images', 5), async (req, res) => {
   try {
     const uploadPromises = req.files.map((file) => new Promise((resolve, reject) => {
       const uploadStream = cloudinary.uploader.upload_stream(
