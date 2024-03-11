@@ -185,7 +185,7 @@ function ReviewForm({
           <Row>
             {Object.keys(factors).map((key) => (
               <Characteristics
-                factor={factors[key]}
+                factor={key}
                 ID={factors[key].id}
                 setCharacteristics={setCharacteristics}
               />

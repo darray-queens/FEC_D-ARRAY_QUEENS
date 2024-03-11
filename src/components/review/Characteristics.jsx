@@ -12,7 +12,7 @@ function Characteristics({ factor, ID, setCharacteristics }) {
 
   const handleSelection = (event) => {
     const { value, id } = event.target;
-    if (value === 1) {
+    if (parseInt(value, 10) === 1) {
       if (factor === 'Size') {
         setSelectionMeaning('A size too small');
       } else if (factor === 'Width') {
@@ -27,7 +27,7 @@ function Characteristics({ factor, ID, setCharacteristics }) {
         setSelectionMeaning('Runs tight');
       }
     }
-    if (value === 2) {
+    if (parseInt(value, 10) === 2) {
       if (factor === 'Size') {
         setSelectionMeaning('½ a size too small');
       } else if (factor === 'Width') {
@@ -42,7 +42,7 @@ function Characteristics({ factor, ID, setCharacteristics }) {
         setSelectionMeaning('Runs slightly tight');
       }
     }
-    if (value === 3) {
+    if (parseInt(value, 10) === 3) {
       if (factor === 'Size') {
         setSelectionMeaning('Perfect');
       } else if (factor === 'Width') {
@@ -57,7 +57,7 @@ function Characteristics({ factor, ID, setCharacteristics }) {
         setSelectionMeaning('Perfect');
       }
     }
-    if (value === 4) {
+    if (parseInt(value, 10) === 4) {
       if (factor === 'Size') {
         setSelectionMeaning('½ a size too big');
       } else if (factor === 'Width') {
@@ -72,7 +72,7 @@ function Characteristics({ factor, ID, setCharacteristics }) {
         setSelectionMeaning('Runs slightly long');
       }
     }
-    if (value === 5) {
+    if (parseInt(value, 10) === 5) {
       if (factor === 'Size') {
         setSelectionMeaning('A size too wide');
       } else if (factor === 'Width') {
@@ -102,7 +102,7 @@ function Characteristics({ factor, ID, setCharacteristics }) {
         </Row>
         <Row>
           <Col>
-            <input type="radio" id={`${ID}-5`} name={factor} value="1" onChange={handleSelection} required />
+            <input type="radio" id={ID} name={factor} value="1" onChange={handleSelection} required />
             <label htmlFor={`${factor}+1`}>1</label>
             <div>
               {factor === 'Size' ? (<span>A size too small</span>)
@@ -114,19 +114,19 @@ function Characteristics({ factor, ID, setCharacteristics }) {
             </div>
           </Col>
           <Col>
-            <input type="radio" id={`${ID}-1`} name={factor} value="2" onChange={handleSelection} required />
+            <input type="radio" id={ID} name={factor} value="2" onChange={handleSelection} required />
             <label htmlFor={`${factor}+2`}>2</label>
           </Col>
           <Col>
-            <input type="radio" id={`${ID}-2`} name={factor} value="3" onChange={handleSelection} required />
+            <input type="radio" id={ID} name={factor} value="3" onChange={handleSelection} required />
             <label htmlFor={`${factor}+3`}>3</label>
           </Col>
           <Col>
-            <input type="radio" id={`${ID}-3`} name={factor} value="4" onChange={handleSelection} required />
+            <input type="radio" id={ID} name={factor} value="4" onChange={handleSelection} required />
             <label htmlFor={`${factor}+4`}>4</label>
           </Col>
           <Col>
-            <input type="radio" id={`${ID}-4`} name={factor} value="5" onChange={handleSelection} required />
+            <input type="radio" id={ID} name={factor} value="5" onChange={handleSelection} required />
             <label htmlFor={`${factor}+5`}>5</label>
             <div>
               {factor === 'Size' ? (<span>A size too wide</span>)
