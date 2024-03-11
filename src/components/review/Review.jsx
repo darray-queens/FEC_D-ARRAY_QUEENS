@@ -24,8 +24,6 @@ function Review({ entry }) {
     setModalPhoto(null);
   };
 
-  const reviewContent = showFullReview ? entry.body : entry.body.slice(0, 250);
-
   const handleShowMore = () => {
     setShowFullReview(true);
   };
