@@ -24,6 +24,8 @@ function ReviewList({ currentProduct, reviews, updateReviews }) {
   const [activeFilters, setActiveFilters] = useState([]);
   const [count, setCount] = useState(2);
   const [sort, setSort] = useState('relevant');
+  const [refresh, setRefresh] = useState(true);
+  const [factors, setFactors] = useState({});
 
   useEffect(() => {
     updateReviews([]);
@@ -47,7 +49,7 @@ function ReviewList({ currentProduct, reviews, updateReviews }) {
           console.error('failed to set list: ', err);
         });
     }
-  }, [currentProduct, count, sort]);
+  }, [currentProduct, count, sort, refresh]);
 
   if (reviews.length === 0) {
     return <div>No reviews loaded</div>;
@@ -69,7 +71,7 @@ function ReviewList({ currentProduct, reviews, updateReviews }) {
     <div id="reviews">
       <h2>Ratings & Reviews</h2>
       <Row>
-        <Col size={1}>
+        <StylesCol2 size={1}>
           <Breakdown
             currentProduct={currentProduct}
             reviews={reviews}
@@ -77,8 +79,10 @@ function ReviewList({ currentProduct, reviews, updateReviews }) {
             filteredReviews={filteredReviews}
             activeFilters={activeFilters}
             setActiveFilters={setActiveFilters}
+            factors={factors}
+            setFactors={setFactors}
           />
-        </Col>
+        </StylesCol2>
         <StylesCol size={4}>
           <Sort
             reviews={reviews}
@@ -123,6 +127,9 @@ function ReviewList({ currentProduct, reviews, updateReviews }) {
           <ReviewForm
             closeModal={exitAnswerModal}
             currentProduct={currentProduct}
+            refresh={refresh}
+            setRefresh={setRefresh}
+            factors={factors}
           />
           )}
         </StylesCol>
@@ -139,7 +146,12 @@ const StylesDiv = styled.div`
 `;
 
 const StylesCol = styled(Col)`
-  width: 80%
+  width: 80%;
+`;
+
+const StylesCol2 = styled(Col)`
+  min-width: 270px;
+  margin-right: 20px;
 `;
 
 const StylesButton = styled.button`

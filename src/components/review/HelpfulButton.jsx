@@ -33,16 +33,16 @@ function HelpfulButton({ entry }) {
   }, [entry]);
 
   const markAsHelpful = async () => {
-    if (upvoted === false) {
+    if (!upvoted) {
       axios.put(`/reviews/${entry.review_id}/helpful`)
         .then(() => {
           setUpvoted(true);
+          setHelpfulnessValue(helpfulnessValue + 1);
         })
         .catch((err) => {
           console.error(err);
         });
     }
-    setHelpfulnessValue(helpfulnessValue + 1);
   };
 
   return (
