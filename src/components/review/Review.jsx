@@ -14,6 +14,7 @@ const { useState } = React;
 
 function Review({ entry }) {
   const [modalPhoto, setModalPhoto] = useState(null);
+  const [showFullReview, setShowFullReview] = useState(false);
 
   const clickPhoto = (photo) => {
     setModalPhoto(photo);
@@ -21,6 +22,12 @@ function Review({ entry }) {
 
   const exitModal = () => {
     setModalPhoto(null);
+  };
+
+  const reviewContent = showFullReview ? entry.body : entry.body.slice(0, 250);
+
+  const handleShowMore = () => {
+    setShowFullReview(true);
   };
 
   return (
@@ -42,7 +49,10 @@ function Review({ entry }) {
         <b>{entry.summary}</b>
       </Row>
       <Row>
-        <p>{entry.body}</p>
+        <p>{showFullReview ? entry.body : entry.body.slice(0, 250)}</p>
+        {!showFullReview && entry.body.length > 250 && (
+          <ShowMoreLink onClick={handleShowMore}>Show more</ShowMoreLink>
+        )}
       </Row>
       <StylesRow>
         {entry.photos.map((photo) => (
@@ -55,8 +65,8 @@ function Review({ entry }) {
       {entry.recommend
         ? (
           <div>
-            <text style={{ color: '#00693E' }}><b>✓ </b></text>
-            <text>I recommend this product</text>
+            <span style={{ color: '#00693E' }}><b>✓ </b></span>
+            <span>I recommend this product</span>
           </div>
         )
         : <div />}
@@ -92,6 +102,11 @@ const RightCol = styled(Col)`
 
 const StylesRow = styled(Row)`
   justify-content: flex-start;
+`;
+
+const ShowMoreLink = styled.span`
+  color: blue;
+  cursor: pointer;
 `;
 
 export default Review;
