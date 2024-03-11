@@ -34,12 +34,12 @@ function App() {
       });
   }, [productId]);
 
-  // useEffect(() => {
-  //   // Duration for the countdown in seconds (e.g., 4 hours = 14400 seconds)
-  //   const duration = 4 * 60 * 60; // Modify this value as needed
-  //   // Start the fake timer
-  //   startFakeTimer(duration, setCountdown);
-  // }, []);
+  useEffect(() => {
+    // Duration for the countdown in seconds (e.g., 4 hours = 14400 seconds)
+    const duration = 4 * 60 * 60; // Modify this value as needed
+    // Start the fake timer
+    startFakeTimer(duration, setCountdown);
+  }, []);
 
   useEffect(() => {
     // Example: Dynamically calculate and set padding
@@ -85,13 +85,13 @@ function App() {
             galleryModal={galleryModal}
             toggleGalleryModal={(bool) => setGalleryModal(bool)}
           />
-          {/* <RelatedProductsContainer currentProduct={currentProduct} setProductId={setProductId} />
+          <RelatedProductsContainer currentProduct={currentProduct} setProductId={setProductId} />
           <GetAllQuestionsAndAnswers currentProduct={currentProduct} />
           <ReviewList
             currentProduct={currentProduct}
             reviews={reviews}
             updateReviews={(newReviews) => setReviews(newReviews)}
-          /> */}
+          />
         </div>
       </div>
     </div>
