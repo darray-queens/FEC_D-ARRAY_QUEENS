@@ -111,6 +111,7 @@ function Overview({
                 currentStyle={currentStyle}
                 changeStyle={changeCurrentStyle}
                 changeMainImageIndex={changeMainImageIndex}
+                mainImageIndex={mainImageIndex}
               />
               <Selection
                 style={currentStyle}

@@ -54,11 +54,14 @@ function Styles({
   currentStyle,
   changeStyle,
   changeMainImageIndex,
+  mainImageIndex,
 }) {
   const handleStyleChange = (selectedStyle) => {
     if (selectedStyle.name !== currentStyle.name) {
       changeStyle(selectedStyle);
-      changeMainImageIndex(0);
+      if (!selectedStyle.photos[mainImageIndex]) {
+        changeMainImageIndex(0);
+      }
     }
   };
 
