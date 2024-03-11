@@ -29,10 +29,10 @@ const ModalContainer = styled.div`
   height: 100vh;
   width: 100%;
   overflow: hidden;
-  z-index: 98;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  z-index: 2147483645;
 `;
 
 const ModalImage = styled.div`
@@ -41,10 +41,10 @@ const ModalImage = styled.div`
   height: 100vh;
   width: 100%;
   overflow: hidden;
-  z-index: 93;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  z-index: 2147483640;
 `;
 
 const ModalMenuCol = styled(Row)`
@@ -55,7 +55,7 @@ const ModalMenuCol = styled(Row)`
   height: 100%;
   justify-content: center;
   align-items: center;
-  z-index: 100;
+  z-index: 2147483646;
 `;
 
 const ModalNavContainer = styled(Row)`
@@ -65,23 +65,23 @@ const ModalNavContainer = styled(Row)`
 `;
 
 const ModalPrevThumb = styled(PrevThumb)`
-  z-index: 98;
+  z-index: 2147483645;
 `;
 
 const ModalNextThumb = styled(NextThumb)`
-  z-index: 97;
+  z-index: 2147483644;
 `;
 
 const ModalPrevMain = styled(PrevMain)`
-  z-index: 96;
+  z-index: 2147483643;
 `;
 
 const ModalNextMain = styled(NextMain)`
-  z-index: 95;
+  z-index: 2147483642;
 `;
 
 const ModalClose = styled(NextMain)`
-  z-index: 94;
+  z-index: 2147483641;
   top: 70px;
 `;
 
