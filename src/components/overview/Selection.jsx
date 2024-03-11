@@ -10,7 +10,7 @@ const StyleSelect = styled.select`
   display: block;
   padding-left: 20px;
   padding-right: 10px;
-  margin-right: 20px;
+  margin-right: 15px;
   font-family: inherit;
   font-weight: bold;
   background-color: white;
@@ -48,6 +48,28 @@ const SelectOption = styled.option`
   border-width: 2px;
   height: 60px;
   width: 150px;
+`;
+
+const CartButton = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 15px;
+  font-weight: bold;
+  font-family: inherit;
+  background-color: white;
+  height: 55px;
+  width: 220px;
+  line-height: 50px;
+  &:hover {
+    background-color: rgb(220,220,220);
+    cursor: pointer;
+  }
+  &:focus {
+    border-radius: 0%;
+    border-width: 2px;
+    outline: 0;
+  }
 `;
 
 function Selection({ style, sku, changeSku }) {
@@ -126,14 +148,14 @@ function Selection({ style, sku, changeSku }) {
           <SelectOption style={{ display: 'none' }}>&#129139;</SelectOption>
           {quantityOptions}
         </QuantSelect>
-        <button
+        <CartButton
           name="add"
           type="button"
           style={hideCart ? { display: 'none' } : { display: 'inherit' }}
           onClick={() => addToCartHandler()}
         >
-          Add to Bag
-        </button>
+          ADD TO BAG
+        </CartButton>
       </Row>
     </div>
   );
