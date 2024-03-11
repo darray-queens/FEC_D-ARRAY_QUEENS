@@ -88,7 +88,6 @@ function ReviewForm({
   };
 
   const handleFileChange = async (event) => {
-    // Limit to 5 photos
     const files = Array.from(event.target.files).slice(0, 5);
     const formData = new FormData();
     files.forEach((file) => {
@@ -96,17 +95,23 @@ function ReviewForm({
     });
 
     try {
-      const response = await axios.post('/uploadrev', formData, {
+      const response = await axios.post('/upload', formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
-      const uploadedUrls = response.data.urls;
+      const uploadedPhotos = response.data.urls;
 
-      setPhotos((prevPhotos) => [...prevPhotos, ...uploadedUrls]);
+      if (photos.length + uploadedPhotos.length > 5) {
+        alert("You can't upload more than 5 images.");
+        return;
+      }
+
+      uploadedPhotos.forEach((photo) => {
+        setPhotos((prevPhotos) => [...prevPhotos, photo]);
+      });
     } catch (error) {
       console.error('Error uploading files:', error);
     }
   };
-
 
   // const handleFileChange = (event) => {
   //   const files = Array.from(event.target.files).slice(0, 5);
@@ -135,6 +140,7 @@ function ReviewForm({
       photos,
       characteristics,
     };
+    console.log(formDetails);
 
     await axios.post('/reviews', formDetails);
     setRefresh(!refresh);
