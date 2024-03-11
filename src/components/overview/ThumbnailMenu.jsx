@@ -54,15 +54,7 @@ function ThumbnailMenu({
               backgroundImage: `url(${image.thumbnail_url})`,
             }}
             onClick={(e) => changeMainImageIndex(Number(e.target.dataset.index))}
-          >
-            {/* <img
-              data-index={index}
-              alt="The next addition to your wardrobe"
-              src={image.thumbnail_url}
-              height="50px"
-              width="50px"
-            /> */}
-          </ThumbButton>
+          />
           {mainImageIndex === index && <SelectedImg>&#10003;</SelectedImg>}
         </Row>
       ))}

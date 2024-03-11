@@ -13,6 +13,10 @@ import Loading from './Loading';
 
 import { Grid, Row, Col } from '../shared/containers';
 
+///
+import sampleStyles from './sampleStyles';
+///
+
 const { useState, useEffect } = React;
 
 const OverviewGrid = styled(Grid)`
@@ -42,6 +46,7 @@ function Overview({
   changeMaxThumbIndex,
   minThumbIndex,
   changeMinThumbIndex,
+  galleryModal,
   toggleGalleryModal,
 }) {
   const [styles, setStyles] = useState([]);
@@ -56,7 +61,8 @@ function Overview({
     changeCurrentStyle(response.data.results[0]);
     changeMainImageIndex(0);
     changeMaxThumbIndex(() => {
-      const imageCount = response.data.results[0].photos.length;
+      // const imageCount = response.data.results[0].photos.length;
+      const imageCount = sampleStyles.length;
       return imageCount > 6 ? 6 : imageCount - 1;
     });
     setCurrentSku();
@@ -85,6 +91,7 @@ function Overview({
                 changeMaxThumbIndex={changeMaxThumbIndex}
                 minThumbIndex={minThumbIndex}
                 changeMinThumbIndex={changeMinThumbIndex}
+                galleryModal={galleryModal}
                 toggleGalleryModal={toggleGalleryModal}
               />
             )}

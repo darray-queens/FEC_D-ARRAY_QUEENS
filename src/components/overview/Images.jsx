@@ -52,13 +52,14 @@ function Images({
   changeMaxThumbIndex,
   minThumbIndex,
   changeMinThumbIndex,
+  galleryModal,
   toggleGalleryModal,
 }) {
   const imageCount = styleImages.length;
 
   return (
     <GalleryContainer>
-      <MenuCol>
+      <MenuCol style={galleryModal ? { display: 'none' } : {}}>
         <NavContainer>
           <PrevThumb
             style={{ display: minThumbIndex === 0 ? 'none' : 'inherit' }}
@@ -97,20 +98,41 @@ function Images({
         styleImages={styleImages}
         mainImageIndex={mainImageIndex}
         toggleGalleryModal={toggleGalleryModal}
+        galleryModal={galleryModal}
       />
       <PrevMain
         style={{ display: mainImageIndex === 0 ? 'none' : 'inherit' }}
-        onClick={() => changeMainImageIndex(
-          (prevIndex) => handlePrevMain(mainImageIndex, prevIndex, imageCount),
-        )}
+        onClick={() => {
+          changeMainImageIndex(
+            (prevIndex) => handlePrevMain(mainImageIndex, prevIndex, imageCount),
+          );
+          if (mainImageIndex - 1 < minThumbIndex) {
+            changeMinThumbIndex(
+              (prevIndex) => handleNextThumb(maxThumbIndex, prevIndex, imageCount),
+            );
+            changeMaxThumbIndex(
+              (prevIndex) => handleNextThumb(maxThumbIndex, prevIndex, imageCount),
+            );
+          }
+        }}
       >
         &#10094;
       </PrevMain>
       <NextMain
         style={{ display: mainImageIndex === imageCount - 1 ? 'none' : 'inherit' }}
-        onClick={() => changeMainImageIndex(
-          (prevIndex) => handleNextMain(mainImageIndex, prevIndex, imageCount),
-        )}
+        onClick={() => {
+          changeMainImageIndex(
+            (prevIndex) => handleNextMain(mainImageIndex, prevIndex, imageCount),
+          );
+          if (mainImageIndex + 1 > maxThumbIndex) {
+            changeMinThumbIndex(
+              (prevIndex) => handleNextThumb(maxThumbIndex, prevIndex, imageCount),
+            );
+            changeMaxThumbIndex(
+              (prevIndex) => handleNextThumb(maxThumbIndex, prevIndex, imageCount),
+            );
+          }
+        }}
       >
         &#10095;
       </NextMain>
