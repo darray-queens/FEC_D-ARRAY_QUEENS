@@ -71,6 +71,10 @@ const WideFieldset = styled.fieldset`
   width: 100%;
 `;
 
+const StylesInput = styled.input`
+  width: 200px;
+`;
+
 function ReviewForm({
   closeModal, currentProduct, refresh, setRefresh, factors,
 }) {
@@ -189,6 +193,7 @@ function ReviewForm({
           <Row>
             {Object.keys(factors).map((key) => (
               <Characteristics
+                key={key}
                 factor={key}
                 ID={factors[key].id}
                 setCharacteristics={setCharacteristics}
@@ -260,7 +265,7 @@ function ReviewForm({
                 <h3>Your email *</h3>
               </Row>
               <Row>
-                <input
+                <StylesInput
                   type="email"
                   id="email-input"
                   aria-label="Your Email"
