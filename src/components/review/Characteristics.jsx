@@ -2,7 +2,6 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React from 'react';
 import styled from 'styled-components';
-import axios from 'axios';
 
 import { Row, Col } from '../shared/containers';
 
