@@ -24,11 +24,6 @@ const StyledP = styled.p`
   width: 100%;
 `;
 
-const TextDiv = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
 function Characteristics({ factor, ID, setCharacteristics }) {
   const [selectionMeaning, setSelectionMeaning] = useState('none selected');
 
