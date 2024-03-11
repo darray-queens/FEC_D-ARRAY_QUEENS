@@ -21,7 +21,7 @@ function GetAllQuestionsAndAnswers({ currentProduct }) {
   const [currentPage, setCurrentPage] = useState(1); // New state for tracking current page
   const [isLoading, setIsLoading] = useState(true);
 
-  const pageSize = 55;
+  const pageSize = 1000;
 
   useEffect(() => {
     setQuestions([]);
@@ -51,7 +51,7 @@ function GetAllQuestionsAndAnswers({ currentProduct }) {
           setQuestions([...uniqueQuestions.values()]);
           setIsLoading(false);
         } catch (error) {
-          console.error('Error fetching questions:', error);
+          // console.error('Error fetching questions:', error);
         } finally {
           setIsLoading(false); // Data fetching is complete
         }
@@ -66,8 +66,7 @@ function GetAllQuestionsAndAnswers({ currentProduct }) {
       const searchLowerCase = searchTerm.toLowerCase();
       const filtered = questions.filter((question) => question.question_body
         .toLowerCase()
-        .includes(searchLowerCase)
-      );
+        .includes(searchLowerCase));
       setFilteredQuestions(filtered);
     } else {
       setFilteredQuestions(questions);
@@ -103,7 +102,7 @@ function GetAllQuestionsAndAnswers({ currentProduct }) {
         setQuestions(updatedQuestions);
       }
     } catch (error) {
-      console.error('Error refreshing questions:', error);
+      // console.error('Error refreshing questions:', error);
     }
   };
 
@@ -120,10 +119,9 @@ function GetAllQuestionsAndAnswers({ currentProduct }) {
             return { ...q, answers: updatedAnswers };
           }
           return q;
-        }),
-       );
+        }));
       } catch (error) {
-        console.error("Error marking answer as helpful:", error);
+        // console.error("Error marking answer as helpful:", error);
       }
     }
   };
@@ -137,17 +135,15 @@ function GetAllQuestionsAndAnswers({ currentProduct }) {
         setVotedHelpfulness(new Set([...votedHelpfulness, questionId]));
 
         // Manually increment the helpfulness count for the question in the state
-        setQuestions((prevQuestions) =>
-          prevQuestions.map((q) => {
-            if (q.question_id === questionId) {
-              // Assuming you have a 'question_helpfulness' property
-              return { ...q, question_helpfulness: q.question_helpfulness + 1 };
-            }
-            return q;
-          }),
-        );
+        setQuestions((prevQuestions) => prevQuestions.map((q) => {
+          if (q.question_id === questionId) {
+            // Assuming you have a 'question_helpfulness' property
+            return { ...q, question_helpfulness: q.question_helpfulness + 1 };
+          }
+          return q;
+        }));
       } catch (error) {
-        console.error("Error marking question as helpful:", error);
+        // console.error("Error marking question as helpful:", error);
       }
     }
   };
@@ -159,7 +155,7 @@ function GetAllQuestionsAndAnswers({ currentProduct }) {
         setReportedAnswers(new Set([...reportedAnswers, answerId]));
         // Refresh the component or handle UI changes as necessary.
       } catch (error) {
-        console.error("Error reporting answer:", error);
+        // console.error("Error reporting answer:", error);
       }
     }
   };
@@ -172,11 +168,6 @@ function GetAllQuestionsAndAnswers({ currentProduct }) {
       return q;
     });
     setQuestions(updatedQuestions);
-  };
-
-  const handleAddAnswer = (questionData) => {
-    setIsAnswerModalOpen(true);
-    setSelectedQuestion(questionData);
   };
 
   return (
