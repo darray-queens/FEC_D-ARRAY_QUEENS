@@ -12,10 +12,6 @@ import {
 } from './imageNavButtons';
 import galleryHandlers from './galleryHandlers';
 
-///
-import sampleStyles from './sampleStyles';
-///
-
 const { useState, useCallback } = React;
 
 const {
