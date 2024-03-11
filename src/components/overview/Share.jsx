@@ -17,6 +17,7 @@ const ShareLink = styled.a`
 const FbShareLink = styled(ShareLink)`
   &:hover {
     color: #316FF6;
+    cursor: pointer;
   }
 `;
 
@@ -29,6 +30,7 @@ const TwShareLink = styled(ShareLink)`
 const PinShareLink = styled(ShareLink)`
   &:hover {
     color: #E60023;
+    cursor: pointer;
   }
 `;
 
@@ -40,7 +42,7 @@ function Share(props) {
     window.FB.ui({
       method: 'share',
       href: window.location.href,
-    }, (response) => console.log(response));
+    }, () => {});
   };
 
   const pinShare = () => {
