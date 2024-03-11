@@ -31,7 +31,7 @@ const StyleSelect = styled.select`
 `;
 
 const QuantSelect = styled(StyleSelect)`
-  padding-left: 20px;
+  padding-left: 22px;
   margin-right: 20px;
   width: 55px;
 `;
@@ -162,7 +162,7 @@ function Selection({ style, sku, changeSku }) {
           style={hideLabel ? { marginTop: '17px' } : { marginTop: '0' }}
           onChange={(e) => setCurrentQty(e.target.value)}
         >
-          <SelectOption style={{ display: 'none' }}>&#129139;</SelectOption>
+          <SelectOption style={{ display: 'none' }}> - </SelectOption>
           {quantityOptions}
         </QuantSelect>
         <CartButton
