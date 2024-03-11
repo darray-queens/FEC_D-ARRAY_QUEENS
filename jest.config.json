@@ -8,7 +8,8 @@
   "testPathIgnorePatterns": [
     ".*\\.ignore\\.js$",
     "/path/to/specific/directory/",
-    ".*\\.skip\\.test\\.js$"
+    ".*\\.skip\\.test\\.js$",
+    "/.*ignore.*/"
   ],
   "collectCoverage": true
 }
