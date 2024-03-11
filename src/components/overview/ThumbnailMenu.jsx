@@ -19,8 +19,20 @@ const ThumbButton = styled.button`
   }
 `;
 
-const IconButton = styled(ThumbButton)`
+const IconButton = styled.button`
   padding: 0;
+  background: none;
+  margin-bottom: 6px;
+  margin-left: 12px;
+  margin-right: 6px;
+  padding: none;
+  border: none;
+  height: 50px;
+  width: 50px;
+  background-size: cover;
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
 const PhotoIcon = styled(MdInsertPhoto)`
@@ -56,9 +68,6 @@ function ThumbnailMenu({
   mainImageIndex,
   galleryModal,
 }) {
-
-  console.log(styleImages);
-
   return (
     <Grid>
       {galleryModal ? (
@@ -70,11 +79,9 @@ function ThumbnailMenu({
               style={{
                 display: index >= minThumbIndex && index <= maxThumbIndex ? 'inherit' : 'none',
               }}
+              onClick={() => changeMainImageIndex(Number(index))}
             >
-              <PhotoIcon
-                data-index={index}
-                onClick={(e) => changeMainImageIndex(Number(e.target.dataset.index))}
-              />
+              <PhotoIcon />
             </IconButton>
             {mainImageIndex === index && <SelectedIcon>&#10003;</SelectedIcon>}
           </Row>
@@ -85,12 +92,11 @@ function ThumbnailMenu({
             <ThumbButton
               name="galleryThumbnail"
               type="button"
-              data-index={index}
               style={{
                 display: index >= minThumbIndex && index <= maxThumbIndex ? 'inherit' : 'none',
                 backgroundImage: `url(${image.thumbnail_url})`,
               }}
-              onClick={(e) => changeMainImageIndex(Number(e.target.dataset.index))}
+              onClick={() => changeMainImageIndex(Number(index))}
             />
             {mainImageIndex === index && <SelectedImg>&#10003;</SelectedImg>}
           </Row>

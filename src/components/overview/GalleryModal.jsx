@@ -113,6 +113,7 @@ function GalleryModal({
     backgroundImage: `url(${styleImages[mainImageIndex].url})`,
     backgroundPosition: !isZoomed && 'center',
     backgroundSize: isZoomed ? '125%' : 'contain',
+    cursor: isZoomed ? 'vertical-text' : 'crosshair',
   };
 
   return (
