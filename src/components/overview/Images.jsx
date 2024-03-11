@@ -75,6 +75,7 @@ function Images({
           minThumbIndex={minThumbIndex}
           maxThumbIndex={maxThumbIndex}
           changeMainImageIndex={changeMainImageIndex}
+          mainImageIndex={mainImageIndex}
         />
         <NavContainer>
           <NextThumb

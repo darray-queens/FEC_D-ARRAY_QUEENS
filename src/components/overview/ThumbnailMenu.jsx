@@ -19,11 +19,27 @@ background-size: cover;
 }
 `;
 
+const SelectedImg = styled.div`
+  position: absolute;
+  background: black;
+  border-radius: 50%;
+  color: white;
+  height: 15px;
+  width: 15px;
+  font-weight: bold;
+  text-align: center;
+  vertical-align: middle;
+  font-size: 8px;
+  line-height: 15px;
+  transform: translateX(53px) translateY(-7px);
+`;
+
 function ThumbnailMenu({
   styleImages,
   minThumbIndex,
   maxThumbIndex,
   changeMainImageIndex,
+  mainImageIndex,
 }) {
   return (
     <Grid>
@@ -47,6 +63,7 @@ function ThumbnailMenu({
               width="50px"
             /> */}
           </ThumbButton>
+          {mainImageIndex === index && <SelectedImg>&#10003;</SelectedImg>}
         </Row>
       ))}
     </Grid>

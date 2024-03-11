@@ -112,7 +112,7 @@ function GalleryModal({
       <ModalMenuCol>
         <ModalNavContainer>
           <ModalPrevThumb
-            style={{ display: minThumbIndex === 0 ? 'none' : 'inherit', zIndex: '99' }}
+            style={{ display: minThumbIndex === 0 ? 'none' : 'inherit'/* , zIndex: '2147483647' */ }}
             onClick={() => {
               changeMinThumbIndex((prevIndex) => handlePrevThumb(minThumbIndex, prevIndex));
               changeMaxThumbIndex((prevIndex) => handlePrevThumb(minThumbIndex, prevIndex));
@@ -126,6 +126,7 @@ function GalleryModal({
           minThumbIndex={minThumbIndex}
           maxThumbIndex={maxThumbIndex}
           changeMainImageIndex={changeMainImageIndex}
+          mainImageIndex={mainImageIndex}
         />
         <ModalNavContainer>
           <ModalNextThumb
