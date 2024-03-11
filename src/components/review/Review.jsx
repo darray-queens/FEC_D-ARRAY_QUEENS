@@ -47,7 +47,7 @@ function Review({ entry }) {
         <b>{entry.summary}</b>
       </Row>
       <Row>
-        <p>{showFullReview ? entry.body : entry.body.slice(0, 250)}</p>
+        <BodyText>{showFullReview ? entry.body : entry.body.slice(0, 250)}</BodyText>
         {!showFullReview && entry.body.length > 250 && (
           <ShowMoreLink onClick={handleShowMore}>Show more</ShowMoreLink>
         )}
@@ -105,6 +105,11 @@ const StylesRow = styled(Row)`
 const ShowMoreLink = styled.span`
   color: blue;
   cursor: pointer;
+`;
+
+const BodyText = styled.p`
+  width: 100%;
+  word-wrap: break-word;
 `;
 
 export default Review;
