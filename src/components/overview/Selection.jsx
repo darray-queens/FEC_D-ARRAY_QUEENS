@@ -11,6 +11,7 @@ const StyleSelect = styled.select`
   padding-left: 20px;
   padding-right: 10px;
   margin-right: 15px;
+  margin-top: 12px;
   font-family: inherit;
   font-weight: bold;
   background-color: white;
