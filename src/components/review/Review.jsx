@@ -55,8 +55,8 @@ function Review({ entry }) {
       {entry.recommend
         ? (
           <div>
-            <text style={{ color: '#00693E' }}><b>✓ </b></text>
-            <text>I recommend this product</text>
+            <span style={{ color: '#00693E' }}><b>✓ </b></span>
+            <span>I recommend this product</span>
           </div>
         )
         : <div />}
