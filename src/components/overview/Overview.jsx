@@ -25,10 +25,17 @@ const ImgCol = styled(Col)`
   margin-right: 20px;
 `;
 
+const InfoCol = styled(Col)`
+  width: 270px;
+  min-width: 270px;
+  max-width: 270px;
+`;
+
 function Overview({
   currentProduct,
   currentStyle,
   changeCurrentStyle,
+  reviewCount,
   mainImageIndex,
   changeMainImageIndex,
   maxThumbIndex,
@@ -83,8 +90,10 @@ function Overview({
             )}
           </div>
         </ImgCol>
-        <Col id="info-col" size={1}>
-          <StarRating />
+        <InfoCol id="info-col" size={1}>
+          {reviewCount > 0 && (
+            <StarRating currentProduct={currentProduct} reviewCount={reviewCount} />
+          )}
           <ProductInfo
             product={currentProduct}
             style={currentStyle}
@@ -95,7 +104,7 @@ function Overview({
             <>
               <Share
                 currentProduct={currentProduct}
-                styleImage={styles[0].photos[0].thumbnail_url}
+                styleImage={styles[0].photos[0].url}
               />
               <Styles
                 currentStyles={styles}
@@ -110,14 +119,16 @@ function Overview({
               />
             </>
           )}
-        </Col>
+        </InfoCol>
       </Row>
-      <Row>
-        <ProductDescription
-          description={currentProduct.description}
-          features={currentProduct.features}
-        />
-      </Row>
+      {currentProduct.description && (
+        <Row>
+          <ProductDescription
+            description={currentProduct.description}
+            features={currentProduct.features}
+          />
+        </Row>
+      )}
     </OverviewGrid>
   );
 }

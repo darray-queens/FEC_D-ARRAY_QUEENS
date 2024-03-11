@@ -22,6 +22,8 @@ function App() {
   const [galleryModal, setGalleryModal] = useState(false);
   const [countdown, setCountdown] = useState('Loading countdown...');
 
+  const [reviews, setReviews] = useState([]);
+
   useEffect(() => {
     axios.get(`products/${productId}`)
       .then((response) => {
@@ -72,6 +74,7 @@ function App() {
             currentProduct={currentProduct}
             currentStyle={currentStyle}
             changeCurrentStyle={(newStyle) => setCurrentStyle(newStyle)}
+            reviewCount={reviews.length}
             mainImageIndex={mainImageIndex}
             changeMainImageIndex={setMainImageIndex}
             minThumbIndex={minThumbIndex}
@@ -82,7 +85,11 @@ function App() {
           />
           <RelatedProductsContainer currentProduct={currentProduct} setProductId={setProductId} />
           <GetAllQuestionsAndAnswers currentProduct={currentProduct} />
-          <ReviewList currentProduct={currentProduct} />
+          <ReviewList
+            currentProduct={currentProduct}
+            reviews={reviews}
+            updateReviews={(newReviews) => setReviews(newReviews)}
+          />
         </div>
       </div>
     </div>
