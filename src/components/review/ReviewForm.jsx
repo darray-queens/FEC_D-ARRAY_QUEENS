@@ -1,3 +1,5 @@
+/* eslint-disable react/no-array-index-key */
+/* eslint-disable jsx-a11y/label-has-associated-control */
 import React from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
@@ -17,7 +19,7 @@ const ModalContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1;
+  z-index: 2147483647;
 `;
 
 const ModalContent = styled.div`
@@ -36,13 +38,14 @@ const ModalContent = styled.div`
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  z-index: 1;
+  z-index: 2147483647;
 `;
 
 const StarRow = styled(Row)`
   border: 0.5px solid grey;
   padding-top: 5px;
   padding-bottom: 5px;
+  z-index: 2147483647;
 `;
 
 const CloseButton = styled.button`
@@ -53,6 +56,7 @@ const CloseButton = styled.button`
   background-color: transparent;
   border: none;
   cursor: pointer;
+  z-index: 2147483647;
   &:hover {
     color: red;
   }
@@ -64,7 +68,7 @@ const StylesP = styled.p`
 `;
 
 function ReviewForm({
-  closeModal, currentProduct, refresh, setRefresh, factors
+  closeModal, currentProduct, refresh, setRefresh, factors,
 }) {
   const [rating, setRating] = useState(null);
   const [summary, setSummary] = useState('');
@@ -159,7 +163,7 @@ function ReviewForm({
         <form onSubmit={submitForm} className="form-container">
           <StarRow>
             <Col>
-            <p>Overall rating</p>
+              <p>Overall rating</p>
               <FormStars formRating={rating} setFormRating={setRating} />
               *
             </Col>
