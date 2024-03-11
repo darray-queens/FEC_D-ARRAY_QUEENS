@@ -25,10 +25,6 @@ function Breakdown({
   const [twoStarRate, setTwoStarRate] = useState(0);
   const [oneStarRate, setOneStarRate] = useState(0);
 
-  // useEffect(() => {
-  //   setReviews(reviews);
-  // }, [reviews]);
-
   useEffect(() => {
     let total = 0;
     let count = 0;
@@ -94,7 +90,7 @@ function Breakdown({
           console.error('failed to set ratings: ', err);
         });
     }
-  }, [currentProduct]);
+  }, [currentProduct, reviews]);
 
   const handleFilter = (event) => {
     const value = Number.parseInt(event.target.textContent, 10);
