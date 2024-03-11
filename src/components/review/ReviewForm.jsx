@@ -24,7 +24,7 @@ const ModalContainer = styled.div`
 
 const ModalContent = styled.div`
   background-color: white;
-  width: 600px;
+  width: 700px;
   max-height: 95%;
   overflow-y: auto;
   padding: 20px;
@@ -117,21 +117,15 @@ function ReviewForm({
     }
   };
 
-  // const handleFileChange = (event) => {
-  //   const files = Array.from(event.target.files).slice(0, 5);
-  //   const urls = files.map((file) => URL.createObjectURL(file));
-  //   const updatedPhotos = [...photos, ...urls];
-  //   if (updatedPhotos.length > 5) {
-  //     alert("You can't upload more than 5 images.");
-  //     return;
-  //   }
-  //   setPhotos(updatedPhotos);
-  // };
-
   const submitForm = async (event) => {
     event.preventDefault();
     if (rating === null) {
       alert('Please select a rating');
+      return;
+    }
+    if (body.length < 50) {
+      alert('body must be at least 50 characters');
+      return;
     }
     const formDetails = {
       product_id: currentProduct.id,
