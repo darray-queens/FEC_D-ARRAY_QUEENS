@@ -15,7 +15,7 @@ import IconBar from './BreakdownFactors';
 const { useState, useEffect } = React;
 
 function Breakdown({
-  currentProduct, reviews, setFilteredReviews, activeFilters, setActiveFilters,
+  currentProduct, reviews, setFilteredReviews, activeFilters, setActiveFilters, factors, setFactors,
 }) {
   const [average, setAverage] = useState(0);
   const [recommendPercent, setRecommendPercent] = useState(0);
@@ -24,11 +24,6 @@ function Breakdown({
   const [threeStarRate, setThreeStarRate] = useState(0);
   const [twoStarRate, setTwoStarRate] = useState(0);
   const [oneStarRate, setOneStarRate] = useState(0);
-  const [factors, setFactors] = useState({});
-
-  // useEffect(() => {
-  //   setReviews(reviews);
-  // }, [reviews]);
 
   useEffect(() => {
     let total = 0;
@@ -95,7 +90,7 @@ function Breakdown({
           console.error('failed to set ratings: ', err);
         });
     }
-  }, [currentProduct]);
+  }, [currentProduct, reviews]);
 
   const handleFilter = (event) => {
     const value = Number.parseInt(event.target.textContent, 10);
