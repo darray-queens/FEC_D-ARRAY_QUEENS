@@ -12,6 +12,7 @@ const WideFieldset = styled.fieldset`
 `;
 
 const StylesDiv = styled.div`
+  width: 300px;
 `;
 
 const StyledH2 = styled.h2`
@@ -115,9 +116,11 @@ function Characteristics({ factor, ID, setCharacteristics }) {
           <Row>
             <StyledH2>{factor}</StyledH2>
           </Row>
+          <StylesDiv>
           <Row>
             <StyledP>{selectionMeaning}</StyledP>
           </Row>
+          </StylesDiv>
           <Row>
             <Col>
               <input type="radio" id={ID} name={factor} value="1" onChange={handleSelection} required />
