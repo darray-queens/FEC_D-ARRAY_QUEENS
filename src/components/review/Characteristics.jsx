@@ -7,6 +7,28 @@ import { Row, Col } from '../shared/containers';
 
 const { useState } = React;
 
+const WideFieldset = styled.fieldset`
+  width: 100%;
+`;
+
+const StylesDiv = styled.div`
+`;
+
+const StyledH2 = styled.h2`
+  display: block;
+  width: 100%;
+`;
+
+const StyledP = styled.p`
+  display: block;
+  width: 100%;
+`;
+
+const TextDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
 function Characteristics({ factor, ID, setCharacteristics }) {
   const [selectionMeaning, setSelectionMeaning] = useState('none selected');
 
@@ -91,55 +113,57 @@ function Characteristics({ factor, ID, setCharacteristics }) {
   };
 
   return (
-    <fieldset>
-      <legend>Characteristics? *</legend>
-      <Row>
+    <StylesDiv>
+      <WideFieldset>
+        <legend>Characteristics? *</legend>
         <Row>
-          <h2>{factor}</h2>
+          <Row>
+            <StyledH2>{factor}</StyledH2>
+          </Row>
+          <Row>
+            <StyledP>{selectionMeaning}</StyledP>
+          </Row>
+          <Row>
+            <Col>
+              <input type="radio" id={ID} name={factor} value="1" onChange={handleSelection} required />
+              <label htmlFor={`${factor}+1`}>1</label>
+              <div>
+                {factor === 'Size' ? (<span>A size too small</span>)
+                  : factor === 'Width' ? (<span>Too narrow</span>)
+                    : factor === 'Comfort' ? (<span>Uncomfortable</span>)
+                      : factor === 'Quality' ? (<span>Poor</span>)
+                        : factor === 'Length' ? (<span>Runs Short</span>)
+                          : factor === 'Fit' ? (<span>Runs tight</span>) : null}
+              </div>
+            </Col>
+            <Col>
+              <input type="radio" id={ID} name={factor} value="2" onChange={handleSelection} required />
+              <label htmlFor={`${factor}+2`}>2</label>
+            </Col>
+            <Col>
+              <input type="radio" id={ID} name={factor} value="3" onChange={handleSelection} required />
+              <label htmlFor={`${factor}+3`}>3</label>
+            </Col>
+            <Col>
+              <input type="radio" id={ID} name={factor} value="4" onChange={handleSelection} required />
+              <label htmlFor={`${factor}+4`}>4</label>
+            </Col>
+            <Col>
+              <input type="radio" id={ID} name={factor} value="5" onChange={handleSelection} required />
+              <label htmlFor={`${factor}+5`}>5</label>
+              <div>
+                {factor === 'Size' ? (<span>A size too wide</span>)
+                  : factor === 'Width' ? (<span>Too wide</span>)
+                    : factor === 'Comfort' ? (<span>Perfect</span>)
+                      : factor === 'Quality' ? (<span>Perfect</span>)
+                        : factor === 'Length' ? (<span>Runs long</span>)
+                          : factor === 'Fit' ? (<span>Runs long</span>) : null}
+              </div>
+            </Col>
+          </Row>
         </Row>
-        <Row>
-          <p>{selectionMeaning}</p>
-        </Row>
-        <Row>
-          <Col>
-            <input type="radio" id={ID} name={factor} value="1" onChange={handleSelection} required />
-            <label htmlFor={`${factor}+1`}>1</label>
-            <div>
-              {factor === 'Size' ? (<span>A size too small</span>)
-                : factor === 'Width' ? (<span>Too narrow</span>)
-                  : factor === 'Comfort' ? (<span>Uncomfortable</span>)
-                    : factor === 'Quality' ? (<span>Poor</span>)
-                      : factor === 'Length' ? (<span>Runs Short</span>)
-                        : factor === 'Fit' ? (<span>Runs tight</span>) : null}
-            </div>
-          </Col>
-          <Col>
-            <input type="radio" id={ID} name={factor} value="2" onChange={handleSelection} required />
-            <label htmlFor={`${factor}+2`}>2</label>
-          </Col>
-          <Col>
-            <input type="radio" id={ID} name={factor} value="3" onChange={handleSelection} required />
-            <label htmlFor={`${factor}+3`}>3</label>
-          </Col>
-          <Col>
-            <input type="radio" id={ID} name={factor} value="4" onChange={handleSelection} required />
-            <label htmlFor={`${factor}+4`}>4</label>
-          </Col>
-          <Col>
-            <input type="radio" id={ID} name={factor} value="5" onChange={handleSelection} required />
-            <label htmlFor={`${factor}+5`}>5</label>
-            <div>
-              {factor === 'Size' ? (<span>A size too wide</span>)
-                : factor === 'Width' ? (<span>Too wide</span>)
-                  : factor === 'Comfort' ? (<span>Perfect</span>)
-                    : factor === 'Quality' ? (<span>Perfect</span>)
-                      : factor === 'Length' ? (<span>Runs long</span>)
-                        : factor === 'Fit' ? (<span>Runs long</span>) : null}
-            </div>
-          </Col>
-        </Row>
-      </Row>
-    </fieldset>
+      </WideFieldset>
+    </StylesDiv>
   );
 }
 
