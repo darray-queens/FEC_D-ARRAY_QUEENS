@@ -77,6 +77,7 @@ function Images({
           maxThumbIndex={maxThumbIndex}
           changeMainImageIndex={changeMainImageIndex}
           mainImageIndex={mainImageIndex}
+          galleryModal={galleryModal}
         />
         <NavContainer>
           <NextThumb
@@ -101,7 +102,7 @@ function Images({
         galleryModal={galleryModal}
       />
       <PrevMain
-        style={{ display: mainImageIndex === 0 ? 'none' : 'inherit' }}
+        style={{ display: mainImageIndex === 0 || galleryModal ? 'none' : 'inherit' }}
         onClick={() => {
           changeMainImageIndex(
             (prevIndex) => handlePrevMain(mainImageIndex, prevIndex, imageCount),
@@ -119,7 +120,7 @@ function Images({
         &#10094;
       </PrevMain>
       <NextMain
-        style={{ display: mainImageIndex === imageCount - 1 ? 'none' : 'inherit' }}
+        style={{ display: mainImageIndex === imageCount - 1 || galleryModal ? 'none' : 'inherit' }}
         onClick={() => {
           changeMainImageIndex(
             (prevIndex) => handleNextMain(mainImageIndex, prevIndex, imageCount),

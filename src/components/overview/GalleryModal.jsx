@@ -49,6 +49,9 @@ const ModalImage = styled.div`
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 2147483640;
+  &:hover {
+    cursor: crosshair;
+  }
 `;
 
 const ModalMenuCol = styled(Row)`
@@ -90,7 +93,7 @@ const ModalClose = styled(NextMain)`
 `;
 
 function GalleryModal({
-  // styleImages,
+  styleImages,
   mainImageIndex,
   changeMainImageIndex,
   maxThumbIndex,
@@ -98,10 +101,8 @@ function GalleryModal({
   minThumbIndex,
   changeMinThumbIndex,
   toggleGalleryModal,
+  galleryModal,
 }) {
-  ///
-  const styleImages = sampleStyles;
-  ///
   const [isZoomed, setIsZoomed] = useState(false);
 
   const handleMovement = useCallback(onMovement, []);
@@ -134,6 +135,7 @@ function GalleryModal({
           maxThumbIndex={maxThumbIndex}
           changeMainImageIndex={changeMainImageIndex}
           mainImageIndex={mainImageIndex}
+          galleryModal={galleryModal}
         />
         <ModalNavContainer>
           <ModalNextThumb

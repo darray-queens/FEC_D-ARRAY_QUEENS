@@ -13,10 +13,6 @@ import Loading from './Loading';
 
 import { Grid, Row, Col } from '../shared/containers';
 
-///
-import sampleStyles from './sampleStyles';
-///
-
 const { useState, useEffect } = React;
 
 const OverviewGrid = styled(Grid)`
@@ -61,8 +57,7 @@ function Overview({
     changeCurrentStyle(response.data.results[0]);
     changeMainImageIndex(0);
     changeMaxThumbIndex(() => {
-      // const imageCount = response.data.results[0].photos.length;
-      const imageCount = sampleStyles.length;
+      const imageCount = response.data.results[0].photos.length;
       return imageCount > 6 ? 6 : imageCount - 1;
     });
     setCurrentSku();

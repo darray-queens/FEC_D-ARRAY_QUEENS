@@ -11,7 +11,7 @@ const MainImageContainer = styled.div`
 `;
 
 const MainImg = styled.img`
-  cursor: 'pointer';
+  cursor: zoom-in;
   position: absolute;
   display: 'flex';
   height: 100%;
