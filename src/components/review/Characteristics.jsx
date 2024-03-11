@@ -7,65 +7,138 @@ import { Row, Col } from '../shared/containers';
 
 const { useState } = React;
 
-function Characteristics({ factors, setCharacteristics }) {
+function Characteristics({ factor, ID, setCharacteristics }) {
   const [selectionMeaning, setSelectionMeaning] = useState('none selected');
 
   const handleSelection = (event) => {
     const { value, id } = event.target;
+    if (value === 1) {
+      if (factor === 'Size') {
+        setSelectionMeaning('A size too small');
+      } else if (factor === 'Width') {
+        setSelectionMeaning('Too narrow');
+      } else if (factor === 'Comfort') {
+        setSelectionMeaning('Uncomfortable');
+      } else if (factor === 'Quality') {
+        setSelectionMeaning('Poor');
+      } else if (factor === 'Length') {
+        setSelectionMeaning('Runs Short');
+      } else if (factor === 'Fit') {
+        setSelectionMeaning('Runs tight');
+      }
+    }
+    if (value === 2) {
+      if (factor === 'Size') {
+        setSelectionMeaning('½ a size too small');
+      } else if (factor === 'Width') {
+        setSelectionMeaning('Slightly narrow');
+      } else if (factor === 'Comfort') {
+        setSelectionMeaning('Slightly uncomfortable');
+      } else if (factor === 'Quality') {
+        setSelectionMeaning('Below average');
+      } else if (factor === 'Length') {
+        setSelectionMeaning('Runs slightly short');
+      } else if (factor === 'Fit') {
+        setSelectionMeaning('Runs slightly tight');
+      }
+    }
+    if (value === 3) {
+      if (factor === 'Size') {
+        setSelectionMeaning('Perfect');
+      } else if (factor === 'Width') {
+        setSelectionMeaning('Perfect');
+      } else if (factor === 'Comfort') {
+        setSelectionMeaning('Ok');
+      } else if (factor === 'Quality') {
+        setSelectionMeaning('What I expected');
+      } else if (factor === 'Length') {
+        setSelectionMeaning('Perfect');
+      } else if (factor === 'Fit') {
+        setSelectionMeaning('Perfect');
+      }
+    }
+    if (value === 4) {
+      if (factor === 'Size') {
+        setSelectionMeaning('½ a size too big');
+      } else if (factor === 'Width') {
+        setSelectionMeaning('Slightly wide');
+      } else if (factor === 'Comfort') {
+        setSelectionMeaning('Comfortable');
+      } else if (factor === 'Quality') {
+        setSelectionMeaning('Pretty great');
+      } else if (factor === 'Length') {
+        setSelectionMeaning('Runs slightly long');
+      } else if (factor === 'Fit') {
+        setSelectionMeaning('Runs slightly long');
+      }
+    }
+    if (value === 5) {
+      if (factor === 'Size') {
+        setSelectionMeaning('A size too wide');
+      } else if (factor === 'Width') {
+        setSelectionMeaning('Too wide');
+      } else if (factor === 'Comfort') {
+        setSelectionMeaning('Perfect');
+      } else if (factor === 'Quality') {
+        setSelectionMeaning('Perfect');
+      } else if (factor === 'Length') {
+        setSelectionMeaning('Runs long');
+      } else if (factor === 'Fit') {
+        setSelectionMeaning('Runs long');
+      }
+    }
     setCharacteristics((prevObj) => ({ ...prevObj, [id]: parseInt(value, 10) }));
   };
 
   return (
     <fieldset>
       <legend>Characteristics? *</legend>
-      {Object.keys(factors).map((key) => (
-        <Row key={key}>
-          <Row>
-            <h2>{key}</h2>
-          </Row>
-          <Row>
-            <p>{selectionMeaning}</p>
-          </Row>
-          <Row>
-            <Col>
-              <input type="radio" id={factors[key].id} name={key} value="1" onChange={handleSelection} required />
-              <label htmlFor={`${key}+1`}>1</label>
-              <div>
-                {key === 'Size' ? (<span>A size too small</span>)
-                  : key === 'Width' ? (<span>Too narrow</span>)
-                    : key === 'Comfort' ? (<span>Uncomfortable</span>)
-                      : key === 'Quality' ? (<span>Poor</span>)
-                        : key === 'Length' ? (<span>Runs Short</span>)
-                          : key === 'Fit' ? (<span>Runs tight</span>) : null}
-              </div>
-            </Col>
-            <Col>
-              <input type="radio" id={factors[key].id} name={key} value="2" onChange={handleSelection} required />
-              <label htmlFor={`${key}+2`}>2</label>
-            </Col>
-            <Col>
-              <input type="radio" id={factors[key].id} name={key} value="3" onChange={handleSelection} required />
-              <label htmlFor={`${key}+3`}>3</label>
-            </Col>
-            <Col>
-              <input type="radio" id={factors[key].id} name={key} value="4" onChange={handleSelection} required />
-              <label htmlFor={`${key}+4`}>4</label>
-            </Col>
-            <Col>
-              <input type="radio" id={factors[key].id} name={key} value="5" onChange={handleSelection} required />
-              <label htmlFor={`${key}+5`}>5</label>
-              <div>
-                {key === 'Size' ? (<span>A size too wide</span>)
-                  : key === 'Width' ? (<span>Too wide</span>)
-                    : key === 'Comfort' ? (<span>Perfect</span>)
-                      : key === 'Quality' ? (<span>Perfect</span>)
-                        : key === 'Length' ? (<span>Runs long</span>)
-                          : key === 'Fit' ? (<span>Runs long</span>) : null}
-              </div>
-            </Col>
-          </Row>
+      <Row>
+        <Row>
+          <h2>{factor}</h2>
         </Row>
-      ))}
+        <Row>
+          <p>{selectionMeaning}</p>
+        </Row>
+        <Row>
+          <Col>
+            <input type="radio" id={`${ID}-5`} name={factor} value="1" onChange={handleSelection} required />
+            <label htmlFor={`${factor}+1`}>1</label>
+            <div>
+              {factor === 'Size' ? (<span>A size too small</span>)
+                : factor === 'Width' ? (<span>Too narrow</span>)
+                  : factor === 'Comfort' ? (<span>Uncomfortable</span>)
+                    : factor === 'Quality' ? (<span>Poor</span>)
+                      : factor === 'Length' ? (<span>Runs Short</span>)
+                        : factor === 'Fit' ? (<span>Runs tight</span>) : null}
+            </div>
+          </Col>
+          <Col>
+            <input type="radio" id={`${ID}-1`} name={factor} value="2" onChange={handleSelection} required />
+            <label htmlFor={`${factor}+2`}>2</label>
+          </Col>
+          <Col>
+            <input type="radio" id={`${ID}-2`} name={factor} value="3" onChange={handleSelection} required />
+            <label htmlFor={`${factor}+3`}>3</label>
+          </Col>
+          <Col>
+            <input type="radio" id={`${ID}-3`} name={factor} value="4" onChange={handleSelection} required />
+            <label htmlFor={`${factor}+4`}>4</label>
+          </Col>
+          <Col>
+            <input type="radio" id={`${ID}-4`} name={factor} value="5" onChange={handleSelection} required />
+            <label htmlFor={`${factor}+5`}>5</label>
+            <div>
+              {factor === 'Size' ? (<span>A size too wide</span>)
+                : factor === 'Width' ? (<span>Too wide</span>)
+                  : factor === 'Comfort' ? (<span>Perfect</span>)
+                    : factor === 'Quality' ? (<span>Perfect</span>)
+                      : factor === 'Length' ? (<span>Runs long</span>)
+                        : factor === 'Fit' ? (<span>Runs long</span>) : null}
+            </div>
+          </Col>
+        </Row>
+      </Row>
     </fieldset>
   );
 }

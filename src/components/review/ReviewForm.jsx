@@ -183,7 +183,13 @@ function ReviewForm({
             </div>
           </fieldset>
           <Row>
-            <Characteristics factors={factors} setCharacteristics={setCharacteristics} />
+            {Object.keys(factors).map((key) => (
+              <Characteristics
+                factor={factors[key]}
+                ID={factors[key].id}
+                setCharacteristics={setCharacteristics}
+              />
+            ))}
           </Row>
           <Row>
             <h3>Review summary</h3>
