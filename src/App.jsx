@@ -65,8 +65,8 @@ function App() {
         />
       )}
       <div>
-      <div className="logo-banner" style={{ zIndex: 2147483646 }}>Real Queen Shit</div>
-<div className="fixed-banner" style={{ zIndex: 2147483646 }}>{countdown}</div>
+        <div className="logo-banner" style={{ zIndex: 2147483646 }}>Real Queen Shit</div>
+        <div className="fixed-banner" style={{ zIndex: 2147483646 }}>{countdown}</div>
         <div className="body-content">
           <Overview
             currentProduct={currentProduct}
