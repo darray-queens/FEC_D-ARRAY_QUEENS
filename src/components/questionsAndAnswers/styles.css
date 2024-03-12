@@ -29,10 +29,9 @@ body {
 .form-popup {
   border: 3px solid #f1f1f1;
   z-index: 10;
-  max-width: 600px; /* Adjusted width for centering */
+  max-width: 600px;
   padding: 20px;
   background-color: white;
-  /* Removed the fixed positioning and other styles that conflict with centering */
 }
 
 /* Add styles to the form container */
