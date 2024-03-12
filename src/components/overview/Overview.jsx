@@ -42,6 +42,7 @@ function Overview({
   changeMaxThumbIndex,
   minThumbIndex,
   changeMinThumbIndex,
+  galleryModal,
   toggleGalleryModal,
 }) {
   const [styles, setStyles] = useState([]);
@@ -85,6 +86,7 @@ function Overview({
                 changeMaxThumbIndex={changeMaxThumbIndex}
                 minThumbIndex={minThumbIndex}
                 changeMinThumbIndex={changeMinThumbIndex}
+                galleryModal={galleryModal}
                 toggleGalleryModal={toggleGalleryModal}
               />
             )}
@@ -111,6 +113,7 @@ function Overview({
                 currentStyle={currentStyle}
                 changeStyle={changeCurrentStyle}
                 changeMainImageIndex={changeMainImageIndex}
+                mainImageIndex={mainImageIndex}
               />
               <Selection
                 style={currentStyle}

@@ -1,13 +1,17 @@
 import React from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
+import { Row } from '../shared/containers';
 
 const { useState } = React;
 
 const StyleSelect = styled.select`
-  padding-left: 12px;
+  appearance: none;
+  display: block;
+  padding-left: 20px;
   padding-right: 10px;
-  margin-right: 20px;
+  margin-right: 15px;
+  margin-top: 12px;
   font-family: inherit;
   font-weight: bold;
   background-color: white;
@@ -17,14 +21,23 @@ const StyleSelect = styled.select`
   width: 150px;
   &:hover {
     background-color: rgb(220,220,220);
+    cursor: pointer;
   }
   &:focus {
     border-radius: 0%;
-    border-width: 2px;
+    border-width: 3px;
+    outline: 0;
   }
 `;
 
-const StyleOption = styled.option`
+const QuantSelect = styled(StyleSelect)`
+  padding-left: 22px;
+  margin-right: 20px;
+  width: 55px;
+`;
+
+const SelectOption = styled.option`
+  text-align: left;
   padding: 10px;
   margin-top: 60px;
   margin-bottom: 20px;
@@ -36,6 +49,34 @@ const StyleOption = styled.option`
   border-width: 2px;
   height: 60px;
   width: 150px;
+`;
+
+const CartButton = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 15px;
+  font-weight: bold;
+  font-family: inherit;
+  background-color: white;
+  height: 55px;
+  width: 220px;
+  line-height: 50px;
+  &:hover {
+    background-color: rgb(220,220,220);
+    cursor: pointer;
+  }
+  &:focus {
+    border-radius: 0%;
+    border-width: 2px;
+    outline: 0;
+  }
+`;
+
+const Alert = styled.h5`
+  line-height; 12px;
+  padding: 0;
+  margin: 0;
 `;
 
 function Selection({ style, sku, changeSku }) {
@@ -63,7 +104,7 @@ function Selection({ style, sku, changeSku }) {
     const { size, quantity } = skuTuple[1];
     if (quantity > 0) {
       return (
-        <StyleOption key={code} data-sku={code} id={size}>{size}</StyleOption>
+        <SelectOption key={code} data-sku={code} id={size}>{size}</SelectOption>
       );
     }
 
@@ -72,7 +113,7 @@ function Selection({ style, sku, changeSku }) {
 
   let sizeOptions = (
     <>
-      <StyleOption style={{ display: 'none' }}>SELECT SIZE</StyleOption>
+      <SelectOption style={{ display: 'none' }}>SELECT SIZE &#129139;</SelectOption>
       {skuSizeOptions}
     </>
   );
@@ -80,7 +121,7 @@ function Selection({ style, sku, changeSku }) {
   let hideCart = false;
 
   if (skuSizeOptions.length === 0) {
-    sizeOptions = <StyleOption style={{ display: 'none' }}>OUT OF STOCK</StyleOption>;
+    sizeOptions = <SelectOption style={{ display: 'none' }}>OUT OF STOCK</SelectOption>;
     hideCart = true;
   }
 
@@ -88,39 +129,51 @@ function Selection({ style, sku, changeSku }) {
     const list = [];
     const max = qty > 15 ? 15 : qty;
     for (let i = 1; i <= max; i += 1) {
-      list.push(<option key={i}>{i}</option>);
+      list.push(<SelectOption key={i}>{i}</SelectOption>);
     }
     return list;
   };
 
   const quantity = sku ? style.skus[sku].quantity : 0;
-  const quantityOptions = sku ? buildQuantityList(quantity) : <option>{}</option>;
+  const quantityOptions = sku ? buildQuantityList(quantity) : <SelectOption> - </SelectOption>;
 
   return (
     <div>
-      <h5 style={hideLabel ? { display: 'none' } : { display: 'inherit' }}>Please select a size</h5>
-      <StyleSelect
-        name="size"
-        id="size-select"
-        onChange={(e) => {
-          changeSku(document.getElementById(e.target.value).dataset.sku);
-          setHideLabel(true);
-        }}
-      >
-        {sizeOptions}
-      </StyleSelect>
-      <select disabled={!sku} name="quantity" onChange={(e) => setCurrentQty(e.target.value)}>
-        <option style={{ display: 'none' }}>{}</option>
-        {quantityOptions}
-      </select>
-      <button
-        name="add"
-        type="button"
-        style={hideCart ? { display: 'none' } : { display: 'inherit' }}
-        onClick={() => addToCartHandler()}
-      >
-        Add to Bag
-      </button>
+      {hideLabel ? (
+        <Alert> </Alert>
+      ) : (
+        <Alert>Please select a size</Alert>
+      )}
+      <Row>
+        <StyleSelect
+          name="size"
+          id="size-select"
+          style={hideLabel ? { marginTop: '17px' } : { marginTop: '0' }}
+          onChange={(e) => {
+            changeSku(document.getElementById(e.target.value).dataset.sku);
+            setHideLabel(true);
+          }}
+        >
+          {sizeOptions}
+        </StyleSelect>
+        <QuantSelect
+          disabled={!sku}
+          name="quantity"
+          style={hideLabel ? { marginTop: '17px' } : { marginTop: '0' }}
+          onChange={(e) => setCurrentQty(e.target.value)}
+        >
+          {!sku && <SelectOption style={{ display: 'none' }}> - </SelectOption>}
+          {quantityOptions}
+        </QuantSelect>
+        <CartButton
+          name="add"
+          type="button"
+          style={hideCart ? { display: 'none' } : { display: 'inherit' }}
+          onClick={() => addToCartHandler()}
+        >
+          ADD TO BAG
+        </CartButton>
+      </Row>
     </div>
   );
 }

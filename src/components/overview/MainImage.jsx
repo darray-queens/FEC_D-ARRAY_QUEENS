@@ -11,7 +11,7 @@ const MainImageContainer = styled.div`
 `;
 
 const MainImg = styled.img`
-  cursor: 'pointer';
+  cursor: zoom-in;
   position: absolute;
   display: 'flex';
   height: 100%;
@@ -23,6 +23,7 @@ function MainImage({
   styleImages,
   mainImageIndex,
   toggleGalleryModal,
+  galleryModal,
 }) {
   return (
     <MainImageContainer
@@ -32,6 +33,7 @@ function MainImage({
         id="main-image"
         key={styleImages[mainImageIndex].url}
         data-index={mainImageIndex}
+        style={galleryModal ? { display: 'none' } : {}}
         alt="Clothing"
         src={styleImages[mainImageIndex].url}
         onClick={() => toggleGalleryModal(true)}

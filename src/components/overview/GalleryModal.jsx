@@ -29,10 +29,10 @@ const ModalContainer = styled.div`
   height: 100vh;
   width: 100%;
   overflow: hidden;
-  z-index: 98;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  z-index: 2147483645;
 `;
 
 const ModalImage = styled.div`
@@ -41,10 +41,13 @@ const ModalImage = styled.div`
   height: 100vh;
   width: 100%;
   overflow: hidden;
-  z-index: 93;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  z-index: 2147483640;
+  &:hover {
+    cursor: crosshair;
+  }
 `;
 
 const ModalMenuCol = styled(Row)`
@@ -55,7 +58,7 @@ const ModalMenuCol = styled(Row)`
   height: 100%;
   justify-content: center;
   align-items: center;
-  z-index: 100;
+  z-index: 2147483646;
 `;
 
 const ModalNavContainer = styled(Row)`
@@ -65,23 +68,23 @@ const ModalNavContainer = styled(Row)`
 `;
 
 const ModalPrevThumb = styled(PrevThumb)`
-  z-index: 98;
+  z-index: 2147483645;
 `;
 
 const ModalNextThumb = styled(NextThumb)`
-  z-index: 97;
+  z-index: 2147483644;
 `;
 
 const ModalPrevMain = styled(PrevMain)`
-  z-index: 96;
+  z-index: 2147483643;
 `;
 
 const ModalNextMain = styled(NextMain)`
-  z-index: 95;
+  z-index: 2147483642;
 `;
 
 const ModalClose = styled(NextMain)`
-  z-index: 94;
+  z-index: 2147483641;
   top: 70px;
 `;
 
@@ -94,6 +97,7 @@ function GalleryModal({
   minThumbIndex,
   changeMinThumbIndex,
   toggleGalleryModal,
+  galleryModal,
 }) {
   const [isZoomed, setIsZoomed] = useState(false);
 
@@ -105,6 +109,7 @@ function GalleryModal({
     backgroundImage: `url(${styleImages[mainImageIndex].url})`,
     backgroundPosition: !isZoomed && 'center',
     backgroundSize: isZoomed ? '125%' : 'contain',
+    cursor: isZoomed ? 'vertical-text' : 'crosshair',
   };
 
   return (
@@ -112,7 +117,7 @@ function GalleryModal({
       <ModalMenuCol>
         <ModalNavContainer>
           <ModalPrevThumb
-            style={{ display: minThumbIndex === 0 ? 'none' : 'inherit', zIndex: '99' }}
+            style={{ display: minThumbIndex === 0 ? 'none' : 'inherit'/* , zIndex: '2147483647' */ }}
             onClick={() => {
               changeMinThumbIndex((prevIndex) => handlePrevThumb(minThumbIndex, prevIndex));
               changeMaxThumbIndex((prevIndex) => handlePrevThumb(minThumbIndex, prevIndex));
@@ -126,6 +131,8 @@ function GalleryModal({
           minThumbIndex={minThumbIndex}
           maxThumbIndex={maxThumbIndex}
           changeMainImageIndex={changeMainImageIndex}
+          mainImageIndex={mainImageIndex}
+          galleryModal={galleryModal}
         />
         <ModalNavContainer>
           <ModalNextThumb
@@ -150,17 +157,37 @@ function GalleryModal({
       />
       <ModalPrevMain
         style={{ display: mainImageIndex === 0 ? 'none' : 'inherit' }}
-        onClick={() => changeMainImageIndex(
-          (prevIndex) => handlePrevMain(mainImageIndex, prevIndex, imageCount),
-        )}
+        onClick={() => {
+          changeMainImageIndex(
+            (prevIndex) => handlePrevMain(mainImageIndex, prevIndex, imageCount),
+          );
+          if (mainImageIndex - 1 < minThumbIndex) {
+            changeMinThumbIndex(
+              (prevIndex) => handleNextThumb(maxThumbIndex, prevIndex, imageCount),
+            );
+            changeMaxThumbIndex(
+              (prevIndex) => handleNextThumb(maxThumbIndex, prevIndex, imageCount),
+            );
+          }
+        }}
       >
         &#10094;
       </ModalPrevMain>
       <ModalNextMain
         style={{ display: mainImageIndex === imageCount - 1 ? 'none' : 'inherit' }}
-        onClick={() => changeMainImageIndex(
-          (prevIndex) => handleNextMain(mainImageIndex, prevIndex, imageCount),
-        )}
+        onClick={() => {
+          changeMainImageIndex(
+            (prevIndex) => handleNextMain(mainImageIndex, prevIndex, imageCount),
+          );
+          if (mainImageIndex + 1 > maxThumbIndex) {
+            changeMinThumbIndex(
+              (prevIndex) => handleNextThumb(maxThumbIndex, prevIndex, imageCount),
+            );
+            changeMaxThumbIndex(
+              (prevIndex) => handleNextThumb(maxThumbIndex, prevIndex, imageCount),
+            );
+          }
+        }}
       >
         &#10095;
       </ModalNextMain>
