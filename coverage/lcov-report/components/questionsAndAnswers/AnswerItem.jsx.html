@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">53.33% </span>
+                <span class="strong">80% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>8/15</span>
+                <span class='fraction'>12/15</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">60% </span>
+                <span class="strong">90% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>6/10</span>
+                <span class='fraction'>9/10</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">33.33% </span>
+                <span class="strong">66.66% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>3/9</span>
+                <span class='fraction'>6/9</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">57.14% </span>
+                <span class="strong">78.57% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>8/14</span>
+                <span class='fraction'>11/14</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -136,35 +136,19 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">35x</span>
+<span class="cline-any cline-yes">35x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">35x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">35x</span>
+<span class="cline-any cline-yes">35x</span>
+<span class="cline-any cline-yes">35x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">35x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -176,6 +160,22 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">14x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -205,9 +205,9 @@ function AnswerItem({
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState('');
 &nbsp;
-  const openImageModal = <span class="fstat-no" title="function not covered" >(i</span>mage) =&gt; {
-<span class="cstat-no" title="statement not covered" >    setSelectedImage(image);</span>
-<span class="cstat-no" title="statement not covered" >    setIsModalOpen(true);</span>
+  const openImageModal = (image) =&gt; {
+    setSelectedImage(image);
+    setIsModalOpen(true);
   };
 &nbsp;
   const formatDate = (dateString) =&gt; {
@@ -225,12 +225,12 @@ function AnswerItem({
         &lt;/p&gt;
         &lt;div className="answer-item" /&gt;
         {isModalOpen &amp;&amp; (
-<span class="branch-1 cbranch-no" title="branch not covered" >          &lt;ImageModal image={selectedImage} onClose={<span class="fstat-no" title="function not covered" >()</span> =&gt; <span class="cstat-no" title="statement not covered" >setIsModalOpen(false)}</span> /&gt;</span>
+          &lt;ImageModal image={selectedImage} onClose={<span class="fstat-no" title="function not covered" >()</span> =&gt; <span class="cstat-no" title="statement not covered" >setIsModalOpen(false)}</span> /&gt;
         )}
       &lt;/div&gt;
       &lt;div className="picture"&gt;
         {answerData.photos &amp;&amp; answerData.photos.map((photoUrl, index) =&gt; (
-          &lt;img key={index} src={photoUrl} alt="Thumbnail" onClick={<span class="fstat-no" title="function not covered" >()</span> =&gt; <span class="cstat-no" title="statement not covered" >openImageModal(photoUrl)}</span> style={{ width: 80, cursor: 'pointer', margin: '5px' }} /&gt;
+          &lt;img key={index} src={photoUrl} alt="Thumbnail" onClick={() =&gt; openImageModal(photoUrl)} style={{ width: 80, cursor: 'pointer', margin: '5px' }} /&gt;
         ))}
       &lt;/div&gt;
       &lt;div className="answerInfo"&gt;
@@ -241,20 +241,20 @@ function AnswerItem({
         {' '}
         {formatDate(answerData.date)}
         {'  |  '}
-        &lt;a className="link" onClick={<span class="fstat-no" title="function not covered" >()</span> =&gt; <span class="cstat-no" title="statement not covered" >markAnswerAsHelpful(answerData.id)}</span>&gt;
+        &lt;a className="link" onClick={() =&gt; markAnswerAsHelpful(answerData.id)}&gt;
           Helpful? Yes(
           {answerData.helpfulness}
           )
         &lt;/a&gt;
         {' | '}
         {reportedAnswers.has(answerData.id) ? (
-<span class="branch-0 cbranch-no" title="branch not covered" >          &lt;span&gt;Reported&lt;/span&gt;</span>
+          &lt;span&gt;Reported&lt;/span&gt;
         ) : (
           &lt;a className="link" onClick={<span class="fstat-no" title="function not covered" >()</span> =&gt; <span class="cstat-no" title="statement not covered" >reportAnswer(answerData.id)}</span>&gt;Report&lt;/a&gt;
         )}
       &lt;/div&gt;
       {isModalOpen &amp;&amp; (
-<span class="branch-1 cbranch-no" title="branch not covered" >        &lt;ImageModal image={selectedImage} onClose={<span class="fstat-no" title="function not covered" >()</span> =&gt; <span class="cstat-no" title="statement not covered" >setIsModalOpen(false)}</span> /&gt;</span>
+        &lt;ImageModal image={selectedImage} onClose={<span class="fstat-no" title="function not covered" >()</span> =&gt; <span class="cstat-no" title="statement not covered" >setIsModalOpen(false)}</span> /&gt;
       )}
     &lt;/&gt;
   );
@@ -268,7 +268,7 @@ export default AnswerItem;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2024-03-12T16:52:51.377Z
+                at 2024-03-12T20:47:29.675Z
             </div>
         <script src="../../prettify.js"></script>
         <script>
