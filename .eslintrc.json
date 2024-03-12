@@ -1,0 +1,19 @@
+{
+    "env": {
+        "browser": true,
+        "es2021": true
+    },
+    "extends": "airbnb",
+    "parserOptions": {
+        "ecmaVersion": "latest",
+        "sourceType": "module"
+    },
+    "ignorePatterns": [
+        "webpack.config.js",
+        "**/dist/*",
+        "**/spec/*"
+    ],
+    "rules": {
+        "react/prop-types": 0
+    }
+}
