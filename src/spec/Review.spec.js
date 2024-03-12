@@ -6,6 +6,8 @@ import * as React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import Review from '../components/review/Review';
 import Modal from '../components/review/Modal';
+import ReviewList from '../components/review/ReviewList';
+
 
 describe('Review', () => {
   const entry = {
