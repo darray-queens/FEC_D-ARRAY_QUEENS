@@ -122,7 +122,7 @@ describe('AnswerModal', () => {
     );
 
     // Click the close button (assuming it's text is 'X')
-    userEvent.click(screen.getByRole('button', {name: /close/i}));
+    userEvent.click(screen.getByRole('button', 'X'));
 
     // Wait and check if handleClose was called
     await waitFor(() => {
