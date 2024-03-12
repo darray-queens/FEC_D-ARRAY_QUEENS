@@ -74,8 +74,6 @@ describe('AnswerItem', () => {
     expect(screen.getByText(/DAIRY QUEENS/i)).toBeInTheDocument();
     expect(screen.getByText(/da queens/i)).toBeInTheDocument();
   });
-
-  // Add more tests for user interactions and conditional rendering
 });
 
 ////////////////////////
@@ -105,26 +103,29 @@ describe('QuestionModal', () => {
 
 // Render Test for Modal - Testing if "Submit Your Answer" is present in Answer Modal
 describe('AnswerModal', () => {
-  // Assuming `selectedQuestion` is a prop you pass to your AnswerModal for the question's ID
-  const mockSelectedQuestion = { question_id: 123 }; // Mock question ID
-  // Close Mechanism Test
+  // Mocks and setup
+  const mockSelectedQuestion = { question_id: 123 }; // Example selected question
+  const mockProductName = "Product Name"; // Example product name
+  const mockQuestionBody = "What is the question?"; // Example question body
+  const mockRefreshQuestions = jest.fn(); // Mock function for refreshing questions
+
   it('closes when the close button is clicked', async () => {
     const handleClose = jest.fn();
 
-    // Render the AnswerModal with handleClose as the onClose prop
     render(
       <AnswerModal
         isOpen={true}
-        onClose={handleClose}
+        onRequestClose={handleClose}
+        productName={mockProductName}
+        questionBody={mockQuestionBody}
         selectedQuestion={mockSelectedQuestion}
-        question="How many colors?"
+        refreshQuestions={mockRefreshQuestions}
       />
     );
 
-    // Click the close button (assuming it's text is 'X')
-    userEvent.click(screen.getByRole('button', 'X'));
+    // Assume your close button text content is 'Close'
+    userEvent.click(screen.getByRole('button', { name: 'Close' }));
 
-    // Wait and check if handleClose was called
     await waitFor(() => {
       expect(handleClose).toHaveBeenCalled();
     });
