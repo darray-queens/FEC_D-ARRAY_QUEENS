@@ -9,8 +9,8 @@ import Share from './Share';
 import Styles from './Styles';
 import Selection from './Selection';
 import ProductDescription from './ProductDescription';
-import Loading from './Loading';
 
+import { LoadingImages, LoadingInfo } from './Loading';
 import { Grid, Row, Col } from '../shared/containers';
 
 const { useState, useEffect } = React;
@@ -76,7 +76,7 @@ function Overview({
         <ImgCol size={3}>
           <div>
             {isLoading ? (
-              <Loading />
+              <LoadingImages id="loading-images" />
             ) : (
               <Images
                 styleImages={currentStyle.photos}
@@ -96,14 +96,14 @@ function Overview({
           {reviewCount > 0 && (
             <StarRating currentProduct={currentProduct} reviewCount={reviewCount} />
           )}
-          <ProductInfo
-            product={currentProduct}
-            style={currentStyle}
-          />
           {isLoading ? (
-            <Loading />
+            <LoadingInfo id="loading-options" />
           ) : (
             <>
+              <ProductInfo
+                product={currentProduct}
+                style={currentStyle}
+              />
               <Share
                 currentProduct={currentProduct}
                 styleImage={styles[0].photos[0].url}

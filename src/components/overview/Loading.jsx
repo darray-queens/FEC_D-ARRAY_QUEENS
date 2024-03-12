@@ -1,9 +1,11 @@
-import React from 'react';
+import styled from 'styled-components';
 
-function Loading() {
-  return (
-    <p>Loading...</p>
-  );
-}
+export const LoadingImages = styled.div`
+  background: #d3d3d3;
+  height: 550px;
+`;
 
-export default Loading;
+export const LoadingInfo = styled.div`
+  background: white;
+  height: 550px;
+`;
