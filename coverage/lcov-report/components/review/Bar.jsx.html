@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for components/questionsAndAnswers/AnswersList.jsx</title>
+    <title>Code coverage report for components/review/Bar.jsx</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../../prettify.css" />
     <link rel="stylesheet" href="../../base.css" />
@@ -19,34 +19,34 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../../index.html">All files</a> / <a href="index.html">components/questionsAndAnswers</a> AnswersList.jsx</h1>
+        <h1><a href="../../index.html">All files</a> / <a href="index.html">components/review</a> Bar.jsx</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">77.77% </span>
+                <span class="strong">50% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>7/9</span>
+                <span class='fraction'>2/4</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">100% </span>
+                <span class="quiet">Branches</span>
+                <span class='fraction'>0/0</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">0% </span>
+                <span class="quiet">Functions</span>
+                <span class='fraction'>0/2</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">50% </span>
-                <span class="quiet">Branches</span>
-                <span class='fraction'>3/6</span>
-            </div>
-        
-            
-            <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
-                <span class="quiet">Functions</span>
-                <span class='fraction'>3/3</span>
-            </div>
-        
-            
-            <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>7/7</span>
+                <span class='fraction'>2/4</span>
             </div>
         
             
@@ -93,26 +93,18 @@
 <a name='L28'></a><a href='#L28'>28</a>
 <a name='L29'></a><a href='#L29'>29</a>
 <a name='L30'></a><a href='#L30'>30</a>
-<a name='L31'></a><a href='#L31'>31</a>
-<a name='L32'></a><a href='#L32'>32</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L31'></a><a href='#L31'>31</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">28x</span>
-<span class="cline-any cline-yes">28x</span>
-<span class="cline-any cline-yes">28x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -120,42 +112,47 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import React from 'react';
-import AnswerItem from './AnswerItem';
+import styled from 'styled-components';
 &nbsp;
-function AnswersList({
-  answers, markAnswerAsHelpful, reportAnswer, isExpanded, reportedAnswers,
-}) {
-  const sortedAnswers = Object.values(answers)
-    .sort((a, b) =&gt; {
-      <span class="missing-if-branch" title="if path not taken" >I</span>if (a.answerer_name === 'Seller') <span class="cstat-no" title="statement not covered" >return -1;</span>
-      <span class="missing-if-branch" title="if path not taken" >I</span>if (b.answerer_name === 'Seller') <span class="cstat-no" title="statement not covered" >return 1;</span>
-      return b.helpfulness - a.helpfulness;
-    });
-&nbsp;
-  // Display only two answers if not expanded
-  const answersToShow = isExpanded ? <span class="branch-0 cbranch-no" title="branch not covered" >sortedAnswers </span>: sortedAnswers.slice(0, 2);
-  return (
-    &lt;div&gt;
-      {answersToShow.map((answer) =&gt; (
-        &lt;AnswerItem
-          key={answer.id}
-          answerData={answer}
-          markAnswerAsHelpful={markAnswerAsHelpful}
-          reportAnswer={reportAnswer}
-          reportedAnswers={reportedAnswers}
-        /&gt;
-      ))}
-    &lt;/div&gt;
+function <span class="fstat-no" title="function not covered" >Bar(</span>{ percent }) {
+<span class="cstat-no" title="statement not covered" >  return (</span>
+    &lt;BarWrapper&gt;
+      &lt;BarFill width={percent * 100} /&gt;
+    &lt;/BarWrapper&gt;
   );
 }
 &nbsp;
-export default AnswersList;
+const BarWrapper = styled.div`
+ display: inline-block;
+ position: relative;
+ width: 150px;
+ height: 7px;
+ background-color: rgb(221, 221, 221);
+`;
+&nbsp;
+const BarFill = styled.div`
+ position: absolute;
+ left: 0;
+ top: 0;
+ height: 100%;
+ width: ${<span class="fstat-no" title="function not covered" >(p</span>rops) =&gt; (<span class="cstat-no" title="statement not covered" >Math.round(props.width * 4) / 4)</span>}%;
+ overflow: hidden;
+ background-color: #00693E;
+`;
+&nbsp;
+export default Bar;
 &nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
@@ -163,7 +160,7 @@ export default AnswersList;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2024-03-12T17:19:20.075Z
+                at 2024-03-12T16:51:20.718Z
             </div>
         <script src="../../prettify.js"></script>
         <script>
