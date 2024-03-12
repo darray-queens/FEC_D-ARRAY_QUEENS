@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">73.68% </span>
+                <span class="strong">94.73% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>14/19</span>
+                <span class='fraction'>18/19</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">77.77% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>7/9</span>
+                <span class='fraction'>9/9</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">16.66% </span>
+                <span class="strong">83.33% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>1/6</span>
+                <span class='fraction'>5/6</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">77.77% </span>
+                <span class="strong">94.44% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>14/18</span>
+                <span class='fraction'>17/18</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -193,22 +193,22 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">9x</span>
-<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-yes">13x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">13x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">9x</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">9x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">13x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -234,7 +234,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -311,16 +311,16 @@ function Review({ entry }) {
   const [modalPhoto, setModalPhoto] = useState(null);
   const [showFullReview, setShowFullReview] = useState(false);
 &nbsp;
-  const clickPhoto = <span class="fstat-no" title="function not covered" >(p</span>hoto) =&gt; {
-<span class="cstat-no" title="statement not covered" >    setModalPhoto(photo);</span>
+  const clickPhoto = (photo) =&gt; {
+    setModalPhoto(photo);
   };
 &nbsp;
   const exitModal = <span class="fstat-no" title="function not covered" >()</span> =&gt; {
 <span class="cstat-no" title="statement not covered" >    setModalPhoto(null);</span>
   };
 &nbsp;
-  const handleShowMore = <span class="fstat-no" title="function not covered" >()</span> =&gt; {
-<span class="cstat-no" title="statement not covered" >    setShowFullReview(true);</span>
+  const handleShowMore = () =&gt; {
+    setShowFullReview(true);
   };
 &nbsp;
   return (
@@ -342,19 +342,19 @@ function Review({ entry }) {
         &lt;b&gt;{entry.summary}&lt;/b&gt;
       &lt;/Row&gt;
       &lt;Row&gt;
-        &lt;BodyText&gt;{showFullReview ? <span class="branch-0 cbranch-no" title="branch not covered" >entry.body </span>: entry.body.slice(0, 250)}&lt;/BodyText&gt;
+        &lt;BodyText&gt;{showFullReview ? entry.body : entry.body.slice(0, 250)}&lt;/BodyText&gt;
         {!showFullReview &amp;&amp; entry.body.length &gt; 250 &amp;&amp; (
           &lt;ShowMoreLink onClick={handleShowMore}&gt;Show more&lt;/ShowMoreLink&gt;
         )}
       &lt;/Row&gt;
       &lt;StylesRow&gt;
-        {entry.photos.map(<span class="fstat-no" title="function not covered" >(p</span>hoto) =&gt; (
-<span class="cstat-no" title="statement not covered" >          &lt;StylesCol key={photo.id} onClick={<span class="fstat-no" title="function not covered" >()</span> =&gt; { <span class="cstat-no" title="statement not covered" >clickPhoto(photo); </span>}}&gt;</span>
+        {entry.photos.map((photo) =&gt; (
+          &lt;StylesCol key={photo.id} onClick={() =&gt; { clickPhoto(photo); }}&gt;
             &lt;img src={photo.url} alt={photo.id} width="75px" height="75px" /&gt;
           &lt;/StylesCol&gt;
         ))}
       &lt;/StylesRow&gt;
-      {modalPhoto &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >&lt;Modal photo={modalPhoto} closeModal={exitModal} /&gt;}</span>
+      {modalPhoto &amp;&amp; &lt;Modal photo={modalPhoto} closeModal={exitModal} /&gt;}
       {entry.recommend
         ? (
           &lt;div&gt;
@@ -415,7 +415,7 @@ export default Review;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2024-03-12T18:26:29.638Z
+                at 2024-03-12T18:42:44.531Z
             </div>
         <script src="../prettify.js"></script>
         <script>

@@ -5,6 +5,7 @@
 import * as React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import Review from '../components/review/Review';
+import Modal from '../components/review/Modal';
 
 describe('Review', () => {
   const entry = {
@@ -13,7 +14,10 @@ describe('Review', () => {
     date: '2024-03-05',
     summary: 'Great product!',
     body: 'Very Yummy lsjdf;ladsjf;dlsajf;ajdf;dasjf;dsajf;dlasfjdlsfjd;safjad;sfj;adsfjadsfsfjlsadjf;daslfjldsajfladsjfldsa;jfl;adsfjldsajf;sadjfl;asdfjl;dasfjdasl;kfjas;lsdfjdsa;fjda;slfjldasfjl;dasjfdasjfasdljfl;dsfjlads;fj;ladfj;alsdfj;lasdfjadslfjdas;fjl;asdfjla;sfjla;djfl;adsjfla;sdfj;adlsjfla;sdjfl;afdjl;adsjf;asdfj.',
-    photos: [],
+    photos: [ {
+      "id": 2459186,
+      "url": "https://i.insider.com/602ee9ced3ad27001837f2ac?width=1000%26format=jpeg%26auto=webp"
+  }],
     recommend: true,
   };
 
@@ -54,6 +58,12 @@ describe('Review', () => {
     expect(screen.getByText('Show more')).toBeTruthy();
   });
 
+  it('expands review text when "Show more" link is clicked', () => {
+    render(<Review entry={entry} />);
+    fireEvent.click(screen.getByText('Show more'));
+    expect(screen.getByText(entry.body)).toBeTruthy();
+  });
+
   it('renders recommendations', () => {
     render(<Review entry={entry} />);
     expect(screen.getByText('I recommend this product')).toBeTruthy();
@@ -72,5 +82,12 @@ describe('Review', () => {
   it('renders a helpful button', () => {
     render(<Review entry={entry} />);
     expect(screen.getByText('Helpful? Yes ()')).toBeTruthy();
+  });
+
+  it('opens modal when clicking on a photo', () => {
+    render(<Review entry={entry} />);
+    const photo1 = screen.getByAltText('2459186');
+    fireEvent.click(photo1);
+    expect(screen.getByText('x')).toBeTruthy();
   });
 });
