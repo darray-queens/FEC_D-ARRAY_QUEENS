@@ -58,17 +58,18 @@ function App() {
         <GalleryModal
           styleImages={currentStyle.photos}
           mainImageIndex={mainImageIndex}
-          changeMainImageIndex={setMainImageIndex}
+          changeMainImageIndex={(newIndex) => setMainImageIndex(newIndex)}
           minThumbIndex={minThumbIndex}
           changeMinThumbIndex={(newIndex) => setMinThumbIndex(newIndex)}
           maxThumbIndex={maxThumbIndex}
           changeMaxThumbIndex={(newIndex) => setMaxThumbIndex(newIndex)}
           toggleGalleryModal={(bool) => setGalleryModal(bool)}
+          galleryModal={galleryModal}
         />
       )}
       <div>
-        <div className="logo-banner" style={{ zIndex: 2147483646 }}>Real Queen Shit</div>
-        <div className="fixed-banner" style={{ zIndex: 2147483646 }}>{countdown}</div>
+        <div className="logo-banner" style={{ zIndex: 2147483640 }}>Real Queen Shit</div>
+        <div className="fixed-banner" style={{ zIndex: 2147483640 }}>{countdown}</div>
         <div className="body-content">
           <Overview
             currentProduct={currentProduct}
@@ -76,11 +77,12 @@ function App() {
             changeCurrentStyle={(newStyle) => setCurrentStyle(newStyle)}
             reviewCount={reviews.length}
             mainImageIndex={mainImageIndex}
-            changeMainImageIndex={setMainImageIndex}
+            changeMainImageIndex={(newIndex) => setMainImageIndex(newIndex)}
             minThumbIndex={minThumbIndex}
             changeMinThumbIndex={(newIndex) => setMinThumbIndex(newIndex)}
             maxThumbIndex={maxThumbIndex}
             changeMaxThumbIndex={(newIndex) => setMaxThumbIndex(newIndex)}
+            galleryModal={galleryModal}
             toggleGalleryModal={(bool) => setGalleryModal(bool)}
           />
           <RelatedProductsContainer currentProduct={currentProduct} setProductId={setProductId} />
@@ -97,18 +99,3 @@ function App() {
 }
 
 export default App;
-{/* <Overview
-  currentProduct={currentProduct}
-  currentStyle={currentStyle}
-  changeCurrentStyle={(newStyle) => setCurrentStyle(newStyle)}
-  mainImageIndex={mainImageIndex}
-  changeMainImageIndex={setMainImageIndex}
-  minThumbIndex={minThumbIndex}
-  changeMinThumbIndex={(newIndex) => setMinThumbIndex(newIndex)}
-  maxThumbIndex={maxThumbIndex}
-  changeMaxThumbIndex={(newIndex) => setMaxThumbIndex(newIndex)}
-  toggleGalleryModal={(bool) => setGalleryModal(bool)}
-/>
-<RelatedProductsContainer currentProduct={currentProduct} setProductId={setProductId} />
-<GetAllQuestionsAndAnswers currentProduct={currentProduct} />
-<ReviewList currentProduct={currentProduct} /> */}

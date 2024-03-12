@@ -67,6 +67,14 @@ const StylesP = styled.p`
   margin-left: 40px;
 `;
 
+const WideFieldset = styled.fieldset`
+  width: 100%;
+`;
+
+const StylesInput = styled.input`
+  width: 200px;
+`;
+
 function ReviewForm({
   closeModal, currentProduct, refresh, setRefresh, factors,
 }) {
@@ -170,7 +178,7 @@ function ReviewForm({
               {rating === 5 && <StylesP>Great</StylesP>}
             </Col>
           </StarRow>
-          <fieldset>
+          <WideFieldset>
             <legend>Do you recommend this product? *</legend>
             <div>
               <input type="radio" id="yes" name="recommendation" value="Yes" checked={recommend} onChange={handleRecommendChange} required />
@@ -181,9 +189,16 @@ function ReviewForm({
               <input type="radio" id="no" name="recommendation" value="No" checked={!recommend} onChange={handleRecommendChange} required />
               <label htmlFor="no">No</label>
             </div>
-          </fieldset>
+          </WideFieldset>
           <Row>
-            <Characteristics factors={factors} setCharacteristics={setCharacteristics} />
+            {Object.keys(factors).map((key) => (
+              <Characteristics
+                key={key}
+                factor={key}
+                ID={factors[key].id}
+                setCharacteristics={setCharacteristics}
+              />
+            ))}
           </Row>
           <Row>
             <h3>Review summary</h3>
@@ -250,7 +265,7 @@ function ReviewForm({
                 <h3>Your email *</h3>
               </Row>
               <Row>
-                <input
+                <StylesInput
                   type="email"
                   id="email-input"
                   aria-label="Your Email"

@@ -72,7 +72,6 @@ app.use('/*', (req, res, next) => {
     data: req.body,
   })
     .then((response) => {
-      console.log(response.data);
       res.status(200).send(response.data);
       next();
     })
