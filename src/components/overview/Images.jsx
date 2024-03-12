@@ -56,9 +56,8 @@ function Images({
   toggleGalleryModal,
 }) {
   const imageCount = styleImages.length;
-
   return (
-    <GalleryContainer>
+    <GalleryContainer id="gallery-container">
       <MenuCol style={galleryModal ? { display: 'none' } : {}}>
         <NavContainer>
           <PrevThumb

@@ -56,7 +56,7 @@ function ReviewList({ currentProduct, reviews, updateReviews }) {
   }
 
   const moreReviews = () => {
-    setRenderedReviews((prevRenderedReviews) => prevRenderedReviews + reviews.length);
+    setRenderedReviews(reviews.length);
   };
 
   const exitAnswerModal = () => {
@@ -146,7 +146,7 @@ const StylesDiv = styled.div`
 `;
 
 const StylesCol = styled(Col)`
-  width: 80%;
+  min-width: 1px;
 `;
 
 const StylesCol2 = styled(Col)`
