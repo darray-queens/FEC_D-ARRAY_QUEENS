@@ -68,7 +68,7 @@ function App() {
         />
       )}
       <div>
-        <div className="logo-banner" style={{ zIndex: 2147483640 }}>Real Queen Shit</div>
+        <div className="logo-banner" style={{ zIndex: 2147483640 }}>The Realest Queens</div>
         <div className="fixed-banner" style={{ zIndex: 2147483640 }}>{countdown}</div>
         <div className="body-content">
           <Overview
