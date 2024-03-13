@@ -76,7 +76,7 @@ function Overview({
         <ImgCol size={3}>
           <div>
             {isLoading ? (
-              <LoadingImages id="loading-images" />
+              <LoadingImages id="loading-images" data-testid="loading-images" />
             ) : (
               <Images
                 styleImages={currentStyle.photos}
@@ -97,7 +97,7 @@ function Overview({
             <StarRating currentProduct={currentProduct} reviewCount={reviewCount} />
           )}
           {isLoading ? (
-            <LoadingInfo id="loading-options" />
+            <LoadingInfo id="loading-options" data-testid="loading-options" />
           ) : (
             <>
               <ProductInfo
