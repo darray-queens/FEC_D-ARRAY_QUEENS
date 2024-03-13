@@ -27,8 +27,8 @@ import sampleStyleData2 from './sampleRelatedProductsData/testingData/sampleStyl
 import { product1Features, product2Features } from './sampleRelatedProductsData/sampleProductFeaturesData';
 import { waitForElementToBeRemoved } from '@testing-library/react';
 
-import RelatedProductsList from '../components/relatedProductsModule/RelatedProducts/RelatedProductsList';
-import ComparisonModule from '../components/relatedProductsModule/RelatedProducts/ComparisonModule';
+import RelatedProductsList from '../components/relatedProductsModule/relatedProducts/RelatedProductsList';
+import ComparisonModule from '../components/relatedProductsModule/relatedProducts/ComparisonModule';
 
 jest.mock('axios');
 const mockSetState = jest.fn();
