@@ -25,8 +25,6 @@ function RelatedProductsList({ currentProduct, setProductId }) {
         console.error(err);
       });
 
-    console.log(productsRequest, 'AXIOS PRODUCTS/?COUNT75')
-
     const relatedProducts = productsRequest.data.filter(
       (element) => element.category.toLowerCase().includes(currentProduct.category.toLowerCase())
         || currentProduct.category.toLowerCase().includes(element.category.toLowerCase()),
@@ -38,11 +36,8 @@ function RelatedProductsList({ currentProduct, setProductId }) {
     });
 
     const promisesResolved = await Promise.all(salePricePromises);
-    console.log(promisesResolved, 'promisesResolved after map fetchsaleprice')
     const itemsWithSale = promisesResolved.filter((element) => element.salePrice !== null); // [{}]
 
-    console.log(itemsWithSale, 'itemsWithSale')
-    // maybe need to refactor this out into a separate function for SOC
     const hash = {};
 
     itemsWithSale.forEach((element) => {
@@ -57,14 +52,9 @@ function RelatedProductsList({ currentProduct, setProductId }) {
       }
     });
 
-    console.log(relatedProducts, 'relatedProducts after adding sale price')
     setIsLoading(false);
     setProductsList(relatedProducts);
   }
-
-  useEffect(() => {
-    console.log(productsList)
-  }, [currentProduct])
 
   useEffect(() => {
     if (Object.keys(currentProduct).length !== 0) {
