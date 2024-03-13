@@ -26,7 +26,6 @@ function ProductCard(
           setThumbnailUrl('https://upload.wikimedia.org/wikipedia/commons/d/d1/Image_not_available.png');
           console.error(err);
         });
-
       if (response.data.results[0].photos[0].thumbnail_url !== null) {
         setThumbnailUrl(response.data.results[0].photos[0].thumbnail_url);
       } else {

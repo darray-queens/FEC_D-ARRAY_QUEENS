@@ -5,7 +5,6 @@ const fetchSalePrice = async (id) => {
     .catch((err) => {
       console.error(err);
     });
-
   return stylesData.data.results[0].sale_price;
 };
 
