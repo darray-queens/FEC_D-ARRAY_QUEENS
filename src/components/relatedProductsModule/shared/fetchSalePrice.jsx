@@ -5,6 +5,8 @@ const fetchSalePrice = async (id) => {
     .catch((err) => {
       console.error(err);
     });
+
+    console.log(stylesData, 'stylesData in fetch before promisesResolved')
   return stylesData.data.results[0].sale_price;
 };
 

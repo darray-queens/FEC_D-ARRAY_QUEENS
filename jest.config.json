@@ -11,6 +11,5 @@
     ".*\\.skip\\.test\\.js$",
     "/.*ignore.*/"
   ],
-  "collectCoverage": true,
-  "testEnvironment": "jsdom"
+  "collectCoverage": true
 }
