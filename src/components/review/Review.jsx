@@ -43,6 +43,16 @@ function Review({ entry }) {
           </p>
         </RightCol>
       </RatingRow>
+      <SellerRow>
+        {entry.response !== null && (
+          <div>
+            <h3>Response from seller</h3>
+            <div>
+              {entry.response}
+            </div>
+          </div>
+        )}
+      </SellerRow>
       <Row>
         <b>{entry.summary}</b>
       </Row>
@@ -110,6 +120,11 @@ const ShowMoreLink = styled.span`
 const BodyText = styled.p`
   width: 100%;
   word-wrap: break-word;
+`;
+
+const SellerRow = styled.div`
+  background-color: rgb(240, 240, 240);
+  margin-bottom: 15px;
 `;
 
 export default Review;
