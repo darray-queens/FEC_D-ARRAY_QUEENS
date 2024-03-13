@@ -35,7 +35,7 @@ function QuestionModal({
       await axios.post('/qa/questions', questionDetails);
       refreshQuestions();
     } catch (error) {
-      console.error('Error submitting question:', error);
+      // console.error('Error submitting question:', error);
     } finally {
       setIsSubmitting(false); // Ensure submission status is reset whether successful or error
       onRequestClose(); // Close the modal upon submission attempt
