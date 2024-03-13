@@ -15,7 +15,7 @@ import sampleComparedItems from './sampleRelatedProductsData/sampleComparedItems
 import {product1Features, product2Features} from './sampleRelatedProductsData/sampleProductFeaturesData';
 
 import OutfitsList from '../components/relatedProductsModule/outfits/OutfitsList';
-import ComparisonModule from '../components/relatedProductsModule/RelatedProducts/ComparisonModule';
+import ComparisonModule from '../components/relatedProductsModule/relatedProducts/ComparisonModule';
 
 jest.mock('axios');
 
