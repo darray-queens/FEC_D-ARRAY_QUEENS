@@ -12,3 +12,6 @@ node_modules/
 
 # Ignore logs
 *.log
+
+# test coverage
+coverage/
