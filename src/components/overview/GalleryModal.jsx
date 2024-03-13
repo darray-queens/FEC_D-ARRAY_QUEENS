@@ -113,7 +113,7 @@ function GalleryModal({
   };
 
   return (
-    <ModalContainer>
+    <ModalContainer data-testid="modal-container">
       <ModalMenuCol>
         <ModalNavContainer>
           <ModalPrevThumb
@@ -152,6 +152,7 @@ function GalleryModal({
       </ModalMenuCol>
       <ModalImage
         id="modal-main-image"
+        data-testid="modal-main-image"
         style={styles}
         onClick={() => setIsZoomed((prevState) => handleZoom(prevState, handleMovement))}
       />
@@ -174,6 +175,7 @@ function GalleryModal({
         &#10094;
       </ModalPrevMain>
       <ModalNextMain
+        data-testid="modal-next-main"
         style={{ display: mainImageIndex === imageCount - 1 ? 'none' : 'inherit' }}
         onClick={() => {
           changeMainImageIndex(

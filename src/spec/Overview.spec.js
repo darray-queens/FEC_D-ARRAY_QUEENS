@@ -19,33 +19,41 @@ import Overview from '../components/overview/Overview';
 
 jest.mock('axios');
 
-afterEach(() => {
-  jest.clearAllMocks();
-});
-
 describe('Product Overview', () => {
 
-  axios.get.mockResolvedValueOnce({data: sampleProductData});
-  axios.get.mockResolvedValueOnce({data: sampleStyleData})
-  axios.get.mockResolvedValueOnce({data: sampleReviewData})
-  axios.get.mockResolvedValueOnce({data: sampleStyleData})
+  const mockSetState = jest.fn();
+  const useStateMock = (initState) => [initState, mockSetState];
+
+  axios.get.mockResolvedValueOnce({data: sampleStyleData});
+  axios.get.mockResolvedValueOnce({data: sampleReviewData});
+
+  // afterEach(() => {
+  //   jest.clearAllMocks();
+  // });
 
   it('renders Overview component', async () => {
+
+    jest.spyOn(React, 'useState').mockImplementation(useStateMock);
+
     act(() => {
       render(
-        <App>
-          <Overview currentProduct={productSample} currentStyle={styleSample}/>
-        </App>
+        <Overview
+          currentProduct={productSample}
+          currentStyle={styleSample}
+          changeCurrentStyle={mockSetState}
+          changeMainImageIndex={mockSetState}
+          changeMaxThumbIndex={mockSetState}
+        />
       );
     });
 
-    expect(screen.getByText('Loading...')).toBeTruthy();
+    expect(screen.getByTestId('loading-options')).toBeTruthy();
 
     await waitFor(() => {
       return screen.getByText('Camo Onesie');
     })
 
-    expect(screen.queryByText('Loading...')).not.toBeTruthy();
+    expect(screen.getByTestId('loading-options')).not.toBeTruthy();
     screen.debug();
   });
 });
