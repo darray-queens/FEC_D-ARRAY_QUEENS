@@ -36,9 +36,8 @@ function RelatedProductsList({ currentProduct, setProductId }) {
     });
 
     const promisesResolved = await Promise.all(salePricePromises);
-    const itemsWithSale = promisesResolved.filter((element) => element.salePrice !== null); // [{}]
+    const itemsWithSale = promisesResolved.filter((element) => element.salePrice !== null);
 
-    // maybe need to refactor this out into a separate function for SOC
     const hash = {};
 
     itemsWithSale.forEach((element) => {
@@ -63,14 +62,12 @@ function RelatedProductsList({ currentProduct, setProductId }) {
     }
   }, [currentProduct]);
 
-  // if two items, show modal
   useEffect(() => {
     if (comparedItems.length === 2) {
       setComparisonHidden(false);
     }
   }, [comparedItems]);
 
-  // attach/remove event listener
   useEffect(() => {
     if (!comparisonHidden) {
       const hideComparison = () => {
@@ -93,7 +90,6 @@ function RelatedProductsList({ currentProduct, setProductId }) {
     );
   }
 
-  // click handlers
   const imageClick = (id) => {
     setProductId(id);
   };
