@@ -136,7 +136,7 @@ function Breakdown({
       </StylesRow>
       <StylesRow>
         <FilterContainer onClick={handleFilter} $active={activeFilters.includes(1)}>
-          1 stars
+          1 star
           {' '}
         </FilterContainer>
         <RightCol>
