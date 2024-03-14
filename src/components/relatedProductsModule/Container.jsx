@@ -5,6 +5,7 @@ import OutfitsList from './outfits/OutfitsList';
 import { Grid, Row, Col } from '../shared/containers';
 
 const StyledGrid = styled(Grid)`
+min-height: 1243px;
 width: 95%;
 `;
 
