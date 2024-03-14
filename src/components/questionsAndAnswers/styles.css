@@ -5,27 +5,26 @@ body {
 }
 
 .regular-text {
-  font-weight: 400; /* Regular weight */
+  font-weight: 400;
 }
 
 .semi-bold-text {
-  font-weight: 600; /* Semi-Bold weight */
+  font-weight: 600;
 }
 
 .bold-text {
-  font-weight: 700; /* Bold weight */
+  font-weight: 700;
 }
 
 .bolder-text {
-  font-weight: 800; /* Bold weight */
+  font-weight: 800;
 }
 
 .boldest-text {
-  font-weight: 900; /* Bold weight */
+  font-weight: 900;
   display: inline;
 }
 
-/* The popup form - hidden by default */
 .form-popup {
   border: 3px solid #f1f1f1;
   z-index: 10;
@@ -34,14 +33,12 @@ body {
   background-color: white;
 }
 
-/* Add styles to the form container */
 .form-container {
   max-width: 300px;
   padding: 10px;
   background-color: white;
 }
 
-/* Full-width input fields */
 .form-container input[type=text], .form-container input[type=password] {
   width: 100%;
   padding: 15px;
@@ -50,13 +47,11 @@ body {
   background: #f1f1f1;
 }
 
-/* When the inputs get focus, do something */
 .form-container input[type=text]:focus, .form-container input[type=password]:focus {
   background-color: #ddd;
   outline: none;
 }
 
-/* Set a style for the submit/login button */
 .form-container .btn {
   background-color: #04AA6D;
   color: white;
@@ -68,12 +63,11 @@ body {
   opacity: 0.8;
 }
 
-/* Add a red background color to the cancel button */
 .form-container .cancel {
   background-color: red;
 }
 
-/* Add some hover effects to buttons */
+
 .form-container .btn:hover, .open-button:hover {
   opacity: 1;
 }
@@ -84,11 +78,12 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+  background-color: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
   align-items: center;
-  backdrop-filter: blur(5px); /* Blur effect */
+  backdrop-filter: blur(5px);
+  z-index: 5000;
 }
 
 .link {
@@ -102,22 +97,22 @@ body {
 }
 
 .question-button {
-  padding: 15px 20px; /* Adds padding */
-  margin: 5px; /* Adds a little space between the buttons */
-  border: 2px solid black; /* Black border */
-  background-color: white; /* White background */
-  cursor: pointer; /* Changes cursor to pointer */
-  display: inline-block; /* Displays buttons inline */
+  padding: 15px 20px;
+  margin: 5px;
+  border: 2px solid black;
+  background-color: white;
+  cursor: pointer;
+  display: inline-block;
 }
 
-/* Additional styling for hover effects, if desired */
+
 .question-button:hover {
-  background-color: #f1f1f1; /* Light grey background on hover */
+  background-color: #f1f1f1;
 }
 
 .text {
-  letter-spacing: 1px; /* Adjusts spacing between letters */
-  word-spacing: 2px; /* Adjusts spacing between words */
+  letter-spacing: 1px;
+  word-spacing: 2px;
 }
 
 .qa-item {
@@ -128,7 +123,7 @@ body {
 
 .qa-label {
   font-weight: bold;
-  margin-right: 5px; /* Adjust this value as needed */
+  margin-right: 5px;
 }
 
 .qa-content {
@@ -138,12 +133,11 @@ body {
 .answer-item {
   display: flex;
   align-items: flex-start;
-  /* margin-left: 20px; Adjust this value to align answers under the question */
-  margin-bottom: 5px; /* Space between each answer */
+  margin-bottom: 5px;
 }
 
 .load-more-answers {
-  margin-left: 20px; /* Align 'LOAD MORE ANSWERS' with answer text */
+  margin-left: 20px;
   font-weight: bold;
   cursor: pointer;
   background-color: white;
@@ -153,7 +147,7 @@ body {
   margin-bottom: 3px;
 }
 .load-more-answers:hover {
-  background-color: #f1f1f1; /* Light grey background on hover */
+  background-color: #f1f1f1;
 }
 .answerInfo {
   margin-left: 22px;
@@ -163,41 +157,28 @@ body {
   font-size: 12px;
 }
 
-
-
-/* .image-modal {
-  background: white;
-  padding: 10px;
-  border-radius: 8px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  max-width: 50%;
-  max-height: 50%;
-}
-*/
 .modal-overlay-image {
   position: fixed;
   top: 0;
   left: 0;
   width: 50%;
   height: 50%;
-  background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
+  background-color: rgba(0, 0, 0, 0.7);
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
 .modal-image {
-  max-width: 50%; /* Allows image to be up to 100% of its container width */
-  max-height: 50%; /* Allows image to be up to 100% of its container height */
-  object-fit: contain; /* Keeps aspect ratio and fits the image within bounds */
+  max-width: 50%;
+  max-height: 50%;
+  object-fit: contain;
 }
 
 .close-modal {
   position: absolute;
-  top: 10px; /* Adjust as necessary */
-  right: 10px; /* Adjust as necessary */
+  top: 10px;
+  right: 10px;
   background: #f1f1f1;
   border-radius: 50%;
   border: none;
