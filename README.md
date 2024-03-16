@@ -58,8 +58,6 @@
 ## About
 
 <div align="center">
-  <h3>Admin Portal</h3>
-  <img src="./public/assets/pp-demo-1.gif" alt="project landing page image" width="600px" />
 <br />
     <h3>Client Portal</h3>
   <img src="./public/assets/pp-demo-2.gif" alt="project landing page image" width="600px" />
@@ -67,8 +65,7 @@
 
 <br />
 <p>
-  Pixel Pouch is a desktop and mobile friendly app utilizing Next.js and Supabase that is a web-developer to client file sharing and communication platform that is not just functional, but also intuitive and user-friendly, catering to clients who found existing services like Dropbox overly complex.
-</p>
+  Project Atelier is a desktop and mobile friendly app utilizing Node.js, React and Express that is a modern e-commerce portal that is not just functional, but also intuitive and user-friendly.
 
 ### Built With
 
