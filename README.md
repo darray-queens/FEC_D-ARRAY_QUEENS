@@ -58,7 +58,6 @@
 ## About
 
 <div align="center">
-<br />
     <h3>Client Portal</h3>
   <img src="./public/assets/pp-demo-2.gif" alt="project landing page image" width="600px" />
 </div>
@@ -82,7 +81,7 @@
 ## Getting Started
 
 <p>
-    Instructions to setup Pixel Pouch on your local machine below.
+    Instructions to setup Project Atelier on your local machine below.
 </p>
 
 ### Prerequisites
@@ -97,7 +96,7 @@ npm install npm@latest -g
 
 1. Clone the repo
    ```sh
-   git clone https://github.com/darray-queens
+   git clone https://github.com/darray-queens/Project-Atelier.git
    ```
 2. Install NPM packages
    ```sh
@@ -105,20 +104,24 @@ npm install npm@latest -g
    ```
 3. Enter your port, API URL, and Github Token in `.env.local` file
    ```sh
+    TOKEN = (your github token)
+    PORT = (your local port)
     CLOUD_NAME = (your cloudinary database name)
     API_KEY = (your cloudinary token)
     API_SECRET = (your secret cloudinary token)
    ```
 4. Run in dev environment.
    ```sh
-   npm run dev
+   npm run client-dev
+   ```
+5. Run in server environment.
+   ```sh
+   npm run server-dev
    ```
 
 ## Usage
 
 Project Atelier is run on the designated port. It can also be accessed utilizing localhost:PORT directly in the browser.
-
-Run linter: `npm run lint `
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -126,21 +129,20 @@ Run linter: `npm run lint `
 
 ## Roadmap
 
-- [x] Include a client landing page with folder/file navigation
-- [x] Develop a file preview page with enlarge image previews
-- [x] Implement client new message notification system
-- [x] Integrate upload file to a specified directory
-- [x] Inovate a cleat client managment gui for admin to navigate/create clients, folders and files
-- [ ] Leverage Stripe API for subscriptions
+- [x] Deploy a product details section with photo gallery and style/sizing/quantity selection 
+- [x] Develop a related products carousel and a module for customizing and curating a personal outfit list.
+- [x] Implement a rendering Q&A list with individual Q&A functionalities
+- [x] Dynamically render a ratings and reviews module with interactive sorting and filtering options
+- [x] Integrated media upload through cloud servies using Cloudinary to generate URLs from file uploads
+- [ ] Add catalog search bar at top of app
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## Optimizations
 
-1.  Reduction in query times leveraging the RDMBS structure of supabase reducing latency to 53ms on login screen with 0% error rate and 100 RPS throughput
-1.  Modernized the user experience with responsive layouts allowing for mobile and desktop usage
-1.  Refined the ease of use for clients with eliminating need of file navigation to upload to a particular file
-
+1.  Decreased cumulative layout shift by a factor of 10 by implementing conditionally styled Suspense elements
+2.  Modernized the user experience with responsive layouts allowing for mobile and desktop usage
+3.  Refined the ease of use for clients with the use of Cloudinary to upload directly with a file rather than a url
 <!-- CONTRIBUTING -->
 
 ## Contributing
