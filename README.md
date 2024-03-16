@@ -74,8 +74,9 @@
 
 ![node.js](https://img.shields.io/badge/node-%23000000.svg?style=for-the-badge&logo=node.js)
 ![React](https://img.shields.io/badge/React-%23000000.svg?style=for-the-badge&logo=react&logoColor)
-![Nextjs](https://img.shields.io/badge/next.js-%23000000.svg?style=for-the-badge&logo=next.js)
+![Express](https://img.shields.io/badge/nexpress-%23000000.svg?style=for-the-badge&express=next.js)
 ![Cloudinary](https://img.shields.io/badge/cloudinary-%23000000.svg?style=for-the-badge&logo=cloudinary)
+![Jest](https://img.shields.io/badge/jest-%23000000.svg?style=for-the-badge&logo=jest)
 
 <p align="right">
   (<a href="#readme-top">back to top</a>)
