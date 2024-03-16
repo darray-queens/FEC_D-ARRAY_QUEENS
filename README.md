@@ -59,7 +59,8 @@
 
 <div align="center">
     <h3>Client Portal</h3>
-  <img src="./public/assets/pp-demo-2.gif" alt="project landing page image" width="600px" />
+  <img src="./public/overview-demo.gif" alt="project landing page image" width="600px" />
+  <img src="./public/qa-demo.gif" alt="project landing page image" width="600px" />
 </div>
 
 <br />
