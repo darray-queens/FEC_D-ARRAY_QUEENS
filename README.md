@@ -99,7 +99,7 @@ npm install npm@latest -g
 
 1. Clone the repo
    ```sh
-   git clone[ https://github.com/LukeLarson2/project-pixel-pouch.git](https://github.com/darray-queens)
+   git clone https://github.com/darray-queens
    ```
 2. Install NPM packages
    ```sh
