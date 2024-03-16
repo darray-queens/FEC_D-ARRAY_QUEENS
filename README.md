@@ -99,7 +99,7 @@ npm install npm@latest -g
 
 1. Clone the repo
    ```sh
-   git clone https://github.com/LukeLarson2/project-pixel-pouch.git
+   git clone[ https://github.com/LukeLarson2/project-pixel-pouch.git](https://github.com/darray-queens)
    ```
 2. Install NPM packages
    ```sh
@@ -107,8 +107,9 @@ npm install npm@latest -g
    ```
 3. Enter your port, API URL, and Github Token in `.env.local` file
    ```sh
-    NEXT_PUBLIC_SUPABASE_URL = (your supabase database URL)
-    NEXT_PUBLIC_SUPABASE_ANON_KEY = (your supabase token)
+    CLOUD_NAME = (your cloudinary database name)
+    API_KEY = (your cloudinary token)
+    API_SECRET = (your secret cloudinary token)
    ```
 4. Run in dev environment.
    ```sh
@@ -117,7 +118,7 @@ npm install npm@latest -g
 
 ## Usage
 
-Pixel Pouch is run on the designated port. It can also be accessed utilizing localhost:PORT directly in the browser.
+Project Atelier is run on the designated port. It can also be accessed utilizing localhost:PORT directly in the browser.
 
 Run linter: `npm run lint `
 
