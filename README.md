@@ -61,6 +61,8 @@
     <h3>Client Portal</h3>
   <img src="./public/overview-demo.gif" alt="project landing page image" width="600px" />
   <img src="./public/qa-demo.gif" alt="project landing page image" width="600px" />
+  <img src="./public/Section Demo.gif" alt="project landing page image" width="600px" />
+  <img src="./public/Reviews_Demo.gif" alt="project landing page image" width="600px" />
 </div>
 
 <br />
