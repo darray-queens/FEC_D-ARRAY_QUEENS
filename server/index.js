@@ -6,6 +6,8 @@ const cloudinary = require('cloudinary').v2;
 const multer = require('multer');
 const upload = multer();
 
+const db = require('../database/index');
+
 cloudinary.config({
   cloud_name: process.env.CLOUD_NAME,
   api_key: process.env.API_KEY,
@@ -14,6 +16,41 @@ cloudinary.config({
 
 const app = express();
 app.use(express.json());
+
+app.get('/reviewGetTest', (req, res) => {
+  db.getAll()
+    .then((response) => {
+      res.send(response);
+    })
+    .catch((err) => {
+      console.error(err);
+    });
+});
+
+app.post('/reviewPostTest', (req, res) => {
+  // console.log(req.body, 'req body');
+  // write reviews into reviews
+  const params = [
+    req.body.product_id,
+    req.body.rating,
+    Number(req.body.date),
+    req.body.summary,
+    req.body.body,
+    req.body.recommend,
+    req.body.name,
+    req.body.email,
+  ];
+  // write photos into photos
+  // const params = [req.body]
+  db.post(params)
+    .then((response) => {
+      res.send(response);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send(err);
+    });
+});
 
 // Endpoint for uploading images
 app.post('/upload', upload.array('images', 5), async (req, res) => {
@@ -81,4 +118,4 @@ app.use('/*', (req, res, next) => {
     });
 });
 
-app.listen(process.env.PORT, () => {});
+app.listen(process.env.PORT, () => { });
